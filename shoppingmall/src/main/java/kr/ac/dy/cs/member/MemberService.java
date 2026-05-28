@@ -10,6 +10,18 @@ public class MemberService {
         memberRepository = new MemberRepository();
     }
 
+
+    /**
+     * 로그인 처리
+     */
+    public boolean isLogin(String userId, String password) {
+
+
+
+        return false;
+    }
+
+
     /**
      * 회원가입 비즈니스 로직 처리 클래스
      */

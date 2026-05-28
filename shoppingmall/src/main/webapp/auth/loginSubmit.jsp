@@ -1,4 +1,4 @@
-<%@ page import="kr.ac.dy.cs.tmp.ch07.CookieUtils" %>
+<%@ page import="kr.ac.dy.cs.util.CookieUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,6 +15,8 @@
     if ("admin".equals(loginId) && "12345".equals(password)) {
         loginYn = true;
         //response.sendRedirect("index.jsp");
+
+        session.setAttribute("loginId", loginId);
     }
 
     //아이디저장확인
@@ -23,23 +25,18 @@
     if (loginYn && "1".equals(saveIdYn)) {
         CookieUtils.addSaveId(response, loginId);
     }
-
-    request.
-
 %>
 
 <% if (loginYn) {%>
-    <p>성공적으로 로그인하였습니다.</p>
-    <div>
-        <a href="index.jsp">메인으로 이동</a>
-    </div>
+    <%
+        response.sendRedirect("/");
+    %>
 <% } else {%>
     <p>로그인에 실패하였습니다.</p>
     <div>
         <a href="login.jsp">다시 시도</a>
     </div>
 <%} %>
-
 
 </body>
 </html>

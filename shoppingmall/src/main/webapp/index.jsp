@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
+<%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%
     // ===== 샘플 데이터 =====
     String[] categories = {"전체", "여성의류", "남성의류", "신발", "가방", "액세서리", "뷰티", "디지털"};
@@ -60,8 +61,13 @@
     <div class="container">
         <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
         <div>
-            <a href="/auth/login.jsp">로그인</a>
-            <a href="/member/register.jsp">회원가입</a>
+            <% if (SessionUtils.isLoginYn(session)) {%>
+                <a href="/auth/logout.jsp">로그아웃</a>
+                <a href="#">회원정보</a>
+            <% } else {%>
+                <a href="/auth/login.jsp">로그인</a>
+                <a href="/member/register.jsp">회원가입</a>
+            <% } %>
             <a href="#">고객센터</a>
             <a href="#">마이페이지</a>
         </div>
