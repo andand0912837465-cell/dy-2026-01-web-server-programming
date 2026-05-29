@@ -1,13 +1,15 @@
 <%@ page import="kr.ac.dy.cs.util.CookieUtils" %>
+<%@ page import="kr.ac.dy.cs.adminUser.AdminUserService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String loginId = request.getParameter("loginId");
     String password = request.getParameter("password");
     String saveIdYn = request.getParameter("saveIdYn");
 
-    boolean loginYn = false;
-    if ("admin".equals(loginId) && "12345".equals(password)) {
-        loginYn = true;
+    AdminUserService adminUserService = new AdminUserService();
+    boolean loginYn = adminUserService.isLogin(loginId, password);
+
+    if (loginYn) {
         session.setAttribute("loginId", loginId);
         session.setAttribute("loginAt", new java.util.Date());
     }
