@@ -11,3 +11,7 @@ create table admin_user
     reg_dt datetime
 );
 
+
+insert into admin_user (admin_id, admin_name, password, using_yn, reg_dt)  values ( 'admin', '관리자', '1234', 'y', now() );
+
+
