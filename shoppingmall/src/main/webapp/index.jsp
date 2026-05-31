@@ -161,10 +161,32 @@
         <div class="product-grid">
             <% for (int i = 0; i < bestProducts.length; i++) {
                 Object[] p = bestProducts[i];
+                String productId = "best-" + i;
+                String productName = (String) p[0];
+                String productBrand = (String) p[1];
+                int productPrice = (Integer) p[3];
+                double productRate = (Double) p[5];
+                String productImage = IMG + p[7] + "/400/400";
+                String productCategory = "의류";
+
+                if (productName.contains("스니커즈")) {
+                    productCategory = "신발";
+                } else if (productName.contains("백")) {
+                    productCategory = "가방";
+                } else if (productName.contains("목걸이")) {
+                    productCategory = "액세서리";
+                }
             %>
-                <div class="product-card">
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                     data-image="<%= productImage %>">
                     <div class="product-img">
-                        <img src="<%= IMG %><%= p[7] %>/400/400" alt="<%= p[0] %>">
+                        <img src="<%= productImage %>" alt="<%= productName %>">
                         <% if (i < 3) { %>
                             <span class="product-tag hot">BEST <%= i+1 %></span>
                         <% } else { %>
@@ -224,10 +246,32 @@
             <a href="#">전체보기 →</a>
         </div>
         <div class="product-grid">
-            <% for (Object[] p : newProducts) { %>
-                <div class="product-card">
+            <% for (int i = 0; i < newProducts.length; i++) {
+                Object[] p = newProducts[i];
+                String productId = "new-" + i;
+                String productName = (String) p[0];
+                String productBrand = (String) p[1];
+                int productPrice = (Integer) p[2];
+                double productRate = 0;
+                String productImage = IMG + p[3] + "/400/400";
+                String productCategory = "의류";
+
+                if (productName.contains("스니커즈")) {
+                    productCategory = "신발";
+                } else if (productName.contains("버킷햇")) {
+                    productCategory = "액세서리";
+                }
+            %>
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                     data-image="<%= productImage %>">
                     <div class="product-img">
-                        <img src="<%= IMG %><%= p[3] %>/400/400" alt="<%= p[0] %>">
+                        <img src="<%= productImage %>" alt="<%= productName %>">
                         <span class="product-tag <%= "HOT".equals(p[4]) ? "hot" : "" %>"><%= p[4] %></span>
                         <button class="like-btn" aria-label="찜">♡</button>
                     </div>
