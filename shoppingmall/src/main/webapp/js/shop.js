@@ -304,13 +304,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return matchedKeyword && matchedCategory;
     }
 
+    function getSafeNumber(value) {
+        const number = Number(value);
+
+        return Number.isFinite(number) ? number : 0;
+    }
+
     function compareProducts(firstCard, secondCard, sortValue) {
-        const firstPrice = Number(firstCard.dataset.price || 0);
-        const secondPrice = Number(secondCard.dataset.price || 0);
-        const firstRate = Number(firstCard.dataset.rate || 0);
-        const secondRate = Number(secondCard.dataset.rate || 0);
-        const firstIndex = Number(firstCard.dataset.originalIndex || 0);
-        const secondIndex = Number(secondCard.dataset.originalIndex || 0);
+        const firstPrice = getSafeNumber(firstCard.dataset.price);
+        const secondPrice = getSafeNumber(secondCard.dataset.price);
+        const firstRate = getSafeNumber(firstCard.dataset.rate);
+        const secondRate = getSafeNumber(secondCard.dataset.rate);
+        const firstIndex = getSafeNumber(firstCard.dataset.originalIndex);
+        const secondIndex = getSafeNumber(secondCard.dataset.originalIndex);
 
         if (sortValue === 'price-low') {
             return firstPrice - secondPrice || firstIndex - secondIndex;
