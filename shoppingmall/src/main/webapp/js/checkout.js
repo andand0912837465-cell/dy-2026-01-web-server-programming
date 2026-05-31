@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
     const LAST_ORDER_STORAGE_KEY = 'shopmallLastOrder';
     const FREE_SHIPPING_MINIMUM = 50000;
     const SHIPPING_FEE = 3000;
 
+    const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
     const checkoutEmpty = document.querySelector('#checkoutEmpty');
     const checkoutContent = document.querySelector('#checkoutContent');
@@ -21,7 +23,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const detailAddressInput = document.querySelector('#detailAddress');
     const requestMemoInput = document.querySelector('#requestMemo');
 
-    if (!checkoutEmpty || !checkoutContent || !checkoutForm || !checkoutItemList) {
+    if (
+        !checkoutEmpty ||
+        !checkoutContent ||
+        !checkoutForm ||
+        !checkoutError ||
+        !checkoutItemList ||
+        !checkoutSubtotal ||
+        !checkoutShipping ||
+        !checkoutTotal ||
+        !customerNameInput ||
+        !customerPhoneInput ||
+        !addressInput
+    ) {
         return;
     }
 
@@ -64,7 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function formatPrice(price) {
-        return Number(price || 0).toLocaleString('ko-KR') + '원';
+        const numericPrice = Number(price);
+        const safePrice = Number.isFinite(numericPrice) ? numericPrice : 0;
+
+        return safePrice.toLocaleString('ko-KR') + '원';
     }
 
     function getSubtotal() {
@@ -75,6 +92,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getShipping(subtotal) {
         return subtotal >= FREE_SHIPPING_MINIMUM ? 0 : SHIPPING_FEE;
+    }
+
+    function readWishlistCount() {
+        try {
+            const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
+
+            if (!storedValue) {
+                return 0;
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+
+            if (!Array.isArray(parsedValue)) {
+                return 0;
+            }
+
+            const validProductIds = parsedValue.filter(function (productId) {
+                return typeof productId === 'string' && productId.length > 0;
+            });
+
+            return new Set(validProductIds).size;
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function updateWishlistBadge() {
+        if (!wishlistBadge) {
+            return;
+        }
+
+        const wishlistCount = readWishlistCount();
+        wishlistBadge.textContent = String(wishlistCount);
+        wishlistBadge.hidden = wishlistCount === 0;
     }
 
     function updateCartBadge() {
@@ -220,5 +271,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/order/complete.jsp';
     });
 
+    updateWishlistBadge();
     renderCheckout();
 });

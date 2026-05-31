@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
     const LAST_ORDER_STORAGE_KEY = 'shopmallLastOrder';
 
+    const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
     const completeEmpty = document.querySelector('#completeEmpty');
     const completeContent = document.querySelector('#completeContent');
@@ -10,7 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const completeTotal = document.querySelector('#completeTotal');
     const completeItemList = document.querySelector('#completeItemList');
 
-    if (!completeEmpty || !completeContent || !completeItemList) {
+    if (
+        !completeEmpty ||
+        !completeContent ||
+        !completeCustomerName ||
+        !completeOrderedAt ||
+        !completeTotal ||
+        !completeItemList
+    ) {
         return;
     }
 
@@ -37,7 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function formatPrice(price) {
-        return Number(price || 0).toLocaleString('ko-KR') + '원';
+        const numericPrice = Number(price);
+        const safePrice = Number.isFinite(numericPrice) ? numericPrice : 0;
+
+        return safePrice.toLocaleString('ko-KR') + '원';
     }
 
     function formatOrderedAt(value) {
@@ -71,6 +83,40 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             return 0;
         }
+    }
+
+    function readWishlistCount() {
+        try {
+            const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
+
+            if (!storedValue) {
+                return 0;
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+
+            if (!Array.isArray(parsedValue)) {
+                return 0;
+            }
+
+            const validProductIds = parsedValue.filter(function (productId) {
+                return typeof productId === 'string' && productId.length > 0;
+            });
+
+            return new Set(validProductIds).size;
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function updateWishlistBadge() {
+        if (!wishlistBadge) {
+            return;
+        }
+
+        const wishlistCount = readWishlistCount();
+        wishlistBadge.textContent = String(wishlistCount);
+        wishlistBadge.hidden = wishlistCount === 0;
     }
 
     function updateCartBadgeFromCart() {
@@ -124,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderComplete() {
         const hasOrder = lastOrder !== null;
 
+        updateWishlistBadge();
         completeEmpty.hidden = hasOrder;
         completeContent.hidden = !hasOrder;
 

@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
     const FREE_SHIPPING_MINIMUM = 50000;
     const SHIPPING_FEE = 3000;
 
+    const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
     const cartEmpty = document.querySelector('#cartEmpty');
     const cartContent = document.querySelector('#cartContent');
@@ -12,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartTotal = document.querySelector('#cartTotal');
     const checkoutButton = document.querySelector('#checkoutButton');
 
-    if (!cartEmpty || !cartContent || !cartTableBody || !checkoutButton) {
+    if (!cartEmpty || !cartContent || !cartTableBody || !cartSubtotal || !cartShipping || !cartTotal || !checkoutButton) {
         return;
     }
 
@@ -62,8 +64,45 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function readWishlistCount() {
+        try {
+            const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
+
+            if (!storedValue) {
+                return 0;
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+
+            if (!Array.isArray(parsedValue)) {
+                return 0;
+            }
+
+            const validProductIds = parsedValue.filter(function (productId) {
+                return typeof productId === 'string' && productId.length > 0;
+            });
+
+            return new Set(validProductIds).size;
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    function updateWishlistBadge() {
+        if (!wishlistBadge) {
+            return;
+        }
+
+        const wishlistCount = readWishlistCount();
+        wishlistBadge.textContent = String(wishlistCount);
+        wishlistBadge.hidden = wishlistCount === 0;
+    }
+
     function formatPrice(price) {
-        return Number(price || 0).toLocaleString('ko-KR') + '원';
+        const numericPrice = Number(price);
+        const safePrice = Number.isFinite(numericPrice) ? numericPrice : 0;
+
+        return safePrice.toLocaleString('ko-KR') + '원';
     }
 
     function getTotalQuantity() {
@@ -251,5 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     saveCartItems();
+    updateWishlistBadge();
     renderCart();
 });
