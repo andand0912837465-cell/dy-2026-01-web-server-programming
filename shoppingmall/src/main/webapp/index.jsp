@@ -88,10 +88,10 @@
                 <div class="icon">♥</div>찜
                 <span id="wishlistBadge" class="badge wishlist-badge" hidden>0</span>
             </div>
-            <div class="icon-btn">
+            <a href="/cart/cart.jsp" class="icon-btn cart-link">
                 <div class="icon">🛒</div>장바구니
-                <span class="badge">3</span>
-            </div>
+                <span id="cartBadge" class="badge cart-badge" hidden>0</span>
+            </a>
             <div class="icon-btn"><div class="icon">i</div>My</div>
         </div>
     </div>
@@ -218,6 +218,7 @@
                         <div class="product-rate">
                             <span class="star">★</span> <%= p[5] %> · 리뷰 <%= String.format("%,d", (Integer)p[6]) %>
                         </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
                     </div>
                 </div>
             <% } %>
@@ -294,6 +295,7 @@
                         <div class="product-price">
                             <span class="price"><%= String.format("%,d", (Integer)p[2]) %>원</span>
                         </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
                     </div>
                 </div>
             <% } %>
