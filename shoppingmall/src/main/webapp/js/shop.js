@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const searchInput = document.querySelector('#search');
     const searchButton = document.querySelector('.search-box button');
     const sortSelect = document.querySelector('#productSort');
     const emptyMessage = document.querySelector('#productEmptyMessage');
+    const wishlistBadge = document.querySelector('#wishlistBadge');
     const navLinks = Array.from(document.querySelectorAll('nav a'));
     const categoryItems = Array.from(document.querySelectorAll('.category-grid .cat-item'));
     const productGrids = Array.from(document.querySelectorAll('.product-grid'));
     const productCards = Array.from(document.querySelectorAll('.product-card'));
+    const likeButtons = Array.from(document.querySelectorAll('.like-btn'));
 
     if (!searchInput || !sortSelect || productCards.length === 0) {
         return;
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let selectedCategory = '전체';
     let selectedNavLabel = '전체';
+    let wishlistIds = readWishlistIds();
 
     productCards.forEach(function (card, index) {
         card.dataset.originalIndex = String(index);
@@ -40,6 +44,97 @@ document.addEventListener('DOMContentLoaded', function () {
     function getCategoryValue(label) {
         const trimmedLabel = (label || '').trim();
         return categoryMap[trimmedLabel] || trimmedLabel;
+    }
+
+    function readWishlistIds() {
+        try {
+            const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
+
+            if (!storedValue) {
+                return [];
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+
+            if (!Array.isArray(parsedValue)) {
+                return [];
+            }
+
+            const validProductIds = parsedValue.filter(function (productId) {
+                return typeof productId === 'string' && productId.length > 0;
+            });
+
+            return Array.from(new Set(validProductIds));
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveWishlistIds() {
+        try {
+            localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlistIds));
+        } catch (error) {
+            return;
+        }
+    }
+
+    function updateWishlistButton(button, isLiked) {
+        button.textContent = isLiked ? '♥' : '♡';
+        button.classList.toggle('active', isLiked);
+        button.setAttribute('aria-pressed', String(isLiked));
+        button.setAttribute('aria-label', isLiked ? '찜 해제' : '찜');
+    }
+
+    function updateWishlistCount() {
+        if (!wishlistBadge) {
+            return;
+        }
+
+        const wishlistCount = wishlistIds.length;
+        wishlistBadge.textContent = String(wishlistCount);
+        wishlistBadge.hidden = wishlistCount === 0;
+    }
+
+    function restoreWishlistState() {
+        const productIdSet = new Set(productCards.map(function (card) {
+            return card.dataset.id;
+        }));
+
+        wishlistIds = wishlistIds.filter(function (productId) {
+            return productIdSet.has(productId);
+        });
+
+        likeButtons.forEach(function (button) {
+            const card = button.closest('.product-card');
+            const productId = card ? card.dataset.id : '';
+            updateWishlistButton(button, wishlistIds.includes(productId));
+        });
+
+        saveWishlistIds();
+        updateWishlistCount();
+    }
+
+    function toggleWishlist(button) {
+        const card = button.closest('.product-card');
+
+        if (!card || !card.dataset.id) {
+            return;
+        }
+
+        const productId = card.dataset.id;
+        const isLiked = wishlistIds.includes(productId);
+
+        if (isLiked) {
+            wishlistIds = wishlistIds.filter(function (savedProductId) {
+                return savedProductId !== productId;
+            });
+        } else {
+            wishlistIds.push(productId);
+        }
+
+        saveWishlistIds();
+        updateWishlistButton(button, !isLiked);
+        updateWishlistCount();
     }
 
     function findNavLabelByCategory(category) {
@@ -189,5 +284,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     sortSelect.addEventListener('change', applyProductView);
+    likeButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            toggleWishlist(button);
+        });
+    });
+
+    restoreWishlistState();
     applyProductView();
 });

@@ -122,6 +122,7 @@ header {
     align-items: center;
     justify-content: center;
 }
+.badge[hidden] { display: none; }
 
 /* ===== 네비게이션 ===== */
 nav { border-bottom: 1px solid #eee; background: #fff; }
@@ -384,6 +385,16 @@ section { margin: 80px 0; }
     border: none;
     cursor: pointer;
     font-size: 14px;
+    color: #2d3436;
+    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.like-btn.active {
+    background: #ff6b6b;
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(255,107,107,0.28);
+}
+.like-btn:hover {
+    transform: scale(1.06);
 }
 .product-info { padding: 16px; }
 .product-brand {

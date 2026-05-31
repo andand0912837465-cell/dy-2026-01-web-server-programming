@@ -84,7 +84,10 @@
             <button aria-label="검색">Q</button>
         </div>
         <div class="header-icons">
-            <div class="icon-btn"><div class="icon">♥</div>찜</div>
+            <div class="icon-btn">
+                <div class="icon">♥</div>찜
+                <span id="wishlistBadge" class="badge wishlist-badge" hidden>0</span>
+            </div>
             <div class="icon-btn">
                 <div class="icon">🛒</div>장바구니
                 <span class="badge">3</span>
