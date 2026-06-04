@@ -1,5 +1,5 @@
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberService" %>
+<%@ page import="kr.ac.dy.cs.notice.NoticeDto" %>
+<%@ page import="kr.ac.dy.cs.notice.NoticeService" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
@@ -19,9 +19,9 @@
             : "-";
     String nowStr = new SimpleDateFormat("yyyy년 MM월 dd일 (E) HH:mm", java.util.Locale.KOREAN).format(new Date());
 
-    MemberService memberService = new MemberService();
-    List<MemberDto> members = memberService.getMembers();
-    int totalCount = members != null ? members.size() : 0;
+    NoticeService noticeService = new NoticeService();
+    List<NoticeDto> notices = noticeService.getNotices();
+    int totalCount = notices != null ? notices.size() : 0;
 
     DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 %>
@@ -29,7 +29,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>회원 관리 - SHOPMALL ADMIN</title>
+    <title>공지사항 관리 - SHOPMALL ADMIN</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body class="dashboard-page">
@@ -53,8 +53,8 @@
             <div class="nav-group-title">운영</div>
             <a href="#" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
-            <a href="/member/list.jsp" class="nav-item active"><span class="nav-icon">👥</span> 회원 관리</a>
-            <a href="/notice/list.jsp" class="nav-item"><span class="nav-icon">📢</span> 공지사항 관리</a>
+            <a href="/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
+            <a href="/notice/list.jsp" class="nav-item active"><span class="nav-icon">📢</span> 공지사항 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🎁</span> 프로모션</a>
         </div>
 
@@ -82,7 +82,7 @@
     <!-- 상단 바 -->
     <header class="dash-topbar">
         <div class="dash-page-title">
-            <h1>회원 관리</h1>
+            <h1>공지사항 관리</h1>
             <p><%= nowStr %></p>
         </div>
 
@@ -96,37 +96,42 @@
         </div>
     </header>
 
-    <!-- 회원 목록 테이블 -->
+    <!-- 공지사항 목록 테이블 -->
     <section class="dash-panel">
-        <div class="panel-head">
-            <h3>회원 목록 <span class="panel-sub">총 <%= totalCount %>명</span></h3>
+        <div class="panel-head" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>공지사항 목록 <span class="panel-sub">총 <%= totalCount %>건</span></h3>
+            <a href="/notice/register.jsp" class="btn btn-primary" style="text-decoration: none; padding: 8px 16px; background: #4f46e5; color: white; border-radius: 4px; font-size: 14px;">신규 등록</a>
         </div>
         <div class="table-wrap">
             <table class="dash-table">
                 <thead>
                     <tr>
-                        <th>아이디</th>
-                        <th>이름</th>
-                        <th>이메일</th>
-                        <th>비밀번호</th>
-                        <th>가입일시</th>
+                        <th style="width: 80px;">번호</th>
+                        <th>제목</th>
+                        <th style="width: 120px;">작성자</th>
+                        <th style="width: 180px;">작성일시</th>
+                        <th style="width: 100px;">관리</th>
                     </tr>
                 </thead>
                 <tbody>
                 <% if (totalCount == 0) { %>
                     <tr>
                         <td colspan="5" style="text-align:center; padding: 32px; color:#9ca3af;">
-                            등록된 회원이 없습니다.
+                            등록된 공지사항이 없습니다.
                         </td>
                     </tr>
                 <% } else { %>
-                    <% for (MemberDto m : members) { %>
+                    <% for (NoticeDto n : notices) { %>
                     <tr>
-                        <td><code><%= m.getUserId() %></code></td>
-                        <td><%= m.getUserName() %></td>
-                        <td><%= m.getEmail() %></td>
-                        <td><%= m.getPassword() %></td>
-                        <td><%= m.getRegDate() != null ? m.getRegDate().format(regDateFormatter) : "-" %></td>
+                        <td><%= n.getId() %></td>
+                        <td style="text-align: left;"><a href="/notice/view.jsp?id=<%= n.getId() %>" style="color: inherit; text-decoration: none;"><%= n.getTitle() %></a></td>
+                        <td><%= n.getWriter() %></td>
+                        <td><%= n.getRegDate() != null ? n.getRegDate().format(regDateFormatter) : "-" %></td>
+                        <td>
+                            <a href="/notice/edit.jsp?id=<%= n.getId() %>" style="color: #4f46e5; font-size: 13px;">수정</a>
+                            <span style="color: #e5e7eb; margin: 0 4px;">|</span>
+                            <a href="javascript:if(confirm('정말 삭제하시겠습니까?')) location.href='/notice/delete.jsp?id=<%= n.getId() %>';" style="color: #ef4444; font-size: 13px;">삭제</a>
+                        </td>
                     </tr>
                     <% } %>
                 <% } %>

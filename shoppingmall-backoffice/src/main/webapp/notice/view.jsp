@@ -1,14 +1,33 @@
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberService" %>
+<%@ page import="kr.ac.dy.cs.notice.NoticeDto" %>
+<%@ page import="kr.ac.dy.cs.notice.NoticeService" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     if (!SessionUtils.isLoginYn(session)) {
         response.sendRedirect("/auth/adminLogin.jsp");
+        return;
+    }
+
+    String idStr = request.getParameter("id");
+    if (idStr == null || idStr.isEmpty()) {
+        response.sendRedirect("/notice/list.jsp");
+        return;
+    }
+
+    Long id = Long.parseLong(idStr);
+    NoticeService noticeService = new NoticeService();
+    NoticeDto notice = noticeService.getNotice(id);
+
+    if (notice == null) {
+%>
+    <script>
+        alert('존재하지 않는 게시물입니다.');
+        location.href = '/notice/list.jsp';
+    </script>
+<%
         return;
     }
 
@@ -19,17 +38,13 @@
             : "-";
     String nowStr = new SimpleDateFormat("yyyy년 MM월 dd일 (E) HH:mm", java.util.Locale.KOREAN).format(new Date());
 
-    MemberService memberService = new MemberService();
-    List<MemberDto> members = memberService.getMembers();
-    int totalCount = members != null ? members.size() : 0;
-
-    DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>회원 관리 - SHOPMALL ADMIN</title>
+    <title>공지사항 상세 - SHOPMALL ADMIN</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body class="dashboard-page">
@@ -53,8 +68,8 @@
             <div class="nav-group-title">운영</div>
             <a href="#" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
-            <a href="/member/list.jsp" class="nav-item active"><span class="nav-icon">👥</span> 회원 관리</a>
-            <a href="/notice/list.jsp" class="nav-item"><span class="nav-icon">📢</span> 공지사항 관리</a>
+            <a href="/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
+            <a href="/notice/list.jsp" class="nav-item active"><span class="nav-icon">📢</span> 공지사항 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🎁</span> 프로모션</a>
         </div>
 
@@ -82,7 +97,7 @@
     <!-- 상단 바 -->
     <header class="dash-topbar">
         <div class="dash-page-title">
-            <h1>회원 관리</h1>
+            <h1>공지사항 상세</h1>
             <p><%= nowStr %></p>
         </div>
 
@@ -96,42 +111,25 @@
         </div>
     </header>
 
-    <!-- 회원 목록 테이블 -->
+    <!-- 공지사항 상세 내용 -->
     <section class="dash-panel">
         <div class="panel-head">
-            <h3>회원 목록 <span class="panel-sub">총 <%= totalCount %>명</span></h3>
+            <h3><%= notice.getTitle() %></h3>
         </div>
-        <div class="table-wrap">
-            <table class="dash-table">
-                <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>이름</th>
-                        <th>이메일</th>
-                        <th>비밀번호</th>
-                        <th>가입일시</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <% if (totalCount == 0) { %>
-                    <tr>
-                        <td colspan="5" style="text-align:center; padding: 32px; color:#9ca3af;">
-                            등록된 회원이 없습니다.
-                        </td>
-                    </tr>
-                <% } else { %>
-                    <% for (MemberDto m : members) { %>
-                    <tr>
-                        <td><code><%= m.getUserId() %></code></td>
-                        <td><%= m.getUserName() %></td>
-                        <td><%= m.getEmail() %></td>
-                        <td><%= m.getPassword() %></td>
-                        <td><%= m.getRegDate() != null ? m.getRegDate().format(regDateFormatter) : "-" %></td>
-                    </tr>
-                    <% } %>
-                <% } %>
-                </tbody>
-            </table>
+        <div class="panel-body" style="padding: 24px;">
+            <div style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #f3f4f6; color: #6b7280; font-size: 14px;">
+                작성자: <strong><%= notice.getWriter() %></strong> | 
+                작성일: <%= notice.getRegDate().format(formatter) %> | 
+                수정일: <%= notice.getModDate().format(formatter) %>
+            </div>
+            <div style="min-height: 300px; line-height: 1.6; white-space: pre-wrap; font-size: 15px;">
+<%= notice.getContent() %>
+            </div>
+            <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; padding-top: 24px; border-top: 1px solid #f3f4f6;">
+                <a href="/notice/list.jsp" style="text-decoration: none; padding: 10px 20px; background: #9ca3af; color: white; border-radius: 4px;">목록으로</a>
+                <a href="/notice/edit.jsp?id=<%= notice.getId() %>" style="text-decoration: none; padding: 10px 20px; background: #4f46e5; color: white; border-radius: 4px;">수정하기</a>
+                <a href="javascript:if(confirm('정말 삭제하시겠습니까?')) location.href='/notice/delete.jsp?id=<%= notice.getId() %>';" style="text-decoration: none; padding: 10px 20px; background: #ef4444; color: white; border-radius: 4px;">삭제하기</a>
+            </div>
         </div>
     </section>
 

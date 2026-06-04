@@ -9,8 +9,7 @@ create table MEMBER
     REG_DATE TIMESTAMP
 );
 
-
-INSERT INTO MEMBER (ID, NAME, EMAIL, PASSWORD, REG_DATE) VALUES ('satcop', '박규태', 'satcop@naver.com', '1234', '2026-05-29 01:07:41.000000');
-
+INSERT INTO PUBLIC.MEMBER (ID, NAME, EMAIL, PASSWORD, REG_DATE) VALUES ('satcop', '박규태', 'satcop@naver.com', '1234', '2026-05-29 01:07:41.000000');
+INSERT INTO PUBLIC.MEMBER (ID, NAME, EMAIL, PASSWORD, REG_DATE) VALUES ('satcop2', '박규태', 'satcop@naver.com', '1234', '2026-05-29 01:07:41.000000');
 
 
