@@ -7,6 +7,8 @@ public class NoticeDto {
     private String title;
     private String content;
     private String writer;
+    private String fileName;
+    private String fileOriginName;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 
@@ -40,6 +42,22 @@ public class NoticeDto {
 
     public void setWriter(String writer) {
         this.writer = writer;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileOriginName() {
+        return fileOriginName;
+    }
+
+    public void setFileOriginName(String fileOriginName) {
+        this.fileOriginName = fileOriginName;
     }
 
     public LocalDateTime getRegDate() {

@@ -1,5 +1,7 @@
+<%@ page import="kr.ac.dy.cs.notice.NoticeDto" %>
 <%@ page import="kr.ac.dy.cs.notice.NoticeService" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
+<%@ page import="java.io.File" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     if (!SessionUtils.isLoginYn(session)) {
@@ -16,6 +18,15 @@
 
     Long id = Long.parseLong(idStr);
     NoticeService noticeService = new NoticeService();
+    
+    // Get file info before deletion
+    NoticeDto notice = noticeService.getNotice(id);
+    if (notice != null && notice.getFileName() != null) {
+        String uploadPath = application.getRealPath("/upload");
+        File file = new File(uploadPath + File.separator + notice.getFileName());
+        if (file.exists()) file.delete();
+    }
+
     boolean success = noticeService.removeNotice(id);
 
     if (success) {

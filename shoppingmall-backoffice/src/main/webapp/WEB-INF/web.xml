@@ -3,4 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+
+    <servlet>
+        <servlet-name>registerSubmit</servlet-name>
+        <jsp-file>/notice/registerSubmit.jsp</jsp-file>
+        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>10485760</max-file-size><!-- 10MB -->
+            <max-request-size>20971520</max-request-size><!-- 20MB -->
+            <file-size-threshold>524288</file-size-threshold><!-- 512KB -->
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>registerSubmit</servlet-name>
+        <url-pattern>/notice/registerSubmit.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editSubmit</servlet-name>
+        <jsp-file>/notice/editSubmit.jsp</jsp-file>
+        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+            <file-size-threshold>524288</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editSubmit</servlet-name>
+        <url-pattern>/notice/editSubmit.jsp</url-pattern>
+    </servlet-mapping>
+
 </web-app>

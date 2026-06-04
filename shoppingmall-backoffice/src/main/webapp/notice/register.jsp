@@ -92,7 +92,7 @@
             <h3>공지사항 정보 입력</h3>
         </div>
         <div class="panel-body" style="padding: 24px;">
-            <form action="/notice/registerSubmit.jsp" method="post">
+            <form action="/notice/registerSubmit.jsp" method="post" enctype="multipart/form-data">
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600;">제목</label>
                     <input type="text" name="title" required style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box;">
@@ -100,6 +100,10 @@
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600;">내용</label>
                     <textarea name="content" required style="width: 100%; height: 300px; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box; resize: vertical;"></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">첨부파일</label>
+                    <input type="file" name="noticeFile" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box;">
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                     <a href="/notice/list.jsp" style="text-decoration: none; padding: 10px 20px; background: #9ca3af; color: white; border-radius: 4px;">취소</a>

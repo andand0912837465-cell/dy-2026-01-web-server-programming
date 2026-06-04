@@ -122,9 +122,19 @@
                 작성일: <%= notice.getRegDate().format(formatter) %> | 
                 수정일: <%= notice.getModDate().format(formatter) %>
             </div>
-            <div style="min-height: 300px; line-height: 1.6; white-space: pre-wrap; font-size: 15px;">
+            <div style="min-height: 300px; line-height: 1.6; white-space: pre-wrap; font-size: 15px; margin-bottom: 30px;">
 <%= notice.getContent() %>
             </div>
+            
+            <% if (notice.getFileName() != null) { %>
+            <div style="padding: 15px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 20px;">
+                <span style="font-weight: 600; margin-right: 10px;">첨부파일:</span>
+                <a href="/notice/download.jsp?id=<%= notice.getId() %>" style="color: #4f46e5; text-decoration: underline;">
+                    <%= notice.getFileOriginName() %>
+                </a>
+            </div>
+            <% } %>
+
             <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; padding-top: 24px; border-top: 1px solid #f3f4f6;">
                 <a href="/notice/list.jsp" style="text-decoration: none; padding: 10px 20px; background: #9ca3af; color: white; border-radius: 4px;">목록으로</a>
                 <a href="/notice/edit.jsp?id=<%= notice.getId() %>" style="text-decoration: none; padding: 10px 20px; background: #4f46e5; color: white; border-radius: 4px;">수정하기</a>

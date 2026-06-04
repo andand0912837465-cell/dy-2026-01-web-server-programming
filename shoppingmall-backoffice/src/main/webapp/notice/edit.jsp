@@ -114,7 +114,7 @@
             <h3>공지사항 수정</h3>
         </div>
         <div class="panel-body" style="padding: 24px;">
-            <form action="/notice/editSubmit.jsp" method="post">
+            <form action="/notice/editSubmit.jsp" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<%= notice.getId() %>">
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600;">제목</label>
@@ -123,6 +123,19 @@
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600;">내용</label>
                     <textarea name="content" required style="width: 100%; height: 300px; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box; resize: vertical;"><%= notice.getContent() %></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">첨부파일</label>
+                    <% if (notice.getFileName() != null) { %>
+                        <div style="margin-bottom: 8px; font-size: 14px; color: #4b5563;">
+                            현재 파일: <a href="/notice/download.jsp?id=<%= notice.getId() %>" style="color: #4f46e5;"><%= notice.getFileOriginName() %></a>
+                            <label style="margin-left: 10px; cursor: pointer;">
+                                <input type="checkbox" name="deleteFile" value="Y"> 파일 삭제
+                            </label>
+                        </div>
+                    <% } %>
+                    <input type="file" name="noticeFile" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box;">
+                    <p style="font-size: 12px; color: #6b7280; margin-top: 4px;">새 파일을 선택하면 기존 파일이 교체됩니다.</p>
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                     <a href="/notice/view.jsp?id=<%= notice.getId() %>" style="text-decoration: none; padding: 10px 20px; background: #9ca3af; color: white; border-radius: 4px;">취소</a>

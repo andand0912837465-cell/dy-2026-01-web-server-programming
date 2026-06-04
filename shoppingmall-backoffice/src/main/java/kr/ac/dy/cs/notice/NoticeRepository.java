@@ -14,7 +14,7 @@ public class NoticeRepository {
         Connector connector = new H2DbConnector();
         Connection conn = connector.getConnection();
 
-        String sql = "SELECT id, title, content, writer, reg_date, mod_date FROM notice ORDER BY id DESC";
+        String sql = "SELECT id, title, content, writer, file_name, file_origin_name, reg_date, mod_date FROM notice ORDER BY id DESC";
 
         try (PreparedStatement psmt = conn.prepareStatement(sql);
              ResultSet rs = psmt.executeQuery()) {
@@ -24,6 +24,8 @@ public class NoticeRepository {
                 dto.setTitle(rs.getString("title"));
                 dto.setContent(rs.getString("content"));
                 dto.setWriter(rs.getString("writer"));
+                dto.setFileName(rs.getString("file_name"));
+                dto.setFileOriginName(rs.getString("file_origin_name"));
                 Timestamp regDate = rs.getTimestamp("reg_date");
                 if (regDate != null) dto.setRegDate(regDate.toLocalDateTime());
                 Timestamp modDate = rs.getTimestamp("mod_date");
@@ -43,7 +45,7 @@ public class NoticeRepository {
         Connector connector = new H2DbConnector();
         Connection conn = connector.getConnection();
 
-        String sql = "SELECT id, title, content, writer, reg_date, mod_date FROM notice WHERE id = ?";
+        String sql = "SELECT id, title, content, writer, file_name, file_origin_name, reg_date, mod_date FROM notice WHERE id = ?";
 
         try (PreparedStatement psmt = conn.prepareStatement(sql)) {
             psmt.setLong(1, id);
@@ -54,6 +56,8 @@ public class NoticeRepository {
                     dto.setTitle(rs.getString("title"));
                     dto.setContent(rs.getString("content"));
                     dto.setWriter(rs.getString("writer"));
+                    dto.setFileName(rs.getString("file_name"));
+                    dto.setFileOriginName(rs.getString("file_origin_name"));
                     Timestamp regDate = rs.getTimestamp("reg_date");
                     if (regDate != null) dto.setRegDate(regDate.toLocalDateTime());
                     Timestamp modDate = rs.getTimestamp("mod_date");
@@ -73,12 +77,14 @@ public class NoticeRepository {
         Connector connector = new H2DbConnector();
         Connection conn = connector.getConnection();
 
-        String sql = "INSERT INTO notice (title, content, writer, reg_date, mod_date) VALUES (?, ?, ?, NOW(), NOW())";
+        String sql = "INSERT INTO notice (title, content, writer, file_name, file_origin_name, reg_date, mod_date) VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
 
         try (PreparedStatement psmt = conn.prepareStatement(sql)) {
             psmt.setString(1, dto.getTitle());
             psmt.setString(2, dto.getContent());
             psmt.setString(3, dto.getWriter());
+            psmt.setString(4, dto.getFileName());
+            psmt.setString(5, dto.getFileOriginName());
             affected = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,12 +99,14 @@ public class NoticeRepository {
         Connector connector = new H2DbConnector();
         Connection conn = connector.getConnection();
 
-        String sql = "UPDATE notice SET title = ?, content = ?, mod_date = NOW() WHERE id = ?";
+        String sql = "UPDATE notice SET title = ?, content = ?, file_name = ?, file_origin_name = ?, mod_date = NOW() WHERE id = ?";
 
         try (PreparedStatement psmt = conn.prepareStatement(sql)) {
             psmt.setString(1, dto.getTitle());
             psmt.setString(2, dto.getContent());
-            psmt.setLong(3, dto.getId());
+            psmt.setString(3, dto.getFileName());
+            psmt.setString(4, dto.getFileOriginName());
+            psmt.setLong(5, dto.getId());
             affected = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
