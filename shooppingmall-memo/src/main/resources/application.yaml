@@ -1,9 +1,9 @@
 spring:
   application:
-    name: shoppingmall-cs
+    name: shooppingmall-memo
 
   datasource:
-    url: jdbc:h2:file:./data/testdb
+    url: jdbc:h2:file:./data/memodb
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -23,4 +23,4 @@ spring:
         highlight_sql: true
 
 server:
-  port: 9002
+  port: 9001

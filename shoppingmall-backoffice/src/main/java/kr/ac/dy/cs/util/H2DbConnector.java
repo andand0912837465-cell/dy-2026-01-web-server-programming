@@ -23,6 +23,7 @@ public class H2DbConnector implements Connector, FileConnector {
 
             String url = "jdbc:h2:C:\\Work\\shoppingmall\\db\\shopingmall";
             url = "jdbc:h2:/Users/park/sources/dongyang/dy-2026-01-web-server-programming/db/shopingmall";
+            url = "jdbc:h2:C:\\Users\\214\\Documents\\dy-2026-01-web-server-programming\\db\\shopingmall";
             String dbUser = "sa";
             String dbPassword = "";
 

@@ -56,7 +56,7 @@
             filePart.write(uploadPath + File.separator + fileName);
         }
     } catch (Exception e) {
-        // e.printStackTrace();
+            e.printStackTrace();
     }
 
     NoticeDto dto = new NoticeDto();
