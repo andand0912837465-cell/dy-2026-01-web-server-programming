@@ -1,6 +1,14 @@
+/**
+ * 99999999 박규태
+ * 회원테이블에 데이터를 저장하는 기능을 구현한 클래스
+ *
+ */
 package kr.ac.dy.cs.member;
 
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import kr.ac.dy.cs.util.Connector;
 import kr.ac.dy.cs.util.FileConnector;
 import kr.ac.dy.cs.util.H2DbConnector;
@@ -86,6 +94,48 @@ public class MemberRepository {
         }
 
         return affected;
+    }
+
+    //    20251246 김나우
+//    데이터 저장소 계층(Repository) 확장 (MemberRepository)
+//    java에 세션 아이디로 DB를 단건 조회하는 selectById(String userId) 메서드 구현 및 SQL 매핑.
+    // 기존 클래스 내부에 확장 구현
+
+    public MemberDto selectById(String userId) {
+        MemberDto member = null;
+
+        // 기존 코드와 동일한 방식으로 H2DbConnector 인스턴스 생성 및 커넥션 획득
+        Connector connector = new H2DbConnector();
+        Connection connection = connector.getConnection();
+
+        String sql = """
+            select id, name, email, password 
+            from member 
+            where id = ?
+        """;
+
+        try {
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setString(1, userId);
+
+            ResultSet rs = psmt.executeQuery();
+
+            if (rs.next()) {
+                member = new MemberDto();
+                member.setUserId(rs.getString("id"));
+                member.setUserName(rs.getString("name"));
+                member.setEmail(rs.getString("email"));
+                member.setPassword(rs.getString("password"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // 자원 반환 처리 유지를 위해 기존 코드의 예외 처리 구조 적용
+            connector.closeConnection(connection);
+        }
+
+        return member;
     }
 
 }
