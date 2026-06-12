@@ -6,7 +6,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
+
     if (!SessionUtils.isLoginYn(session)) {
         response.sendRedirect("/auth/adminLogin.jsp");
         return;
@@ -25,6 +25,8 @@
 
     DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 %>
+<!-- 회원 상새 정보 관리하는 탭으로 가는 버튼 추가 -->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -110,6 +112,7 @@
                         <th>이메일</th>
                         <th>비밀번호</th>
                         <th>가입일시</th>
+                        <th>관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,6 +130,9 @@
                         <td><%= m.getEmail() %></td>
                         <td><%= m.getPassword() %></td>
                         <td><%= m.getRegDate() != null ? m.getRegDate().format(regDateFormatter) : "-" %></td>
+                        <td>
+                            <a href="view.jsp?id=<%= m.getUserId() %>">상세보기</a>
+                        </td>
                     </tr>
                     <% } %>
                 <% } %>
