@@ -65,7 +65,7 @@
                 아이디 저장
             </label>
             <div class="links">
-                <a href="#">아이디 찾기</a>
+                <a href="/auth/findId.jsp">아이디 찾기</a>
                 <span>|</span>
                 <a href="#">비밀번호 찾기</a>
             </div>
