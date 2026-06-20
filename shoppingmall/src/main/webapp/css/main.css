@@ -1174,3 +1174,19 @@ body.login-page {
     .brand-panel .foot { display: none; }
     .form-panel { min-height: auto; padding: 40px 20px 60px; }
 }
+
+/* 20252358 최윤서 css 추가
+ 찜 하트버튼이 활성된것이 확실하게 보이도록 함 */
+    .like-btn.active{
+        color:red;
+    }
+
+.product-list{
+    display:grid;
+    grid-template-columns:repeat(4, 280px);
+    gap:20px;
+}
+
+.product-list .product-card{
+    width:280px;
+}

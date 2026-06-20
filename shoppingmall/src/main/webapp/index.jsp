@@ -75,6 +75,10 @@
 </div>
 
 <!-- 헤더 -->
+<!-- 20252358최윤서
+상담 헤더의 찜 버튼 영역과 상품 리스트의 데이터ID 속성
+찜 페이지로 이동할 수 있도록 <a href="wishlist.jsp"> 링크를 연결하고 개수를 표시할 배지(<span id="wishlistBadge">) 추가
+상품 카드의 고유 식별자인 data-id를 "best-" + i 형태로 만들어 자바스크립트가 정확한 상품을 구별할 수 있는 기준을 세움-->
 <header>
     <div class="container header-inner">
         <a href="index.jsp" class="logo">SHOP<span>MALL</span></a>
@@ -84,7 +88,6 @@
             <button aria-label="검색">Q</button>
         </div>
         <div class="header-icons">
-            <!--수정-->
             <a href="wishlist.jsp" class="icon-btn">
                 <div class="icon">♥</div>찜
                 <span id="wishlistBadge"
@@ -290,7 +293,7 @@
                     <div class="product-img">
                         <img src="<%= productImage %>" alt="<%= productName %>">
                         <span class="product-tag <%= "HOT".equals(p[4]) ? "hot" : "" %>"><%= p[4] %></span>
-                        <button class="like-btn" aria-label="찜">♡</button>
+                        <button type="button" class="like-btn">♡</button>
                     </div>
                     <div class="product-info">
                         <div class="product-brand"><%= p[1] %></div>

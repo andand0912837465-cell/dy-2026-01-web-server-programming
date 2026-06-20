@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const likeButtons = Array.from(document.querySelectorAll('.like-btn'));
     const addCartButtons = Array.from(document.querySelectorAll('.add-cart-btn'));
 
-    if (!searchInput || !sortSelect || productCards.length === 0) {
+   /* if (!searchInput || !sortSelect || productCards.length === 0) {
         return;
-    }
+    } */
 
     const categoryMap = {
         '전체': '전체',
@@ -238,7 +238,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateWishlistCount();
     }
 
+    /* 20252358최윤서
+    함수 내부 수정
+    하트를 클릭했을때 wishlist 주소(서블릿)으로 상품 정보와 찜 상태를 전송하는 코드 추가
+    */
     function toggleWishlist(button) {
+        console.log("toggle 실행");
+
         const card = button.closest('.product-card');
 
         if (!card || !card.dataset.id) {
@@ -246,7 +252,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const productId = card.dataset.id;
+
         const isLiked = wishlistIds.includes(productId);
+
+        console.log("wishlistIds =", wishlistIds);
+        console.log("productId =", productId);
+        console.log("isLiked =", isLiked);
 
         if (isLiked) {
             wishlistIds = wishlistIds.filter(function (savedProductId) {
@@ -259,6 +270,44 @@ document.addEventListener('DOMContentLoaded', function () {
         saveWishlistIds();
         updateWishlistButton(button, !isLiked);
         updateWishlistCount();
+
+        const productName = card.dataset.name;
+
+        console.log("shop.js 수정본 실행");
+
+        console.log(
+            "body = ",
+            "productName=" + encodeURIComponent(productName)
+            + "&liked=" + (!isLiked)
+        );
+
+        fetch("wishlist", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body:
+                "productName=" + encodeURIComponent(productName)
+                + "&liked=" + (!isLiked)
+        })
+            .then(response => response.text())
+            .then(data => {
+
+                console.log(data);
+                //찜 목록 페이지일 경우, 찜 해제 시 해당 상품 카드를 화면에서 즉시 삭제
+                if (window.location.pathname.includes("wishlist.jsp")) {
+                    if (isLiked) { // 기존에 찜 상태였다가 해제된 경우
+                        card.remove(); // 화면에서 상품 카드 제거
+                // 만약 모든 카드가 지워졌다면 '찜한 상품이 없습니다' 안내를 위해 새로고침
+                        const remainingCards = document.querySelectorAll('.product-grid .product-card');
+                        if (remainingCards.length === 0) {
+                            location.reload();
+                        }
+                    }
+                }
+
+            })
+            .catch(error => console.error(error));
     }
 
     function findNavLabelByCategory(category) {
@@ -397,13 +446,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    searchInput.addEventListener('input', applyProductView);
-    searchInput.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            applyProductView();
-        }
-    });
+    if(searchInput){
+
+        searchInput.addEventListener('input', applyProductView);
+
+    }
+    if(searchInput){
+
+        searchInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                applyProductView();
+            }
+        });
+
+    }
+
+
 
     if (searchButton) {
         searchButton.addEventListener('click', function (event) {
