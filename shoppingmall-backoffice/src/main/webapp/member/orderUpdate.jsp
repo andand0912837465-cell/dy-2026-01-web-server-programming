@@ -1,29 +1,20 @@
 <%@ page import="kr.ac.dy.cs.order.*" %>
-<!-- 주문 탭에서 넣은 값을 입력해주는 코드 -->
-
-<%
-    Long orderId =
-            Long.parseLong(
-                    request.getParameter("orderId"));
-
-    String status =
-            request.getParameter("status");
-
-    OrderService service =
-            new OrderService();
-
-    service.changeStatus(
-            orderId,
-            status);
-
-    response.sendRedirect(request.getHeader("Referer"));
-%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%
+    request.setCharacterEncoding("UTF-8");
 
-</body>
-</html>
+    String orderIdValue = request.getParameter("orderId");
+    String status = request.getParameter("status");
+
+    if (orderIdValue == null || orderIdValue.isBlank() || status == null || status.isBlank()) {
+        response.sendRedirect("/member/list.jsp");
+        return;
+    }
+
+    Long orderId = Long.parseLong(orderIdValue);
+    OrderService service = new OrderService();
+    service.changeStatus(orderId, status);
+
+    String referer = request.getHeader("Referer");
+    response.sendRedirect(referer != null && !referer.isBlank() ? referer : "/member/list.jsp");
+%>

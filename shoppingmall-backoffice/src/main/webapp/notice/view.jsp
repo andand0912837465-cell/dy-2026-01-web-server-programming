@@ -138,7 +138,10 @@
             <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; padding-top: 24px; border-top: 1px solid #f3f4f6;">
                 <a href="/notice/list.jsp" style="text-decoration: none; padding: 10px 20px; background: #9ca3af; color: white; border-radius: 4px;">목록으로</a>
                 <a href="/notice/edit.jsp?id=<%= notice.getId() %>" style="text-decoration: none; padding: 10px 20px; background: #4f46e5; color: white; border-radius: 4px;">수정하기</a>
-                <a href="javascript:if(confirm('정말 삭제하시겠습니까?')) location.href='/notice/delete.jsp?id=<%= notice.getId() %>';" style="text-decoration: none; padding: 10px 20px; background: #ef4444; color: white; border-radius: 4px;">삭제하기</a>
+                <form action="/notice/delete.jsp" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    <input type="hidden" name="id" value="<%= notice.getId() %>">
+                    <button type="submit" style="border:0; padding:10px 20px; background:#ef4444; color:white; border-radius:4px; cursor:pointer;">삭제하기</button>
+                </form>
             </div>
         </div>
     </section>

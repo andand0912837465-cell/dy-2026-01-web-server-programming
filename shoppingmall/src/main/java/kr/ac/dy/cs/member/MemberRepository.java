@@ -1,19 +1,16 @@
 /**
  * 99999999 박규태
  * 회원테이블에 데이터를 저장하는 기능을 구현한 클래스
- *
  */
 package kr.ac.dy.cs.member;
+
+import kr.ac.dy.cs.util.Connector;
+import kr.ac.dy.cs.util.H2DbConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import kr.ac.dy.cs.util.Connector;
-import kr.ac.dy.cs.util.FileConnector;
-import kr.ac.dy.cs.util.H2DbConnector;
-
-import java.sql.*;
 
 /**
  * member테이블 데이터 처리
@@ -25,36 +22,25 @@ public class MemberRepository {
      * 입력받은 userId와 password값에 일치하는 member 테이블의 값을 리턴
      */
     public MemberDto select(String userId, String password) {
-
         MemberDto member = null;
-
-        //드라이버 로드, 커넥션객체 생성
         Connector connector = new H2DbConnector();
         Connection connection = connector.getConnection();
 
-        String sql = """ 
-        
-        select id, name, email, password 
-        from member 
-        where id = ? and password = ? 
-        
+        String sql = """
+            select id, name, email, password
+            from member
+            where id = ? and password = ?
         """;
 
-        try {
-            PreparedStatement psmt = connection.prepareStatement(sql);
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, userId);
             psmt.setString(2, password);
 
-            ResultSet rs =  psmt.executeQuery();
-
-            if (rs.next()) {
-                member = new MemberDto();
-                member.setUserId(rs.getString("id"));
-                member.setUserName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setPassword(rs.getString("password"));
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    member = mapMember(rs);
+                }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -63,79 +49,66 @@ public class MemberRepository {
 
         return member;
     }
-
-
 
     /**
      * member테이블 insert
      */
     public int insert(MemberDto member) {
-
-        //DB에 insert
-        //Driver로딩
-
         int affected = 0;
-        try {
-            Connector connector = new H2DbConnector();
-            Connection connection = connector.getConnection();
+        Connector connector = new H2DbConnector();
+        Connection connection = connector.getConnection();
 
-            String sql = " insert into member (id, name, email, password, reg_date) values (?, ?, ?, ?, now()) ";
-            //스테이트먼트 객체 생성
-            PreparedStatement psmt = connection.prepareStatement(sql);
+        String sql = "insert into member (id, name, email, password, reg_date) values (?, ?, ?, ?, now())";
+
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, member.getUserId());
             psmt.setString(2, member.getUserName());
             psmt.setString(3, member.getEmail());
             psmt.setString(4, member.getPassword());
-            //실행
             affected = psmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connector.closeConnection(connection);
         }
 
         return affected;
     }
 
-    //    20251246 김나우
-//    데이터 저장소 계층(Repository) 확장 (MemberRepository)
-//    java에 세션 아이디로 DB를 단건 조회하는 selectById(String userId) 메서드 구현 및 SQL 매핑.
-    // 기존 클래스 내부에 확장 구현
-
     public MemberDto selectById(String userId) {
         MemberDto member = null;
-
-        // 기존 코드와 동일한 방식으로 H2DbConnector 인스턴스 생성 및 커넥션 획득
         Connector connector = new H2DbConnector();
         Connection connection = connector.getConnection();
 
         String sql = """
-            select id, name, email, password 
-            from member 
+            select id, name, email, password
+            from member
             where id = ?
         """;
 
-        try {
-            PreparedStatement psmt = connection.prepareStatement(sql);
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, userId);
 
-            ResultSet rs = psmt.executeQuery();
-
-            if (rs.next()) {
-                member = new MemberDto();
-                member.setUserId(rs.getString("id"));
-                member.setUserName(rs.getString("name"));
-                member.setEmail(rs.getString("email"));
-                member.setPassword(rs.getString("password"));
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    member = mapMember(rs);
+                }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            // 자원 반환 처리 유지를 위해 기존 코드의 예외 처리 구조 적용
             connector.closeConnection(connection);
         }
 
         return member;
     }
 
+    private MemberDto mapMember(ResultSet rs) throws SQLException {
+        MemberDto member = new MemberDto();
+        member.setUserId(rs.getString("id"));
+        member.setUserName(rs.getString("name"));
+        member.setEmail(rs.getString("email"));
+        member.setPassword(rs.getString("password"));
+        return member;
+    }
 }

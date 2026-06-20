@@ -10,7 +10,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아이디 찾기 - SHOPMALL ADMIN</title>
+    <title>아이디 찾기 - SHOPMALL</title>
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body class="login-page">

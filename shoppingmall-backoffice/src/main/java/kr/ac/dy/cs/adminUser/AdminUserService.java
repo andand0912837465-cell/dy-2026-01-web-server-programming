@@ -12,23 +12,30 @@ public class AdminUserService {
      * 관리자 로그인 여부 리턴
      */
     public boolean isLogin(String adminId, String password) {
-
         AdminUserDto adminUser = adminUserRepository.getAdminUser(adminId);
         if (adminUser == null) {
             return false;
         }
 
-        //비밀번호 불일치(널포함)
-        if (password == null || !password.equals(adminUser.getPassword())) {
+        if (!java.util.Objects.equals(password, adminUser.getPassword())) {
             return false;
         }
 
-        //현재 사용여부 체크!!!
-
-
-
-        return true;
+        return "Y".equalsIgnoreCase(adminUser.getUsingYn());
     }
 
+    /**
+     * 관리자 계정 등록
+     */
+    public boolean register(AdminUserDto adminUser) {
+        if (adminUser == null
+                || adminUser.getAdminId() == null || adminUser.getAdminId().isBlank()
+                || adminUser.getAdminName() == null || adminUser.getAdminName().isBlank()
+                || adminUser.getPassword() == null || adminUser.getPassword().isBlank()) {
+            return false;
+        }
 
+        adminUser.setUsingYn("Y");
+        return adminUserRepository.insert(adminUser) > 0;
+    }
 }

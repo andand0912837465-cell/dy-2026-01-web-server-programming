@@ -7,6 +7,7 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%
     if (!SessionUtils.isLoginYn(session)) {
         response.sendRedirect("/auth/adminLogin.jsp");
         return;

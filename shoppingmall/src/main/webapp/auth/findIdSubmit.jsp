@@ -53,7 +53,7 @@
     alert("일치하는 회원 정보가 없습니다.");
     <% } %>
 
-    location.href = "<%= contextPath %>/auth/adminLogin.jsp";
+    location.href = "<%= contextPath %>/auth/login.jsp";
   </script>
 </head>
 <body>

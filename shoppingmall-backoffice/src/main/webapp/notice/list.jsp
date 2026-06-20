@@ -130,7 +130,10 @@
                         <td>
                             <a href="/notice/edit.jsp?id=<%= n.getId() %>" style="color: #4f46e5; font-size: 13px;">수정</a>
                             <span style="color: #e5e7eb; margin: 0 4px;">|</span>
-                            <a href="javascript:if(confirm('정말 삭제하시겠습니까?')) location.href='/notice/delete.jsp?id=<%= n.getId() %>';" style="color: #ef4444; font-size: 13px;">삭제</a>
+                            <form action="/notice/delete.jsp" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                <input type="hidden" name="id" value="<%= n.getId() %>">
+                                <button type="submit" style="border:0; background:none; padding:0; color:#ef4444; font-size:13px; cursor:pointer;">삭제</button>
+                            </form>
                         </td>
                     </tr>
                     <% } %>

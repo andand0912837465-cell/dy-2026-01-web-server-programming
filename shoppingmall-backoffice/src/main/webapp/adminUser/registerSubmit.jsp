@@ -1,30 +1,36 @@
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberRegisterForm" %>
-<%@ page import="kr.ac.dy.cs.member.MemberService" %>
+<%@ page import="kr.ac.dy.cs.adminUser.AdminUserDto" %>
+<%@ page import="kr.ac.dy.cs.adminUser.AdminUserService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>회원가입 결과</title>
+    <title>관리자 등록 결과</title>
 </head>
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    MemberRegisterForm memberRegisterForm = MemberRegisterForm.get(request);
 
-    //입력된 데이터를 통해서 회원가입을 진행
-    MemberService memberService = new MemberService();
-    boolean result = memberService.register(memberRegisterForm);
+    AdminUserDto adminUser = AdminUserDto.builder()
+            .adminId(request.getParameter("userId"))
+            .adminName(request.getParameter("userName"))
+            .password(request.getParameter("password"))
+            .usingYn("Y")
+            .build();
+
+    AdminUserService adminUserService = new AdminUserService();
+    boolean result = adminUserService.register(adminUser);
 %>
 
-<%if (result) {%>
-    <h1>회원가입에 성공하였습니다.</h1>
-<%}else {%>
+<% if (result) { %>
     <script>
-        alert('회원가입에 실패했습니다.');
-        history.back(-1);
+        alert('관리자 등록에 성공했습니다.');
+        location.href = '/auth/adminLogin.jsp';
     </script>
-<%}%>
+<% } else { %>
+    <script>
+        alert('관리자 등록에 실패했습니다. 입력값 또는 중복 아이디를 확인해 주세요.');
+        history.back();
+    </script>
+<% } %>
 
 </body>
 </html>

@@ -19,7 +19,7 @@
     String userId = request.getParameter("userId");
     String password = request.getParameter("password");
 
-    if ("admin".equals(userId) && password.equals("1234")) {
+    if ("admin".equals(userId) && "1234".equals(password)) {
 
     } else {
         response.sendRedirect("./index.jsp");

@@ -1,5 +1,4 @@
 <%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
 <%@ page import="kr.ac.dy.cs.member.MemberRegisterForm" %>
 <%@ page import="kr.ac.dy.cs.member.MemberService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
