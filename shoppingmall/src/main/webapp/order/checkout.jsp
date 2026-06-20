@@ -21,7 +21,7 @@
                 <a href="/auth/login.jsp">로그인</a>
                 <a href="/member/register.jsp">회원가입</a>
             <% } %>
-            <a href="#">고객센터</a>
+            <a href="/board/list.jsp">고객센터</a>
             <a href="#">마이페이지</a>
         </div>
     </div>
