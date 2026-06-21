@@ -6,10 +6,11 @@
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%!
     private String rawValue(Object valuesObject, String key) {
-        if (!(valuesObject instanceof java.util.Map<?, ?> values)) {
+        if (!(valuesObject instanceof java.util.Map<?, ?>)) {
             return "";
         }
 
+        java.util.Map<?, ?> values = (java.util.Map<?, ?>) valuesObject;
         Object value = values.get(key);
         return value == null ? "" : String.valueOf(value);
     }
@@ -31,7 +32,7 @@
                 .replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
-                .replace(""", "&quot;")
+                .replace("\"", "&quot;")
                 .replace("'", "&#39;");
     }
 %>
