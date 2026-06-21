@@ -1,6 +1,6 @@
 <%--
-  20252361 김지연
-  기능 설명: LocalStorage의 productId 기준 찜 목록을 BEST/NEW 상품 누락 없이 표시하는 화면
+  * 20252361 김지연
+  * 기능 설명: LocalStorage의 productId 기준 찜 목록을 BEST/NEW 상품 누락 없이 표시하는 화면
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="kr.ac.dy.cs.order.ProductCatalog" %>

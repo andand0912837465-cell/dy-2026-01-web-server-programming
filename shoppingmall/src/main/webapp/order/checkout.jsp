@@ -1,6 +1,6 @@
 <%--
-  20252361 김지연
-  기능 설명: 장바구니 상품을 서버 주문 처리 서블릿으로 제출하는 주문서 화면
+  * 20252361 김지연
+  * 기능 설명: 장바구니 상품을 서버 주문 처리 서블릿으로 제출하는 주문서 화면
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
