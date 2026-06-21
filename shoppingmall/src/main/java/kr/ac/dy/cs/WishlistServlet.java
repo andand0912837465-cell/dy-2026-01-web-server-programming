@@ -1,3 +1,7 @@
+/*
+ * 20252361 김지연
+ * 기능 설명: productId 기준 찜 추가/해제 요청을 멱등하게 처리하는 서블릿
+ */
 package kr.ac.dy.cs;
 
 import jakarta.servlet.ServletException;
@@ -23,44 +27,56 @@ public class WishlistServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/plain;charset=UTF-8");
 
+        String productId = trim(request.getParameter("productId"));
+        String productName = trim(request.getParameter("productName"));
+        String likedValue = trim(request.getParameter("liked"));
 
-
-        String productName = request.getParameter("productName");
-
-        System.out.println("productName = " + productName);
-        System.out.println("liked 문자열 = " + request.getParameter("liked"));
-
-
-
-        boolean liked =
-                Boolean.parseBoolean(request.getParameter("liked"));
-
-        HttpSession session =
-                request.getSession();
-
-        ArrayList<String> wishlist =
-                (ArrayList<String>)
-                        session.getAttribute("wishlist");
-
-        if (wishlist == null) {
-            wishlist = new ArrayList<>();
+        if (productId.isEmpty() || likedValue.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().print("invalid request");
+            return;
         }
 
-        if (wishlist.contains(productName)) {
-            wishlist.remove(productName);
+        boolean liked = Boolean.parseBoolean(likedValue);
+        HttpSession session = request.getSession();
+
+        ArrayList<String> wishlist = getStringList(session, "wishlist");
+        ArrayList<String> wishlistNames = getStringList(session, "wishlistProductNames");
+
+        if (liked) {
+            if (!wishlist.contains(productId)) {
+                wishlist.add(productId);
+                wishlistNames.add(productName);
+            }
         } else {
-            wishlist.add(productName);
+            int index = wishlist.indexOf(productId);
+            if (index >= 0) {
+                wishlist.remove(index);
+                if (index < wishlistNames.size()) {
+                    wishlistNames.remove(index);
+                }
+            }
         }
 
         session.setAttribute("wishlist", wishlist);
-
-        //response.sendRedirect("index.jsp");
-
-
-        System.out.println(wishlist);
-        System.out.println("liked = " + liked);
-
+        session.setAttribute("wishlistProductNames", wishlistNames);
         response.getWriter().print("success");
+    }
+
+    @SuppressWarnings("unchecked")
+    private ArrayList<String> getStringList(HttpSession session, String attributeName) {
+        Object value = session.getAttribute(attributeName);
+        if (value instanceof ArrayList<?>) {
+            return (ArrayList<String>) value;
+        }
+
+        return new ArrayList<>();
+    }
+
+    private String trim(String value) {
+        return value == null ? "" : value.trim();
     }
 }

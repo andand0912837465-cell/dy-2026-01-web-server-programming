@@ -1,7 +1,13 @@
+<%--
+  20252361 김지연
+  기능 설명: 상품 검색, 정렬, 찜 및 장바구니 기능이 연동되는 메인 쇼핑 화면
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%
+    String contextPath = request.getContextPath();
+
     // ===== 샘플 데이터 =====
     String[] categories = {"전체", "여성의류", "남성의류", "신발", "가방", "액세서리", "뷰티", "디지털"};
 
@@ -52,9 +58,9 @@
 <head>
     <meta charset="UTF-8">
     <title>SHOP MALL - 당신의 라이프 스타일</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
 </head>
-<body>
+<body data-context-path="<%= contextPath %>">
 
 <!-- 상단 유틸 -->
 <div class="top-bar">
@@ -62,13 +68,13 @@
         <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
         <div>
             <% if (SessionUtils.isLoginYn(session)) {%>
-                <a href="/auth/logout.jsp">로그아웃</a>
+                <a href="<%= contextPath %>/auth/logout.jsp">로그아웃</a>
                 <a href="#">회원정보</a>
             <% } else {%>
-                <a href="/auth/login.jsp">로그인</a>
-                <a href="/member/register.jsp">회원가입</a>
+                <a href="<%= contextPath %>/auth/login.jsp">로그인</a>
+                <a href="<%= contextPath %>/member/register.jsp">회원가입</a>
             <% } %>
-            <a href="/board/list.jsp">고객센터</a>
+            <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
             <a href="#">마이페이지</a>
         </div>
     </div>
@@ -81,20 +87,20 @@
 상품 카드의 고유 식별자인 data-id를 "best-" + i 형태로 만들어 자바스크립트가 정확한 상품을 구별할 수 있는 기준을 세움-->
 <header>
     <div class="container header-inner">
-        <a href="index.jsp" class="logo">SHOP<span>MALL</span></a>
+        <a href="<%= contextPath %>/index.jsp" class="logo">SHOP<span>MALL</span></a>
         <div class="search-box">
             <label for="search" class="sr-only">상품 검색</label>
             <input id="search" type="text" placeholder="어떤 상품을 찾고 계신가요?">
             <button aria-label="검색">Q</button>
         </div>
         <div class="header-icons">
-            <a href="wishlist.jsp" class="icon-btn">
+            <a href="<%= contextPath %>/wishlist.jsp" class="icon-btn">
                 <div class="icon">♥</div>찜
                 <span id="wishlistBadge"
                       class="badge wishlist-badge"
                       hidden>0</span>
             </a>
-            <a href="/cart/cart.jsp" class="icon-btn cart-link">
+            <a href="<%= contextPath %>/cart/cart.jsp" class="icon-btn cart-link">
                 <div class="icon">🛒</div>장바구니
                 <span id="cartBadge" class="badge cart-badge" hidden>0</span>
             </a>
@@ -357,6 +363,6 @@
     </div>
 </footer>
 
-<script src="js/shop.js"></script>
+<script src="<%= contextPath %>/js/shop.js"></script>
 </body>
 </html>

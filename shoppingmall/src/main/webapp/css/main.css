@@ -1,3 +1,7 @@
+/*
+ * 20252361 김지연
+ * 기능 설명: 주문서 입력, 찜 목록, 장바구니 제출 흐름 보강 스타일
+ */
 /* =========================================================
  * SHOPMALL - 공용 스타일
  * - 메인 페이지(index.jsp)와 로그인 페이지(auth/login.jsp) 공용
@@ -786,6 +790,42 @@ footer {
     color: #95a5a6;
     font-size: 13px;
     margin-bottom: 24px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2d3436;
+    font-size: 14px;
+    font-weight: 800;
+}
+.choice-list {
+    display: grid;
+    gap: 10px;
+}
+.choice-list label,
+.agreement-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 12px 14px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    background: #fff;
+    color: #2d3436;
+    font-size: 14px;
+    font-weight: 700;
+}
+.choice-list input,
+.agreement-box input {
+    width: 16px;
+    height: 16px;
+    accent-color: #ff6b6b;
+}
+.agreement-box {
+    margin: 18px 0 8px;
+    align-items: flex-start;
+    line-height: 1.5;
 }
 .field-row {
     display: grid;

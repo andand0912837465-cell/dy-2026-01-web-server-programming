@@ -1,13 +1,20 @@
+<%--
+  20252361 김지연
+  기능 설명: 장바구니 수량 변경, 전체 삭제, 배송비 계산과 주문 이동 화면
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
+<%
+    String contextPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>장바구니 - SHOPMALL</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
 </head>
-<body>
+<body data-context-path="<%= contextPath %>">
 
 <!-- 상단 유틸 -->
 <div class="top-bar">
@@ -15,13 +22,13 @@
         <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
         <div>
             <% if (SessionUtils.isLoginYn(session)) {%>
-                <a href="/auth/logout.jsp">로그아웃</a>
+                <a href="<%= contextPath %>/auth/logout.jsp">로그아웃</a>
                 <a href="#">회원정보</a>
             <% } else {%>
-                <a href="/auth/login.jsp">로그인</a>
-                <a href="/member/register.jsp">회원가입</a>
+                <a href="<%= contextPath %>/auth/login.jsp">로그인</a>
+                <a href="<%= contextPath %>/member/register.jsp">회원가입</a>
             <% } %>
-            <a href="/board/list.jsp">고객센터</a>
+            <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
             <a href="#">마이페이지</a>
         </div>
     </div>
@@ -30,18 +37,18 @@
 <!-- 헤더 -->
 <header>
     <div class="container header-inner">
-        <a href="/index.jsp" class="logo">SHOP<span>MALL</span></a>
+        <a href="<%= contextPath %>/index.jsp" class="logo">SHOP<span>MALL</span></a>
         <div class="search-box">
             <label for="search" class="sr-only">상품 검색</label>
             <input id="search" type="text" placeholder="메인 페이지에서 상품을 검색해 보세요" disabled>
             <button type="button" aria-label="검색" disabled>Q</button>
         </div>
         <div class="header-icons">
-            <div class="icon-btn">
+            <a href="<%= contextPath %>/wishlist.jsp" class="icon-btn">
                 <div class="icon">♥</div>찜
                 <span id="wishlistBadge" class="badge wishlist-badge" hidden>0</span>
-            </div>
-            <a href="/cart/cart.jsp" class="icon-btn cart-link">
+            </a>
+            <a href="<%= contextPath %>/cart/cart.jsp" class="icon-btn cart-link">
                 <div class="icon">🛒</div>장바구니
                 <span id="cartBadge" class="badge cart-badge" hidden>0</span>
             </a>
@@ -54,15 +61,15 @@
     <div class="cart-page-head">
         <div>
             <h1>장바구니</h1>
-            <p>담은 상품의 수량과 결제 예정 금액을 확인해 주세요.</p>
+            <p>담은 상품의 수량과 주문 완료 처리 예정 금액을 확인해 주세요.</p>
         </div>
-        <a href="/index.jsp" class="btn-secondary">쇼핑 계속하기</a>
+        <a href="<%= contextPath %>/index.jsp" class="btn-secondary">쇼핑 계속하기</a>
     </div>
 
     <section id="cartEmpty" class="cart-empty" hidden>
         <h2>장바구니가 비어 있습니다</h2>
         <p>마음에 드는 상품을 담고 한 번에 주문해 보세요.</p>
-        <a href="/index.jsp" class="btn-primary">쇼핑 계속하기</a>
+        <a href="<%= contextPath %>/index.jsp" class="btn-primary">쇼핑 계속하기</a>
     </section>
 
     <section id="cartContent" class="cart-layout" hidden>
@@ -82,7 +89,7 @@
         </div>
 
         <aside class="cart-summary">
-            <h2>결제 예정 금액</h2>
+            <h2>주문 예정 금액</h2>
             <div class="summary-row">
                 <span>총 상품금액</span>
                 <strong id="cartSubtotal">0원</strong>
@@ -92,12 +99,13 @@
                 <strong id="cartShipping">0원</strong>
             </div>
             <div class="summary-row summary-total">
-                <span>최종 결제금액</span>
+                <span>최종 주문금액</span>
                 <strong id="cartTotal">0원</strong>
             </div>
             <div class="cart-actions">
-                <button type="button" id="checkoutButton" class="btn-primary">주문하기</button>
-                <a href="/index.jsp" class="btn-secondary">계속 둘러보기</a>
+                <button type="button" id="checkoutButton" class="btn-primary">주문서 작성</button>
+                <button type="button" id="clearCartButton" class="btn-secondary">전체 삭제</button>
+                <a href="<%= contextPath %>/index.jsp" class="btn-secondary">계속 둘러보기</a>
             </div>
         </aside>
     </section>
@@ -150,6 +158,6 @@
     </div>
 </footer>
 
-<script src="/js/cart.js"></script>
+<script src="<%= contextPath %>/js/cart.js"></script>
 </body>
 </html>

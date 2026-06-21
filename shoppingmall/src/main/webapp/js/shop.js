@@ -1,70 +1,45 @@
+/*
+ * 20252361 김지연
+ * 기능 설명: LocalStorage 기반 상품 검색, 찜 및 장바구니 상태 관리
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
-    const searchInput = document.querySelector('#search');
-    const searchButton = document.querySelector('.search-box button');
-    const sortSelect = document.querySelector('#productSort');
-    const emptyMessage = document.querySelector('#productEmptyMessage');
+
+    const contextPath = document.body ? (document.body.dataset.contextPath || '') : '';
     const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
-    const navLinks = Array.from(document.querySelectorAll('nav a'));
-    const categoryItems = Array.from(document.querySelectorAll('.category-grid .cat-item'));
-    const productGrids = Array.from(document.querySelectorAll('.product-grid'));
-    const productCards = Array.from(document.querySelectorAll('.product-card'));
     const likeButtons = Array.from(document.querySelectorAll('.like-btn'));
     const addCartButtons = Array.from(document.querySelectorAll('.add-cart-btn'));
+    const allProductCards = Array.from(document.querySelectorAll('.product-card'));
+    const wishlistEmptyMessage = document.querySelector('#wishlistEmptyMessage');
 
-   /* if (!searchInput || !sortSelect || productCards.length === 0) {
-        return;
-    } */
-
-    const categoryMap = {
-        '전체': '전체',
-        '여성의류': '의류',
-        '남성의류': '의류',
-        '여성패션': '의류',
-        '남성패션': '의류',
-        '신발': '신발',
-        '가방': '가방',
-        '액세서리': '액세서리',
-        '뷰티': '뷰티',
-        '디지털': '디지털',
-        '스포츠': '스포츠'
-    };
-
-    let selectedCategory = '전체';
-    let selectedNavLabel = '전체';
     let wishlistIds = readWishlistIds();
 
-    productCards.forEach(function (card, index) {
-        card.dataset.originalIndex = String(index);
-    });
+    function buildContextUrl(path) {
+        return contextPath + path;
+    }
 
     function normalizeText(value) {
         return (value || '').trim().toLowerCase();
     }
 
-    function getCategoryValue(label) {
-        const trimmedLabel = (label || '').trim();
-        return categoryMap[trimmedLabel] || trimmedLabel;
-    }
-
     function readWishlistIds() {
         try {
             const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
-
             if (!storedValue) {
                 return [];
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return [];
             }
 
             const validProductIds = parsedValue.filter(function (productId) {
-                return typeof productId === 'string' && productId.length > 0;
+                return typeof productId === 'string' && productId.trim().length > 0;
+            }).map(function (productId) {
+                return productId.trim();
             });
 
             return Array.from(new Set(validProductIds));
@@ -84,27 +59,25 @@ document.addEventListener('DOMContentLoaded', function () {
     function readCartItems() {
         try {
             const storedValue = localStorage.getItem(CART_STORAGE_KEY);
-
             if (!storedValue) {
                 return [];
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return [];
             }
 
             return parsedValue
                 .filter(function (item) {
-                    return item && typeof item.id === 'string' && item.id.length > 0;
+                    return item && typeof item.id === 'string' && item.id.trim().length > 0;
                 })
                 .map(function (item) {
                     const price = Number(item.price);
                     const quantity = Number(item.quantity);
 
                     return {
-                        id: item.id,
+                        id: item.id.trim(),
                         name: String(item.name || ''),
                         brand: String(item.brand || ''),
                         price: Number.isFinite(price) ? Math.max(0, price) : 0,
@@ -138,22 +111,36 @@ document.addEventListener('DOMContentLoaded', function () {
         cartBadge.hidden = totalQuantity === 0;
     }
 
+    function updateWishlistCount() {
+        if (!wishlistBadge) {
+            return;
+        }
+
+        const wishlistCount = wishlistIds.length;
+        wishlistBadge.textContent = String(wishlistCount);
+        wishlistBadge.hidden = wishlistCount === 0;
+    }
+
+    function getSafeNumber(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? number : 0;
+    }
+
     function getProductDataFromCard(card) {
         const price = Number(card.dataset.price);
 
         return {
-            id: card.dataset.id,
-            name: card.dataset.name,
-            brand: card.dataset.brand,
+            id: String(card.dataset.id || ''),
+            name: String(card.dataset.name || ''),
+            brand: String(card.dataset.brand || ''),
             price: Number.isFinite(price) ? Math.max(0, price) : 0,
-            image: card.dataset.image,
+            image: String(card.dataset.image || ''),
             quantity: 1
         };
     }
 
     function getCartToast() {
         let toast = document.querySelector('#cartToast');
-
         if (!toast) {
             toast = document.createElement('div');
             toast.id = 'cartToast';
@@ -180,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addProductToCart(button) {
         const card = button.closest('.product-card');
-
         if (!card || !card.dataset.id) {
             return;
         }
@@ -205,254 +191,291 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateWishlistButton(button, isLiked) {
         button.textContent = isLiked ? '♥' : '♡';
         button.classList.toggle('active', isLiked);
+        button.classList.toggle('wish-page-active', isLiked && Boolean(button.closest('.wishlist-product-card')));
         button.setAttribute('aria-pressed', String(isLiked));
         button.setAttribute('aria-label', isLiked ? '찜 해제' : '찜');
     }
 
-    function updateWishlistCount() {
-        if (!wishlistBadge) {
-            return;
-        }
-
-        const wishlistCount = wishlistIds.length;
-        wishlistBadge.textContent = String(wishlistCount);
-        wishlistBadge.hidden = wishlistCount === 0;
-    }
-
     function restoreWishlistState() {
-        const productIdSet = new Set(productCards.map(function (card) {
-            return card.dataset.id;
-        }));
-
-        wishlistIds = wishlistIds.filter(function (productId) {
-            return productIdSet.has(productId);
-        });
-
         likeButtons.forEach(function (button) {
             const card = button.closest('.product-card');
             const productId = card ? card.dataset.id : '';
             updateWishlistButton(button, wishlistIds.includes(productId));
         });
 
-        saveWishlistIds();
         updateWishlistCount();
+    }
+
+    function renderWishlistPage() {
+        const wishlistCards = Array.from(document.querySelectorAll('.wishlist-product-card'));
+        if (wishlistCards.length === 0) {
+            return;
+        }
+
+        let visibleCount = 0;
+        wishlistCards.forEach(function (card) {
+            const productId = card.dataset.id || '';
+            const isLiked = wishlistIds.includes(productId);
+            card.hidden = !isLiked;
+
+            if (isLiked) {
+                visibleCount += 1;
+            }
+        });
+
+        if (wishlistEmptyMessage) {
+            wishlistEmptyMessage.hidden = visibleCount > 0;
+        }
     }
 
     /* 20252358최윤서
     함수 내부 수정
     하트를 클릭했을때 wishlist 주소(서블릿)으로 상품 정보와 찜 상태를 전송하는 코드 추가
     */
+    function syncWishlistToServer(product, liked) {
+        // [Action 1] 서버 세션에서 상품 추가/제거 요청
+        const body = new URLSearchParams();
+        body.set('productId', product.id);
+        body.set('productName', product.name);
+        body.set('liked', String(liked));
+
+        fetch(buildContextUrl('/wishlist'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: body.toString()
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+
     function toggleWishlist(button) {
-        console.log("toggle 실행");
-
         const card = button.closest('.product-card');
-
         if (!card || !card.dataset.id) {
             return;
         }
 
-        const productId = card.dataset.id;
-
-        const isLiked = wishlistIds.includes(productId);
-
-        console.log("wishlistIds =", wishlistIds);
-        console.log("productId =", productId);
-        console.log("isLiked =", isLiked);
+        const product = getProductDataFromCard(card);
+        const isLiked = wishlistIds.includes(product.id);
 
         if (isLiked) {
             wishlistIds = wishlistIds.filter(function (savedProductId) {
-                return savedProductId !== productId;
+                return savedProductId !== product.id;
             });
         } else {
-            wishlistIds.push(productId);
+            wishlistIds = Array.from(new Set(wishlistIds.concat(product.id)));
         }
 
+        // [Action 2] 브라우저 LocalStorage에서도 추가/삭제 (메인 페이지 하트 동기화용)
         saveWishlistIds();
         updateWishlistButton(button, !isLiked);
+        // [Action 3] 헤더 찜 배지 숫자 동기화 변경
         updateWishlistCount();
+        // [Action 4] 찜 목록 페이지에서는 해당 상품 카드를 즉시 표시/숨김 처리
+        // [Action 5] 모든 찜 상품이 사라지면 '찜한 상품이 없습니다' 안내 표시
+        renderWishlistPage();
+        syncWishlistToServer(product, !isLiked);
+    }
 
-        const productName = card.dataset.name;
+    function initCommonShoppingFeatures() {
+        likeButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                toggleWishlist(button);
+            });
+        });
 
-        console.log("shop.js 수정본 실행");
+        addCartButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                addProductToCart(button);
+            });
+        });
 
-        console.log(
-            "body = ",
-            "productName=" + encodeURIComponent(productName)
-            + "&liked=" + (!isLiked)
-        );
+        restoreWishlistState();
+        renderWishlistPage();
+        updateCartCount();
+    }
 
-        fetch("wishlist", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body:
-                "productName=" + encodeURIComponent(productName)
-                + "&liked=" + (!isLiked)
-        })
-            .then(response => response.text())
-            .then(data => {
+    function initProductSearchFeatures() {
+        const searchInput = document.querySelector('#search');
+        const searchButton = document.querySelector('.search-box button');
+        const sortSelect = document.querySelector('#productSort');
+        const emptyMessage = document.querySelector('#productEmptyMessage');
+        const navLinks = Array.from(document.querySelectorAll('nav a'));
+        const categoryItems = Array.from(document.querySelectorAll('.category-grid .cat-item'));
+        const productGrids = Array.from(document.querySelectorAll('.product-grid'));
+        const productCards = allProductCards.filter(function (card) {
+            return !card.classList.contains('wishlist-product-card');
+        });
 
-                console.log(data);
-                //찜 목록 페이지일 경우, 찜 해제 시 해당 상품 카드를 화면에서 즉시 삭제
-                if (window.location.pathname.includes("wishlist.jsp")) {
-                    if (isLiked) { // 기존에 찜 상태였다가 해제된 경우
-                        card.remove(); // 화면에서 상품 카드 제거
-                // 만약 모든 카드가 지워졌다면 '찜한 상품이 없습니다' 안내를 위해 새로고침
-                        const remainingCards = document.querySelectorAll('.product-grid .product-card');
-                        if (remainingCards.length === 0) {
-                            location.reload();
-                        }
-                    }
+        if (!searchInput || !sortSelect || productCards.length === 0) {
+            return;
+        }
+
+        const categoryMap = {
+            '전체': '전체',
+            '여성의류': '의류',
+            '남성의류': '의류',
+            '여성패션': '의류',
+            '남성패션': '의류',
+            '신발': '신발',
+            '가방': '가방',
+            '액세서리': '액세서리',
+            '뷰티': '뷰티',
+            '디지털': '디지털',
+            '스포츠': '스포츠'
+        };
+
+        let selectedCategory = '전체';
+        let selectedNavLabel = '전체';
+
+        productCards.forEach(function (card, index) {
+            card.dataset.originalIndex = String(index);
+        });
+
+        function getCategoryValue(label) {
+            const trimmedLabel = (label || '').trim();
+            return categoryMap[trimmedLabel] || trimmedLabel;
+        }
+
+        function findNavLabelByCategory(category) {
+            if (category === '전체') {
+                return '전체';
+            }
+
+            const matchedLink = navLinks.find(function (link) {
+                return getCategoryValue(link.textContent) === category;
+            });
+
+            return matchedLink ? matchedLink.textContent.trim() : '';
+        }
+
+        function updateActiveNav() {
+            navLinks.forEach(function (link) {
+                const item = link.closest('li');
+                if (!item) {
+                    return;
                 }
 
-            })
-            .catch(error => console.error(error));
-    }
-
-    function findNavLabelByCategory(category) {
-        if (category === '전체') {
-            return '전체';
+                item.classList.toggle('active', link.textContent.trim() === selectedNavLabel);
+            });
         }
 
-        const matchedLink = navLinks.find(function (link) {
-            return getCategoryValue(link.textContent) === category;
-        });
+        function updateActiveCategoryIcons() {
+            categoryItems.forEach(function (item) {
+                const label = item.dataset.categoryName || item.textContent;
+                item.classList.toggle(
+                    'active',
+                    selectedCategory !== '전체' && getCategoryValue(label) === selectedCategory
+                );
+            });
+        }
 
-        return matchedLink ? matchedLink.textContent.trim() : '';
-    }
+        function isMatchedProduct(card, searchKeyword) {
+            const name = normalizeText(card.dataset.name);
+            const brand = normalizeText(card.dataset.brand);
+            const category = card.dataset.category || '';
+            const matchedKeyword = searchKeyword === '' || name.includes(searchKeyword) || brand.includes(searchKeyword);
+            const matchedCategory = selectedCategory === '전체' || category === selectedCategory;
 
-    function updateActiveNav() {
+            return matchedKeyword && matchedCategory;
+        }
+
+        function compareProducts(firstCard, secondCard, sortValue) {
+            const firstPrice = getSafeNumber(firstCard.dataset.price);
+            const secondPrice = getSafeNumber(secondCard.dataset.price);
+            const firstRate = getSafeNumber(firstCard.dataset.rate);
+            const secondRate = getSafeNumber(secondCard.dataset.rate);
+            const firstIndex = getSafeNumber(firstCard.dataset.originalIndex);
+            const secondIndex = getSafeNumber(secondCard.dataset.originalIndex);
+
+            if (sortValue === 'price-low') {
+                return firstPrice - secondPrice || firstIndex - secondIndex;
+            }
+            if (sortValue === 'price-high') {
+                return secondPrice - firstPrice || firstIndex - secondIndex;
+            }
+            if (sortValue === 'rate-high') {
+                return secondRate - firstRate || firstIndex - secondIndex;
+            }
+
+            return firstIndex - secondIndex;
+        }
+
+        function sortProductCards(sortValue) {
+            productGrids.forEach(function (grid) {
+                const cardsInGrid = Array.from(grid.querySelectorAll('.product-card'))
+                    .filter(function (card) {
+                        return !card.classList.contains('wishlist-product-card');
+                    });
+
+                cardsInGrid
+                    .sort(function (firstCard, secondCard) {
+                        return compareProducts(firstCard, secondCard, sortValue);
+                    })
+                    .forEach(function (card) {
+                        grid.appendChild(card);
+                    });
+            });
+        }
+
+        function applyProductView() {
+            const searchKeyword = normalizeText(searchInput.value);
+            const sortValue = sortSelect.value;
+            let visibleCount = 0;
+
+            sortProductCards(sortValue);
+
+            productCards.forEach(function (card) {
+                const matched = isMatchedProduct(card, searchKeyword);
+                card.hidden = !matched;
+
+                if (matched) {
+                    visibleCount += 1;
+                }
+            });
+
+            updateActiveNav();
+            updateActiveCategoryIcons();
+
+            if (emptyMessage) {
+                emptyMessage.hidden = visibleCount > 0;
+                emptyMessage.textContent = visibleCount > 0 ? '' : '검색 결과가 없습니다';
+            }
+        }
+
         navLinks.forEach(function (link) {
-            const item = link.closest('li');
-            if (!item) {
-                return;
-            }
-
-            item.classList.toggle('active', link.textContent.trim() === selectedNavLabel);
-        });
-    }
-
-    function updateActiveCategoryIcons() {
-        categoryItems.forEach(function (item) {
-            const label = item.dataset.categoryName || item.textContent;
-            item.classList.toggle(
-                'active',
-                selectedCategory !== '전체' && getCategoryValue(label) === selectedCategory
-            );
-        });
-    }
-
-    function isMatchedProduct(card, searchKeyword) {
-        const name = normalizeText(card.dataset.name);
-        const brand = normalizeText(card.dataset.brand);
-        const category = card.dataset.category || '';
-        const matchedKeyword = searchKeyword === '' || name.includes(searchKeyword) || brand.includes(searchKeyword);
-        const matchedCategory = selectedCategory === '전체' || category === selectedCategory;
-
-        return matchedKeyword && matchedCategory;
-    }
-
-    function getSafeNumber(value) {
-        const number = Number(value);
-
-        return Number.isFinite(number) ? number : 0;
-    }
-
-    function compareProducts(firstCard, secondCard, sortValue) {
-        const firstPrice = getSafeNumber(firstCard.dataset.price);
-        const secondPrice = getSafeNumber(secondCard.dataset.price);
-        const firstRate = getSafeNumber(firstCard.dataset.rate);
-        const secondRate = getSafeNumber(secondCard.dataset.rate);
-        const firstIndex = getSafeNumber(firstCard.dataset.originalIndex);
-        const secondIndex = getSafeNumber(secondCard.dataset.originalIndex);
-
-        if (sortValue === 'price-low') {
-            return firstPrice - secondPrice || firstIndex - secondIndex;
-        }
-
-        if (sortValue === 'price-high') {
-            return secondPrice - firstPrice || firstIndex - secondIndex;
-        }
-
-        if (sortValue === 'rate-high') {
-            return secondRate - firstRate || firstIndex - secondIndex;
-        }
-
-        return firstIndex - secondIndex;
-    }
-
-    function sortProductCards(sortValue) {
-        productGrids.forEach(function (grid) {
-            const cardsInGrid = Array.from(grid.querySelectorAll('.product-card'));
-            cardsInGrid
-                .sort(function (firstCard, secondCard) {
-                    return compareProducts(firstCard, secondCard, sortValue);
-                })
-                .forEach(function (card) {
-                    grid.appendChild(card);
-                });
-        });
-    }
-
-    function applyProductView() {
-        const searchKeyword = normalizeText(searchInput.value);
-        const sortValue = sortSelect.value;
-        let visibleCount = 0;
-
-        sortProductCards(sortValue);
-
-        productCards.forEach(function (card) {
-            const matched = isMatchedProduct(card, searchKeyword);
-            card.hidden = !matched;
-
-            if (matched) {
-                visibleCount += 1;
-            }
-        });
-
-        updateActiveNav();
-        updateActiveCategoryIcons();
-
-        if (emptyMessage) {
-            emptyMessage.hidden = visibleCount > 0;
-        }
-    }
-
-    navLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            selectedNavLabel = link.textContent.trim();
-            selectedCategory = getCategoryValue(selectedNavLabel);
-            applyProductView();
-        });
-    });
-
-    categoryItems.forEach(function (item) {
-        function selectCategoryFromIcon() {
-            const label = item.dataset.categoryName || item.textContent;
-            selectedCategory = getCategoryValue(label);
-            selectedNavLabel = findNavLabelByCategory(selectedCategory);
-            applyProductView();
-        }
-
-        item.addEventListener('click', selectCategoryFromIcon);
-        item.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
+            link.addEventListener('click', function (event) {
                 event.preventDefault();
-                selectCategoryFromIcon();
-            }
-        });
-    });
 
-    if(searchInput){
+                selectedNavLabel = link.textContent.trim();
+                selectedCategory = getCategoryValue(selectedNavLabel);
+                applyProductView();
+            });
+        });
+
+        categoryItems.forEach(function (item) {
+            function selectCategoryFromIcon() {
+                const label = item.dataset.categoryName || item.textContent;
+                selectedCategory = getCategoryValue(label);
+                selectedNavLabel = findNavLabelByCategory(selectedCategory);
+                applyProductView();
+            }
+
+            item.addEventListener('click', selectCategoryFromIcon);
+            item.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    selectCategoryFromIcon();
+                }
+            });
+        });
 
         searchInput.addEventListener('input', applyProductView);
-
-    }
-    if(searchInput){
-
         searchInput.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -460,35 +483,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        if (searchButton) {
+            searchButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                applyProductView();
+                searchInput.focus();
+            });
+        }
+
+        sortSelect.addEventListener('change', applyProductView);
+        applyProductView();
     }
 
-
-
-    if (searchButton) {
-        searchButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            applyProductView();
-            searchInput.focus();
-        });
-    }
-
-    sortSelect.addEventListener('change', applyProductView);
-    likeButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            toggleWishlist(button);
-        });
-    });
-    addCartButtons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            addProductToCart(button);
-        });
-    });
-
-    restoreWishlistState();
-    updateCartCount();
-    applyProductView();
+    initCommonShoppingFeatures();
+    initProductSearchFeatures();
 });
