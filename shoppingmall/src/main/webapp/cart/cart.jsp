@@ -1,6 +1,5 @@
 <%--
-  * 20252361 김지연
-  * 기능 설명: 장바구니 수량 변경, 전체 삭제, 배송비 계산과 주문 이동 화면
+  20252361 김지연 - 장바구니 수량 변경, 배송비 계산, 주문서 이동 처리
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>

@@ -1,6 +1,5 @@
 <%--
-  * 20252361 김지연
-  * 기능 설명: 서버 세션 Order 객체 기준 주문 완료 정보 출력 화면
+  20252361 김지연 - 주문 완료 정보 출력과 장바구니 정리 화면 처리
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>

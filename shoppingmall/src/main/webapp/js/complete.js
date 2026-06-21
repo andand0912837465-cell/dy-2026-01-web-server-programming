@@ -1,6 +1,5 @@
 /*
- * 20252361 김지연
- * 기능 설명: 주문 완료 후 장바구니 초기화와 상단 배지 상태 갱신
+ * 20252361 김지연 - 주문 완료 후 장바구니 초기화와 배지 갱신 처리
  */
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';

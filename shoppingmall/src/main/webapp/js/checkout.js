@@ -1,6 +1,5 @@
 /*
- * 20252361 김지연
- * 기능 설명: 주문서 입력값 검증과 장바구니 상품 hidden input 생성
+ * 20252361 김지연 - 주문서 필수값 검증과 장바구니 상품 제출값 정리
  */
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
@@ -62,23 +61,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 return [];
             }
 
-            return parsedValue
-                .filter(function (item) {
-                    return item && typeof item.id === 'string' && item.id.trim().length > 0;
-                })
-                .map(function (item) {
-                    const price = Number(item.price);
-                    const quantity = Number(item.quantity);
+            const normalizedItems = [];
+            parsedValue.forEach(function (item) {
+                if (!item || typeof item.id !== 'string' || item.id.trim().length === 0) {
+                    return;
+                }
 
-                    return {
-                        id: item.id.trim(),
-                        name: String(item.name || ''),
-                        brand: String(item.brand || ''),
-                        price: Number.isFinite(price) ? Math.max(0, price) : 0,
-                        image: String(item.image || ''),
-                        quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
-                    };
+                const productId = item.id.trim();
+                const price = Number(item.price);
+                const quantity = Number(item.quantity);
+                const cartItem = {
+                    id: productId,
+                    name: String(item.name || ''),
+                    brand: String(item.brand || ''),
+                    price: Number.isFinite(price) ? Math.max(0, price) : 0,
+                    image: String(item.image || ''),
+                    quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
+                };
+                const existingItem = normalizedItems.find(function (savedItem) {
+                    return savedItem.id === productId;
                 });
+
+                if (existingItem) {
+                    existingItem.quantity += cartItem.quantity;
+                } else {
+                    normalizedItems.push(cartItem);
+                }
+            });
+
+            return normalizedItems;
         } catch (error) {
             return [];
         }

@@ -1,6 +1,5 @@
 /*
- * 20252361 김지연
- * 기능 설명: 장바구니 주문 제출값을 서버에서 검증하고 주문 완료 세션을 생성하는 서블릿
+ * 20252361 김지연 - 주문 제출값 검증, 중복 수량 합산, 금액 재계산, 주문 완료 세션 처리
  */
 package kr.ac.dy.cs.order;
 
@@ -15,8 +14,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @WebServlet("/order/submit")
@@ -25,6 +26,7 @@ public class OrderServlet extends HttpServlet {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^010-?\\d{4}-?\\d{4}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+    private static final Set<String> PAYMENT_METHODS = Set.of("card", "bank", "simple");
     private static final int MAX_QUANTITY = 99;
 
     private final PriceCalculator priceCalculator = new PriceCalculator();
@@ -110,8 +112,8 @@ public class OrderServlet extends HttpServlet {
         if (values.get("detailAddress").isBlank()) {
             return "상세 주소를 입력해 주세요.";
         }
-        if (values.get("paymentMethod").isBlank()) {
-            return "결제 방법을 선택해 주세요.";
+        if (!PAYMENT_METHODS.contains(values.get("paymentMethod"))) {
+            return "결제 방법을 다시 선택해 주세요.";
         }
         if (!"Y".equals(values.get("privacyAgreement"))) {
             return "개인정보 수집 및 이용에 동의해 주세요.";
@@ -131,14 +133,24 @@ public class OrderServlet extends HttpServlet {
             throw new IllegalArgumentException("주문 상품 정보가 올바르지 않습니다.");
         }
 
-        List<OrderItem> items = new ArrayList<>();
+        Map<String, Integer> quantityByProductId = new LinkedHashMap<>();
         for (int i = 0; i < productIds.length; i++) {
             String productId = trim(productIds[i]);
             int quantity = parseQuantity(quantities[i]);
-            ProductCatalog.Product product = ProductCatalog.findById(productId)
+            int mergedQuantity = quantityByProductId.getOrDefault(productId, 0) + quantity;
+            if (mergedQuantity > MAX_QUANTITY) {
+                throw new IllegalArgumentException("상품 수량은 1개 이상 99개 이하로 입력해 주세요.");
+            }
+
+            quantityByProductId.put(productId, mergedQuantity);
+        }
+
+        List<OrderItem> items = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : quantityByProductId.entrySet()) {
+            ProductCatalog.Product product = ProductCatalog.findById(entry.getKey())
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품이 포함되어 있습니다."));
 
-            items.add(new OrderItem(product.getId(), product.getName(), product.getBrand(), product.getSalePrice(), quantity));
+            items.add(new OrderItem(product.getId(), product.getName(), product.getBrand(), product.getSalePrice(), entry.getValue()));
         }
 
         return items;
