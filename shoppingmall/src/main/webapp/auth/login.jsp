@@ -18,13 +18,13 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인 - SHOPMALL</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/main.css">
 </head>
 <body class="login-page">
 
 <!-- 좌측 브랜드 패널 -->
 <aside class="brand-panel" style="--bg: url('https://picsum.photos/seed/login-side/900/1200');">
-    <a href="/index.jsp" class="top-logo">SHOP<span>MALL</span></a>
+    <a href="<%= request.getContextPath() %>/index.jsp" class="top-logo">SHOP<span>MALL</span></a>
     <div class="lead">
         <div class="eyebrow">WELCOME BACK</div>
         <h1>오늘도 SHOPMALL과<br>함께해 주세요.</h1>
@@ -42,7 +42,7 @@
         <div class="title">로그인</div>
     </div>
 
-    <form method="post" action="loginSubmit.jsp">
+    <form method="post" action="<%= request.getContextPath() %>/auth/loginSubmit.jsp">
 
         <div class="form-group">
             <label for="loginId">아이디</label>
@@ -91,11 +91,11 @@
 
     <div class="signup-area">
         아직 회원이 아니신가요?
-        <a href="/member/register.jsp">회원가입</a>
+        <a href="<%= request.getContextPath() %>/member/register.jsp">회원가입</a>
     </div>
 
 </div>
-</main>
+</main><a href="<%= request.getContextPath() %>/member/register.jsp">회원가입</a>
 
 </body>
 </html>

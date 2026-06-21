@@ -15,10 +15,8 @@ public class MemberService {
      * 로그인 처리
      */
     public boolean isLogin(String userId, String password) {
-
-
-
-        return false;
+        MemberDto member = memberRepository.select(userId, password);
+        return member != null;
     }
 
 

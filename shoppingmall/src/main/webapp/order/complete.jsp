@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>주문 완료 - SHOPMALL</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/main.css">
 </head>
 <body>
 
