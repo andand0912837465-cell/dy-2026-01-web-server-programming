@@ -1,4 +1,7 @@
 <%@ page import="kr.ac.dy.cs.util.CookieUtils" %>
+<%@ page import="kr.ac.dy.cs.member.MemberService" %>
+<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
+<%@ page import="kr.ac.dy.cs.member.MemberRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,20 +13,25 @@
     String password = request.getParameter("password");
     String saveIdYn = request.getParameter("saveIdYn");
 
-    //로그인성공 -> admin, 12345
-    boolean loginYn = false;
-    if ("admin".equals(loginId) && "12345".equals(password)) {
-        loginYn = true;
-        //response.sendRedirect("index.jsp");
-
-        session.setAttribute("loginId", loginId);
-    }
+    MemberService memberService = new MemberService();
+    boolean loginYn = memberService.isLogin(loginId, password);
 
     //아이디저장확인
     //쿠키를 초기화
     CookieUtils.removeSaveId(response);
     if (loginYn && "1".equals(saveIdYn)) {
         CookieUtils.addSaveId(response, loginId);
+    }
+
+    if (loginYn) {
+        MemberRepository memberRepository = new MemberRepository();
+        MemberDto memberDto = memberRepository.select(loginId, password);
+
+        session.setAttribute("userOtpSecretKey", memberDto.getOtp_key());
+        session.setAttribute("tempLoginId", loginId);
+
+        response.sendRedirect("/auth/otp.jsp");
+        return;
     }
 %>
 

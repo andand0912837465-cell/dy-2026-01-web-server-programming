@@ -6,6 +6,7 @@ package kr.ac.dy.cs.member;
 
 import kr.ac.dy.cs.util.Connector;
 import kr.ac.dy.cs.util.H2DbConnector;
+import kr.ac.dy.cs.util.SHA256;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,14 +28,14 @@ public class MemberRepository {
         Connection connection = connector.getConnection();
 
         String sql = """
-            select id, name, email, password
-            from member
+            select id, name, email, password, otp_key
+            from safe_member
             where id = ? and password = ?
         """;
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, userId);
-            psmt.setString(2, password);
+            psmt.setString(2, SHA256.hashing(password));
 
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
@@ -58,13 +59,14 @@ public class MemberRepository {
         Connector connector = new H2DbConnector();
         Connection connection = connector.getConnection();
 
-        String sql = "insert into member (id, name, email, password, reg_date) values (?, ?, ?, ?, now())";
+        String sql = "insert into safe_member (id, name, email, password, otp_key, reg_date) values (?, ?, ?, ?, ?, now())";
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, member.getUserId());
             psmt.setString(2, member.getUserName());
             psmt.setString(3, member.getEmail());
-            psmt.setString(4, member.getPassword());
+            psmt.setString(4, SHA256.hashing(member.getPassword()));
+            psmt.setString(5, member.getOtp_key());
             affected = psmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -81,8 +83,8 @@ public class MemberRepository {
         Connection connection = connector.getConnection();
 
         String sql = """
-            select id, name, email, password
-            from member
+            select id, name, email, password, otp_key
+            from safe_member
             where id = ?
         """;
 
@@ -109,6 +111,7 @@ public class MemberRepository {
         member.setUserName(rs.getString("name"));
         member.setEmail(rs.getString("email"));
         member.setPassword(rs.getString("password"));
+        member.setOtp_key(rs.getString("otp_key"));
         return member;
     }
 }

@@ -18,6 +18,7 @@ public class MemberDto {
     private String userName;
     private String email;
     private String password;
+    private String otp_key;
     private LocalDateTime regDate;
 
 }
