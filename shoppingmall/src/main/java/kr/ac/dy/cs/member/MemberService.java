@@ -1,5 +1,7 @@
 package kr.ac.dy.cs.member;
 
+import org.jboss.aerogear.security.otp.api.Base32;
+
 import java.time.LocalDateTime;
 
 public class MemberService {
@@ -30,6 +32,7 @@ public class MemberService {
                 .userName(memberRegisterForm.getName())
                 .email(memberRegisterForm.getEmail())
                 .password(memberRegisterForm.getPassword())
+                .otp_key(Base32.random())
                 .regDate(LocalDateTime.now())
                 .build();
 

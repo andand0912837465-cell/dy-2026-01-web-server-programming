@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <label for="userId">아이디</label>
-            <input type="text" id="userId" name="userId"
+            <input type="text" id="userId" name="userId" minlength="5"
                    placeholder="아이디를 입력해 주세요" required/>
         </div>
 
