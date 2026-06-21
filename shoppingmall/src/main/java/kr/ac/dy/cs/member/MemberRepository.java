@@ -77,6 +77,12 @@ public class MemberRepository {
         return affected;
     }
 
+    /**
+     * 20251246 김나우
+     * 데이터 저장소 계층(Repository) 확장 (MemberRepository)
+     * java에 세션 아이디로 DB를 단건 조회하는 selectById(String userId) 메서드 구현 및 SQL 매핑.
+     * 기존 클래스 내부에 확장 구현
+     */
     public MemberDto selectById(String userId) {
         MemberDto member = null;
         Connector connector = new H2DbConnector();
