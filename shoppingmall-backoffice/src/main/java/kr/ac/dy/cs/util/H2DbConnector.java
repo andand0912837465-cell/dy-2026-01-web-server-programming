@@ -54,7 +54,7 @@ public class H2DbConnector implements Connector, FileConnector {
     }
 
     private String toH2Url(Path dbPath) {
-        return "jdbc:h2:file:" + dbPath.toAbsolutePath().normalize();
+        return "jdbc:h2:file:" + dbPath.toAbsolutePath().normalize() + ";AUTO_SERVER=TRUE";
     }
 
     @Override

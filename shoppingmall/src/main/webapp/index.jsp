@@ -6,6 +6,7 @@
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%
     String contextPath = request.getContextPath();
+    String fallbackImageUrl = contextPath + "/images/product-fallback.svg";
 
     // ===== 샘플 데이터 =====
     String[] categories = {"전체", "여성의류", "남성의류", "신발", "가방", "액세서리", "뷰티", "디지털"};
@@ -200,6 +201,8 @@
                 } else if (productName.contains("목걸이")) {
                     productCategory = "액세서리";
                 }
+
+                String detailUrl = contextPath + "/product/detail.jsp?id=" + productId;
             %>
                 <div class="product-card"
                      data-id="<%= productId %>"
@@ -208,9 +211,12 @@
                      data-category="<%= productCategory %>"
                      data-price="<%= productPrice %>"
                      data-rate="<%= productRate %>"
-                     data-image="<%= productImage %>">
+                    data-image="<%= productImage %>">
                     <div class="product-img">
-                        <img src="<%= productImage %>" alt="<%= productName %>">
+                        <a href="<%= detailUrl %>" aria-label="<%= productName %> 상세보기">
+                            <img src="<%= productImage %>" alt="<%= productName %>"
+                                 onerror="this.onerror=null; this.src='<%= fallbackImageUrl %>'; this.closest('.product-card').dataset.image='<%= fallbackImageUrl %>';">
+                        </a>
                         <% if (i < 3) { %>
                             <span class="product-tag hot">BEST <%= i+1 %></span>
                         <% } else { %>
@@ -220,7 +226,7 @@
                     </div>
                     <div class="product-info">
                         <div class="product-brand"><%= p[1] %></div>
-                        <div class="product-name"><%= p[0] %></div>
+                        <div class="product-name"><a href="<%= detailUrl %>"><%= p[0] %></a></div>
                         <div class="product-price">
                             <span class="discount"><%= p[4] %>%</span>
                             <span class="price"><%= String.format("%,d", (Integer)p[3]) %>원</span>
@@ -286,6 +292,8 @@
                 } else if (productName.contains("버킷햇")) {
                     productCategory = "액세서리";
                 }
+
+                String detailUrl = contextPath + "/product/detail.jsp?id=" + productId;
             %>
                 <div class="product-card"
                      data-id="<%= productId %>"
@@ -294,15 +302,18 @@
                      data-category="<%= productCategory %>"
                      data-price="<%= productPrice %>"
                      data-rate="<%= productRate %>"
-                     data-image="<%= productImage %>">
+                    data-image="<%= productImage %>">
                     <div class="product-img">
-                        <img src="<%= productImage %>" alt="<%= productName %>">
+                        <a href="<%= detailUrl %>" aria-label="<%= productName %> 상세보기">
+                            <img src="<%= productImage %>" alt="<%= productName %>"
+                                 onerror="this.onerror=null; this.src='<%= fallbackImageUrl %>'; this.closest('.product-card').dataset.image='<%= fallbackImageUrl %>';">
+                        </a>
                         <span class="product-tag <%= "HOT".equals(p[4]) ? "hot" : "" %>"><%= p[4] %></span>
                         <button type="button" class="like-btn">♡</button>
                     </div>
                     <div class="product-info">
                         <div class="product-brand"><%= p[1] %></div>
-                        <div class="product-name"><%= p[0] %></div>
+                        <div class="product-name"><a href="<%= detailUrl %>"><%= p[0] %></a></div>
                         <div class="product-price">
                             <span class="price"><%= String.format("%,d", (Integer)p[2]) %>원</span>
                         </div>

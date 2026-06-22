@@ -42,7 +42,7 @@
         <!-- 문의글 관리용 -->
         <div class="nav-group">
             <div class="nav-group-title">운영</div>
-            <a href="#" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
+            <a href="/product/list.jsp" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
             <a href="/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
             <a href="/board/adminList.jsp" class="nav-item"><span class="nav-icon">💬</span> 문의글 관리</a>
@@ -96,7 +96,7 @@
             <p>오늘 SHOPMALL에서 일어나는 일들을 한눈에 확인하실 수 있습니다.</p>
         </div>
         <div class="dash-welcome-actions">
-            <a href="#" class="btn-primary">+ 신규 상품 등록</a>
+            <a href="/product/list.jsp" class="btn-primary">상품 관리로 이동</a>
             <a href="#" class="btn-secondary">주문 처리하기</a>
         </div>
     </section>

@@ -51,7 +51,7 @@
 
         <div class="nav-group">
             <div class="nav-group-title">운영</div>
-            <a href="#" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
+            <a href="/product/list.jsp" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
             <a href="/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
             <a href="/notice/list.jsp" class="nav-item active"><span class="nav-icon">📢</span> 공지사항 관리</a>
