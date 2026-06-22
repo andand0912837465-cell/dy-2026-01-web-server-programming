@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품 추가 — MUSISHOP</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">MUSI<span>SHOP</span></a>
+  <div class="nav-right">
+    <span style="color:var(--accent);font-size:12px;font-weight:700;">ADMIN</span>
+    <a href="/admin" style="color:#888;">관리자 홈</a>
+    <a href="/auth/logout" style="color:#888;">로그아웃</a>
+  </div>
+</nav>
+
+<div class="admin-wrap">
+  <div class="admin-title">새 상품 추가</div>
+  <div class="admin-sub">새 상품 정보를 입력해주세요. 이미지 URL은 외부 이미지 링크를 사용하세요.</div>
+
+  <div class="admin-form-wrap">
+    <form th:action="@{/admin/products/new}" method="post" th:object="${productDto}">
+
+      <div class="form-group">
+        <label class="form-label">브랜드명 *</label>
+        <input type="text" class="form-input" th:field="*{brand}" placeholder="예) MUSINSA STANDARD">
+        <div class="form-error" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">상품명 *</label>
+        <input type="text" class="form-input" th:field="*{name}" placeholder="예) 오버사이즈 반팔 티셔츠">
+        <div class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">카테고리 *</label>
+        <select class="form-select" th:field="*{category}">
+          <option value="">카테고리 선택</option>
+          <option value="TOP">상의 (TOP)</option>
+          <option value="BOTTOM">하의 (BOTTOM)</option>
+          <option value="OUTER">아우터 (OUTER)</option>
+          <option value="SHOES">신발 (SHOES)</option>
+          <option value="ACC">악세서리 (ACC)</option>
+        </select>
+        <div class="form-error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">가격 (원) *</label>
+        <input type="number" class="form-input" th:field="*{price}" placeholder="예) 39000" min="0">
+        <div class="form-error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">재고 *</label>
+        <input type="number" class="form-input" th:field="*{stock}" placeholder="예) 100" min="0">
+        <div class="form-error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">이미지 URL</label>
+        <input type="text" class="form-input" th:field="*{imageUrl}"
+               placeholder="https://picsum.photos/seed/myproduct/400/500">
+        <div style="font-size:11px;color:var(--gray-600);margin-top:5px;">
+          테스트용: https://picsum.photos/seed/<strong>원하는이름</strong>/400/500
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">상품 설명</label>
+        <textarea class="form-textarea" th:field="*{description}"
+                  placeholder="상품에 대한 상세 설명을 입력해주세요"></textarea>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button type="submit" class="btn-submit" style="flex:1;">상품 등록</button>
+        <a href="/admin" style="flex:1;">
+          <button type="button" class="btn-cart" style="width:100%;padding:14px;">취소</button>
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

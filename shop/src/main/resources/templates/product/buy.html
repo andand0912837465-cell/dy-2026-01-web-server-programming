@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주문하기 — MUSISHOP</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">MUSI<span>SHOP</span></a>
+  <div class="nav-right">
+    <a href="/auth/logout" style="color:#888;">로그아웃</a>
+  </div>
+</nav>
+
+<div class="buy-wrap">
+  <h2 class="buy-title">주문하기</h2>
+
+  <div class="buy-item">
+    <img th:src="${product.imageUrl}" th:alt="${product.name}"
+         onerror="this.src='https://picsum.photos/seed/err/80/100'">
+    <div class="buy-item-info">
+      <div class="buy-item-brand" th:text="${product.brand}"></div>
+      <div class="buy-item-name" th:text="${product.name}"></div>
+      <div class="buy-item-price" th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <label style="font-size:13px;font-weight:700;display:block;margin-bottom:8px;">배송지</label>
+    <input type="text" class="form-input" placeholder="주소를 입력해주세요">
+  </div>
+
+  <div class="order-section">
+    <div class="order-row">
+      <span>상품금액</span>
+      <span th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></span>
+    </div>
+    <div class="order-row">
+      <span>배송비</span>
+      <span style="color:var(--accent)">무료</span>
+    </div>
+    <div class="order-row order-total">
+      <strong>결제금액</strong>
+      <strong th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></strong>
+    </div>
+  </div>
+
+  <button class="btn-buy" onclick="showToast('✅ 주문이 완료되었습니다!'); setTimeout(()=>location.href='/',2000)">
+    결제하기
+  </button>
+  <a th:href="@{/products/{id}(id=${product.id})}">
+    <button class="btn-cart" style="margin-top:8px;">돌아가기</button>
+  </a>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
