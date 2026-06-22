@@ -26,6 +26,12 @@
         MemberRepository memberRepository = new MemberRepository();
         MemberDto memberDto = memberRepository.select(loginId, password);
 
+        /**
+         * 20251246김나우
+         * loginId 줄 추가
+         */
+
+        session.setAttribute("loginId", memberDto.getUserId());
         session.setAttribute("userOtpSecretKey", memberDto.getOtp_key());
         session.setAttribute("userEmail", memberDto.getEmail());
 

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
+
 <%
     String contextPath = request.getContextPath();
     String fallbackImageUrl = contextPath + "/images/product-fallback.svg";
@@ -75,7 +76,10 @@
                 <a href="<%= contextPath %>/member/register.jsp">회원가입</a>
             <% } %>
             <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
-            <a href="#">마이페이지</a>
+            <!--20251246 김나우-->
+            <!--마이페이지 이동 활성화(a herf= 경로 지정)-->
+            <a href="${pageContext.request.contextPath}/auth/mypage.jsp">마이페이지</a>
+
         </div>
     </div>
 </div>
