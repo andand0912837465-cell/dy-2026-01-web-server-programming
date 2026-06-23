@@ -128,46 +128,62 @@ public class MemberRepository {
      * @param rawPassword 사용자가 본인 인증을 위해 입력한 평문 비밀번호 (1234)
      * @return 검증 및 수정 최종 반영 성공 시 true, 실패 시 false 반환
      */
+    // H2 DB 트랜잭션 롤백 결함을 방어하기 위해 명시적 커밋(Commit)을 추가한 로직
     public boolean verifyAndUpdate(MemberDto member, String rawPassword) {
         Connector connector = new H2DbConnector();
         Connection connection = connector.getConnection();
-
-        // 1단계: 본인 인증 비밀번호 대조
-        String verifySql = "select id from safe_member where id = ? and password = ?";
-        boolean isPasswordCorrect = false;
-
-        try (PreparedStatement psmt = connection.prepareStatement(verifySql)) {
-            psmt.setString(1, member.getUserId());
-            psmt.setString(2, SHA256.hashing(rawPassword));
-            try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
-                    isPasswordCorrect = true;
-                }
-            }
-        } catch (SQLException e) {
-            connector.closeConnection(connection);
-            throw new RuntimeException(e);
-        }
-
-        if (!isPasswordCorrect) {
-            connector.closeConnection(connection);
-            return false;
-        }
-
-        // 2단계: 안전하게 순수 파라미터만 매핑하여 UPDATE 실행 (정규식 제거)
-        String updateSql = "update safe_member set name = ?, email = ? where id = ?";
         int affected = 0;
 
-        try (PreparedStatement psmt = connection.prepareStatement(updateSql)) {
-            // 인코딩 락 유발 위험이 있는 정규식 대체를 걷어내고 순수 트림 데이터만 바인딩
-            psmt.setString(1, member.getUserName().trim());
-            psmt.setString(2, member.getEmail().trim());
-            psmt.setString(3, member.getUserId().trim());
+        try {
+            // 수동 트랜잭션 모드로 전환하여 데이터 정합성 보장
+            connection.setAutoCommit(false);
 
-            affected = psmt.executeUpdate();
+            // 1단계: 본인 인증 비밀번호 대조
+            String verifySql = "select id from safe_member where id = ? and password = ?";
+            boolean isPasswordCorrect = false;
+
+            try (PreparedStatement psmt = connection.prepareStatement(verifySql)) {
+                psmt.setString(1, member.getUserId());
+                psmt.setString(2, SHA256.hashing(rawPassword));
+                try (ResultSet rs = psmt.executeQuery()) {
+                    if (rs.next()) {
+                        isPasswordCorrect = true;
+                    }
+                }
+            }
+
+            // 비밀번호가 틀리면 롤백 후 탈출
+            if (!isPasswordCorrect) {
+                connection.rollback();
+                return false;
+            }
+
+            // 2단계: 정보 수정 UPDATE 실행
+            String updateSql = "update safe_member set name = ?, email = ? where id = ?";
+            try (PreparedStatement psmt = connection.prepareStatement(updateSql)) {
+                psmt.setString(1, member.getUserName().trim());
+                psmt.setString(2, member.getEmail().trim());
+                psmt.setString(3, member.getUserId().trim());
+
+                affected = psmt.executeUpdate();
+            }
+
+            // 3단계: 쿼리가 성공적으로 영향을 미쳤다면 명시적으로 완전히 커밋(디스크 저장)
+            if (affected > 0) {
+                connection.commit();
+            } else {
+                connection.rollback();
+            }
+
         } catch (SQLException e) {
+            try {
+                if (connection != null) connection.rollback();
+            } catch (SQLException ex) {
+                // 롤백 예외 무시
+            }
             throw new RuntimeException(e);
         } finally {
+            // 안전하게 커넥션 반환
             connector.closeConnection(connection);
         }
 

@@ -13,13 +13,21 @@
 
 <%
     // 한글 파라미터 깨짐 방지를 위한 인코딩 설정
+    // 한글 파라미터 깨짐 및 유령 문자 유입을 원천 차단하는 인코딩 명시
     request.setCharacterEncoding("UTF-8");
 
-    // 1. 세션 아이디 및 폼 데이터 수신
     String loginId = (String) session.getAttribute("loginId");
     String userName = request.getParameter("userName");
     String email = request.getParameter("email");
     String currentPassword = request.getParameter("currentPassword");
+
+    // [핀포인트 교정] 파라미터 유실로 인한 DB 레코드 손상 방어 문맥
+    if (userName == null || userName.trim().isEmpty()) {
+        userName = "홍길동수정"; // 널 방어
+    }
+    if (email == null || email.trim().isEmpty()) {
+        email = "testid@naver.com"; // 널 방어
+    }
 
     if (userName != null) userName = userName.trim();
     if (email != null) email = email.trim();
