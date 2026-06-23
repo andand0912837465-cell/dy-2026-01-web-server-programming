@@ -79,4 +79,20 @@ public class MemberService {
         // Repository 계층의 단일 트랜잭션 메서드를 호출하여 결과 반환
         return memberRepository.verifyAndUpdate(member, rawPassword);
     }
+
+    // =================================================================
+    // 20251246 김나우
+    // 안전한 회원 탈퇴(소프트 딜리트) 비즈니스 로직 확장
+    // =================================================================
+    /**
+     * 회원의 상태를 탈퇴('N')로 변경하는 비즈니스 검증 로직
+     * @param userId 세션에서 검증된 현재 로그인된 회원의 고유 식별자
+     * @return 최종 탈퇴 처리 결과 성공 시 true, 실패 시 false
+     */
+    public boolean processWithdrawal(String userId) {
+        if (userId == null || userId.isBlank()) {
+            return false;
+        }
+        return memberRepository.withdrawMember(userId);
+    }
 }
