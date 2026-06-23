@@ -3,6 +3,14 @@
   제품 리스트를 관리하는 관리자 페이지.
   제품 정보는 PRODUCT_DETAIL 테이블에서 가져오고,
   리뷰 정보는 PRODUCT_REVIEW 테이블에서 가져온다.
+  20252377 양효재
+  부분 구현된 상품 관리 기능이 남아 있어서 개선 진행하였다.
+  목록 화면에서 상품 등록과 수정과 삭제로 이동할 수 있게 연결하고,
+  리뷰 조회와 CRUD가 한 화면 흐름으로 이어지도록 보완했다.
+  20252377 양효재
+  부분 구현된 재고 관리 항목이 남아 있어서 개선 진행하였다.
+  상품 목록에서 재고 수량과 부족 재고를 같이 확인할 수 있게 해서,
+  상품 관리 화면에서 수량 상태까지 한 번에 보도록 보완했다.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="kr.ac.dy.cs.product.ProductDto" %>
@@ -69,8 +77,12 @@
     }
 
     int totalNewReviewCount = 0;
+    int lowStockCount = 0;
     for (ProductDto product : products) {
         totalNewReviewCount += product.getNewReviewCount();
+        if (product.getStock() <= 5) {
+            lowStockCount++;
+        }
     }
 
     DateTimeFormatter reviewDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -91,7 +103,7 @@
 
         .product-summary-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -335,7 +347,7 @@
             <a href="<%= contextPath %>/product/list.jsp" class="nav-item active">
                 <span class="nav-icon">📦</span> 상품 관리
             </a>
-            <a href="#" class="nav-item">
+            <a href="<%= contextPath %>/order/list.jsp" class="nav-item">
                 <span class="nav-icon">🛒</span> 주문 관리
             </a>
             <a href="<%= contextPath %>/member/list.jsp" class="nav-item">
@@ -408,12 +420,17 @@
             <span>선택 상품 리뷰</span>
             <strong><%= reviews.size() %>개</strong>
         </div>
+        <div class="product-summary-card">
+            <span>재고 부족 상품</span>
+            <strong><%= lowStockCount %>개</strong>
+        </div>
     </div>
 
     <div class="product-manage-layout">
         <section class="dash-panel" style="margin: 0;">
             <div class="panel-head">
                 <h3>상품 목록 <span class="panel-sub">PRODUCT_DETAIL</span></h3>
+                <a href="<%= contextPath %>/product/form.jsp" class="review-open-link">상품 등록</a>
             </div>
 
             <% if (products.size() == 0) { %>
@@ -430,6 +447,7 @@
                             <th>상품</th>
                             <th>카테고리</th>
                             <th class="num">판매가</th>
+                            <th class="num">재고</th>
                             <th class="num">할인</th>
                             <th>리뷰</th>
                             <th>관리</th>
@@ -456,6 +474,11 @@
                                     <span class="product-badge"><%= product.getCategory() %></span>
                                 </td>
                                 <td class="num"><%= String.format("%,d", product.getSalePrice()) %>원</td>
+                                <td class="num">
+                                    <span style="color:<%= product.getStock() <= 5 ? "#b91c1c" : "#111827" %>; font-weight:800;">
+                                        <%= product.getStock() %>개
+                                    </span>
+                                </td>
                                 <td class="num"><%= product.getDiscountRate() %>%</td>
                                 <td>
                                     ★ <%= String.format("%.1f", product.getAverageScore()) %><br>
@@ -468,6 +491,18 @@
                                        href="<%= contextPath %>/product/list.jsp?productId=<%= product.getProductId() %>">
                                         리뷰 보기
                                     </a>
+                                    <br>
+                                    <a class="review-open-link"
+                                       href="<%= contextPath %>/product/form.jsp?productId=<%= product.getProductId() %>">
+                                        상품 수정
+                                    </a>
+                                    <form method="post"
+                                          action="<%= contextPath %>/product/delete.jsp"
+                                          onsubmit="return confirm('이 상품을 삭제하시겠습니까?');"
+                                          style="margin-top:6px;">
+                                        <input type="hidden" name="productId" value="<%= product.getProductId() %>">
+                                        <button type="submit" class="review-delete-btn">상품 삭제</button>
+                                    </form>
                                 </td>
                             </tr>
                         <% } %>
