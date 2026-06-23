@@ -4,6 +4,7 @@
 DROP TABLE IF EXISTS ORDERS CASCADE;
 
 CREATE TABLE ORDERS
+
 (
     ORDER_ID     BIGINT AUTO_INCREMENT PRIMARY KEY, -- 주문 고유 번호 (자동으로 1, 2, 3... 증가)
     MEMBER_ID    CHARACTER VARYING(50) NOT NULL,    -- 주문한 회원 ID ('satcop'이 들어갈 자리)
