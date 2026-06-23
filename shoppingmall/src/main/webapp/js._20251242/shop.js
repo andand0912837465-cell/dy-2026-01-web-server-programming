@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
 
+
     const contextPath = document.body ? (document.body.dataset.contextPath || '') : '';
     const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
