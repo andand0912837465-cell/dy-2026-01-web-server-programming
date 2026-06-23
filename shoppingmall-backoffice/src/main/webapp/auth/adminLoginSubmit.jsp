@@ -2,6 +2,7 @@
 <%@ page import="kr.ac.dy.cs.adminUser.AdminUserService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String contextPath = request.getContextPath();
     String loginId = request.getParameter("loginId");
     String password = request.getParameter("password");
     String saveIdYn = request.getParameter("saveIdYn");
@@ -20,8 +21,8 @@
     }
 
     if (loginYn) {
-        response.sendRedirect("/dashboard/index.jsp");
+        response.sendRedirect(contextPath + "/dashboard/index.jsp");
     } else {
-        response.sendRedirect("/auth/adminLogin.jsp?error=1");
+        response.sendRedirect(contextPath + "/auth/adminLogin.jsp?error=1");
     }
 %>
