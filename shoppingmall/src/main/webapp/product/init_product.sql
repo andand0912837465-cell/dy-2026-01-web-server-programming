@@ -1,3 +1,8 @@
+-- 20251266 주혜림
+-- PRODUCT_DETAIL, PRODUCT_REVIEW 테이블 생성
+-- detail에 예시 상품 하나 추가
+
+
 CREATE TABLE IF NOT EXISTS PRODUCT_DETAIL (
     PRODUCT_ID VARCHAR(30) PRIMARY KEY,
     NAME VARCHAR(100) NOT NULL,
@@ -22,6 +27,56 @@ CREATE TABLE IF NOT EXISTS PRODUCT_REVIEW (
     CONTENT VARCHAR(1000) NOT NULL,
     REG_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE PRODUCT_DETAIL (
+                                PRODUCT_ID VARCHAR(50) PRIMARY KEY,
+                                NAME VARCHAR(100),
+                                BRAND VARCHAR(50),
+                                CATEGORY VARCHAR(50),
+    ...
+);
+
+CREATE TABLE PRODUCT_REVIEW (
+                                REVIEW_NO BIGINT AUTO_INCREMENT,
+                                PRODUCT_ID VARCHAR(50),
+                                WRITER VARCHAR(50),
+                                SCORE INT,
+                                CONTENT VARCHAR(1000),
+                                REG_DATE TIMESTAMP
+);
+
+INSERT INTO PRODUCT_DETAIL
+(
+    PRODUCT_ID,
+    NAME,
+    BRAND,
+    CATEGORY,
+    ORIGINAL_PRICE,
+    SALE_PRICE,
+    DISCOUNT_RATE,
+    BASIC_RATE,
+    OLD_REVIEW_COUNT,
+    IMAGE_URL,
+    BADGE,
+    DETAIL_TEXT,
+    DELIVERY_TEXT
+)
+VALUES
+    (
+        'best-0',
+        '테스트 상품',
+        'SHOPMALL',
+        '식품',
+        10000,
+        8000,
+        20,
+        4.5,
+        0,
+        '',
+        'BEST',
+        '상세 설명 테스트',
+        '무료배송'
+    );
 
 INSERT INTO
     PRODUCT_DETAIL
