@@ -1,0 +1,2445 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="동양미래대학교 도서관">
+    <meta name="keyword" content="동양미래대 도서관, 동양미래대학교 도서관">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no" name="viewport">
+    <meta name="format-detection" content="telephone=no">
+    <meta property="og:title" content="동양미래대학교 도서관">
+    <meta property="og:description" content="동양미래대학교 도서관">
+    <title>동양미래대학교 도서관</title>
+    <link rel="shortcut icon" href="/image/favicon.ico">
+    <link rel="apple-touch-icon" href="/image/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="/style/ko/standard/common.css">
+    <link rel="stylesheet" href="/style/ui/slick.css">
+    <link rel="stylesheet" href="/style/ui/fullpage.css">
+    <link rel="stylesheet" href="/style/ui/mobiletable.css">
+    <link rel="stylesheet" href="/style/ui/jquery.mThumbnailScroller.css">
+    <link rel="stylesheet" href="/style/ko/theme/main.css">
+
+    <script src="/script/jquery-1.8.3.min.js"></script>
+    <script src="/script/ui/slick.js"></script>
+    <script src="/script/ui/fullpage.js"></script>
+    <script src="/script/ui/jquery.placeholder.min.js"></script>
+    <script src="/script/ui/jquery.mThumbnailScroller.js"></script>
+    <script src="/script/ui/jquery.dotdotdot.js"></script>
+    <script src="/script/main.js"></script>
+    <script src="/script/mainFunction.js"></script>
+    <script src="/js/common/cookie.js"></script>
+    <script src="/js/common/ajaxCommon.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YT7RKH1MF5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-YT7RKH1MF5');
+        var imgPath = '/image/ko/';
+    </script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/script/css3-mediaqueries.js"></script>
+    <script type="text/javascript" src="/script/respond.src.js"></script>
+    <![endif]-->
+    <script src="/js/common/util.js"></script>
+    <script src="/js/common/common.js"></script>
+</head>
+
+<body>
+<div id="divAccessibility">
+    <ul>
+        <li><a href="#divTopMenu">주요메뉴 바로가기</a></li>
+        <li><a href="#main1">본문 바로가기</a></li>
+        <li><a href="#divFooter">도서관정보 바로가기</a></li>
+    </ul>
+</div>
+<div id="divWrapper">
+    <nav>
+        <ul>
+            <li class="nav1 on">
+                <a href="#main1">
+                    <span class="navTit">통합검색</span>
+                    <span class="navIco">
+                            <span><img src="/image/ko/local/main/navIcon1.png" alt="통합검색 아이콘"></span>
+                        </span>
+                </a>
+            </li>
+            <li class="nav2">
+                <a href="#main2">
+                    <span class="navTit">알림/안내</span>
+                    <span class="navIco">
+                            <span><img src="/image/ko/local/main/navIcon2.png" alt="알림/안내 아이콘"></span>
+                        </span>
+                </a>
+            </li>
+            <li class="nav3">
+                <a href="#main3">
+                    <span class="navTit">데이터베이스</span>
+                    <span class="navIco">
+                            <span><img src="/image/ko/local/main/navIcon3.png" alt="데이터베이스 아이콘"></span>
+                        </span>
+                </a>
+            </li>
+            <li class="nav4">
+                <a href="#main4">
+                    <span class="navTit">도서목록</span>
+                    <span class="navIco">
+                            <span><img src="/image/ko/local/main/navIcon4.png" alt="도서목록 아이콘"></span>
+                        </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="divHeader">
+        <div class="header">
+            <div class="headerTop">
+                <div class="globalMenu">
+                    <ul>
+                        <li class="login"><a href="https://portal.dongyang.ac.kr/login_real.jsp?targetId=LIBWEB&RelayState=http://lib.dongyang.ac.kr" class="login">로그인</a></li>
+                        <li>
+                            <a href="https://www.dongyang.ac.kr/" title="대학 홈" target="_blank">대학 홈</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- //headerTop -->
+            <div class="headerBottom">
+                <div class="logoW">
+                    <h1 class="logo">
+                        <a href="/">
+                            <img src="/image/ko/local/logo.png" alt="동양미래대학교 도서관 로고">
+                        </a>
+                    </h1>
+                </div>
+                <div id="divTopMenu">
+                    <ul>
+                        <li>
+                            <a href="#" class="topMenuTit" title="자료검색" target="_self">
+							<span>
+								<span>자료검색</span>
+							</span>
+                            </a>
+                            <div class="depthMenuW">
+                                <div class="titleW">
+                                    <div>
+                                        <p class="depthTit1">자료검색</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="menuListW">
+                                    <ul class="depth1">
+                                        <li>
+                                            <span class="depthTit2">통합검색</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/searchTotal" target="_self"  title="통합검색">통합검색</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/search/tot" target="_self"  title="소장자료검색">소장자료검색</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/nonRelation/epassMeta" target="_blank"  title="전자자료메타검색">전자자료메타검색</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/searchWeb" target="_self"  title="외부기관검색(OPEN_API)">외부기관검색(OPEN_API)</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">자료유형별</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/search/caz" target="_self"  title="단행본">단행본</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/search/nob" target="_self"  title="비도서자료">비도서자료</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/search/sez" target="_self"  title="연속간행물">연속간행물</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">DMU컬렉션</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/newarrival" target="_self"  title="신착도서">신착도서</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/statistics/popularloanList" target="_self"  title="인기도서">인기도서</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/newbook/list/3" target="_self"  title="추천도서">추천도서</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="topMenuTit" title="전자자료" target="_self">
+							<span>
+								<span>전자자료</span>
+							</span>
+                            </a>
+                            <div class="depthMenuW">
+                                <div class="titleW">
+                                    <div>
+                                        <p class="depthTit1">전자자료</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="menuListW">
+                                    <ul class="depth1">
+                                        <li>
+                                            <span class="depthTit2">학술정보</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/schosite/list/1" target="_self"  title="데이터베이스">데이터베이스</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/25" target="_self"  title="전자정보원">전자정보원</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">디지털도서</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/21" target="_self"  title="전자책">전자책</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/22" target="_self"  title="오디오북">오디오북</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/160" target="_self"  title="전자잡지">전자잡지</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">학습지원</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/100" target="_self"  title="동영상강좌">동영상강좌</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/24" target="_self"  title="TOEIC/OPIc">TOEIC/OPIc</a>
+                                                </li>
+                                                <li>
+                                                    <a href="http://dmu.dcollection.net" target="_blank"  title="학위논문제출">학위논문제출</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="topMenuTit" title="도서관서비스" target="_self">
+							<span>
+								<span>도서관서비스</span>
+							</span>
+                            </a>
+                            <div class="depthMenuW">
+                                <div class="titleW">
+                                    <div>
+                                        <p class="depthTit1">도서관서비스</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="menuListW">
+                                    <ul class="depth1">
+                                        <li>
+                                            <span class="depthTit2">자료이용</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/26" target="_self"  title="대출조회/연장/예약">대출조회/연장/예약</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/27" target="_self"  title="희망도서신청">희망도서신청</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/28" target="_self"  title="서가에 없는 책 신청">서가에 없는 책 신청</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/29" target="_self"  title="타기관 자료 이용">타기관 자료 이용</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">시설이용</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/studyroom/groupReserveStat/101" target="_self"  title="시설예약">시설예약</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">출입증발급</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/30" target="_self"  title="출입증 발급 안내">출입증 발급 안내</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">문화행사</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/340" target="_self"  title="인문학프로그램">인문학프로그램</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bbs/list/5" target="_self"  title="갤러리">갤러리</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="topMenuTit" title="도서관안내" target="_self">
+							<span>
+								<span>도서관안내</span>
+							</span>
+                            </a>
+                            <div class="depthMenuW">
+                                <div class="titleW">
+                                    <div>
+                                        <p class="depthTit1">도서관안내</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="menuListW">
+                                    <ul class="depth1">
+                                        <li>
+                                            <span class="depthTit2">도서관소개</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/webcontent/info/31" target="_self"  title="연혁">연혁</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/32" target="_self"  title="조직/구성">조직/구성</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/33" target="_self"  title="규정">규정</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/34" target="_self"  title="찾아오시는 길">찾아오시는 길</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">이용안내</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view?usp=sharing" target="_blank"  title="도서관 안내 동영상">도서관 안내 동영상</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/35" target="_self"  title="이용시간">이용시간</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/video/list" target="_self"  title="이용안내 동영상">이용안내 동영상</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/36" target="_self"  title="층별안내 및 배치도">층별안내 및 배치도</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/37" target="_self"  title="서비스별 연락처">서비스별 연락처</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">공지/문의</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/bbs/list/1" target="_self"  title="공지사항">공지사항</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/bbs/list/4" target="_self"  title="Q&A">Q&A</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/faqlib/faq?code=all" target="_self"  title="FAQ">FAQ</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="topMenuTit" title="My Library" target="_self">
+							<span>
+								<span>My Library</span>
+							</span>
+                            </a>
+                            <div class="depthMenuW">
+                                <div class="titleW">
+                                    <div>
+                                        <p class="depthTit1">My Library</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="menuListW">
+                                    <ul class="depth1">
+                                        <li>
+                                            <span class="depthTit2">서비스신청결과</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/myloan/list" target="_self"  title="대출/예약 조회">대출/예약 조회</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/purchaserequest/list" target="_self"  title="희망도서 신청내역">희망도서 신청내역</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/studyroom/myReserveList" target="_self"  title="시설예약 신청내역">시설예약 신청내역</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/missrepo/list" target="_self"  title="서가에없는책신청내역">서가에없는책신청내역</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">개인화서비스</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/mynotice/list" target="_self"  title="개인공지">개인공지</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/mylist/list" target="_self"  title="내서재">내서재</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/webcontent/info/38" target="_self"  title="신착자료알리미">신착자료알리미</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/myreview/list" target="_self"  title="My 서평">My 서평</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/mytag/list" target="_self"  title="My Tag">My Tag</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="depthTit2">북큐레이션</span>
+                                            <ul class="depth2">
+                                                <li>
+                                                    <a href="/myrecom/main" target="_self"  title="내독서취향">내독서취향</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/mypage/infographics" target="_self"  title="독서통계">독서통계</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bottomBtnBox">
+                    <div>
+                        <a href="" class="firstVisit">
+                            <img src="/image/ko/local/firstVisitIco.png" alt="처음 방문자 아이콘">
+                            <span>처음 방문자</span>
+                        </a>
+                        <a href="" class="wholeMenuBtn">
+                         <span class="lineBox">
+                             <span></span>
+                             <span></span>
+                             <span></span>
+                         </span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- //headerBottom -->
+        </div>
+        <!-- //header -->
+        <div class="visitGuideW">
+            <div>
+                <div class="visitGuide">
+                    <p>
+                        <span class="visitTit"><em>처음</em> 방문하셨나요?</span>
+                        <span class="subTxt">동양미래대학교 도서관에 오신 것을 환영합니다.</span>
+                        <a href="" title="닫기" class="visitClose"><img src="/image/ko/local/firstVisitClose.png" alt="닫기"></a>
+                    </p>
+                    <div class="visitMenuW">
+                        <ul>
+                            <li class="mb50">
+                                <a href="/webcontent/info/35" target="_self" title="도서관 이용시간">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu1.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu1.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu1On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">도서관 이용시간</span>
+                                </a>
+                            </li>
+                            <li class="mb50">
+                                <a href="/webcontent/info/36" target="_self" title="층별 안내">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu2.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu2.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu2On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">층별 안내</span>
+                                </a>
+                            </li>
+                            <li class="mb50">
+                                <a href="/studyroom/groupReserveStat/61" target="_self" title="시설예약">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu3.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu3.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu3On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">시설예약</span>
+                                </a>
+                            </li>
+                            <li class="mb50">
+                                <a href="/webcontent/info/27" target="_self" title="희망도서 구입신청">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu4.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu4.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu4On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">희망도서 구입신청</span>
+                                </a>
+                            </li>
+                            <li class="mb50">
+                                <a href="/webcontent/info/26" target="_self" title="도서 대출서비스">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu5.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu5.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu5On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">도서 대출서비스</span>
+                                </a>
+                            </li>
+                            <li class="mb50">
+                                <a href="/webcontent/info/34" target="_self" title="찾아오시는 길">
+	                            <span class="menuIco">
+	                                <span><span>
+	                                <img src="/upload/image/webimage/ko/firstVisitMenu6.png" alt="" data-orgsrc="/upload/image/webimage/ko/firstVisitMenu6.png" data-oversrc="/upload/image/webimage/ko/firstVisitMenu6On.png">
+	                                </span></span>
+	                            </span>
+                                    <span class="menuTit">찾아오시는 길</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //처음 방문자 안내 -->
+
+        <div id="divWholeMenu">
+            <div class="inner">
+                <div class="wholeMenuW">
+                    <div class="wholeMenuTit">
+                        <p>전체메뉴</p>
+                        <span>
+            		<em>로그인 해주세요.</em></span>
+                        <a href="https://portal.dongyang.ac.kr/login_real.jsp?targetId=LIBWEB&RelayState=http://lib.dongyang.ac.kr" class="loginM">로그인</a>
+                    </div>
+                    <ul class="wholeMenu">
+                        <li class="on" >
+                            <a href="#" class="menuTit1" title="자료검색" target="_self">
+                                <span>자료검색</span>
+                            </a>
+                            <ul class="depth1">
+                                <li>
+                                    <a href="/searchTotal" class="menuTit2" title="통합검색" target="_self"><span>통합검색</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/searchTotal" target="_self"  title="통합검색">
+                                                <span>통합검색</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/search/tot" target="_self"  title="소장자료검색">
+                                                <span>소장자료검색</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/nonRelation/epassMeta" target="_blank"  title="전자자료메타검색">
+                                                <span>전자자료메타검색</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/searchWeb" target="_self"  title="외부기관검색(OPEN_API)">
+                                                <span>외부기관검색(OPEN_API)</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/search/caz" class="menuTit2" title="자료유형별" target="_self"><span>자료유형별</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/search/caz" target="_self"  title="단행본">
+                                                <span>단행본</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/search/nob" target="_self"  title="비도서자료">
+                                                <span>비도서자료</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/search/sez" target="_self"  title="연속간행물">
+                                                <span>연속간행물</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/newarrival" class="menuTit2" title="DMU컬렉션" target="_self"><span>DMU컬렉션</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/newarrival" target="_self"  title="신착도서">
+                                                <span>신착도서</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/statistics/popularloanList" target="_self"  title="인기도서">
+                                                <span>인기도서</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/newbook/list/3" target="_self"  title="추천도서">
+                                                <span>추천도서</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  >
+                            <a href="#" class="menuTit1" title="전자자료" target="_self">
+                                <span>전자자료</span>
+                            </a>
+                            <ul class="depth1">
+                                <li>
+                                    <a href="/schosite/list/1" class="menuTit2" title="학술정보" target="_self"><span>학술정보</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/schosite/list/1" target="_self"  title="데이터베이스">
+                                                <span>데이터베이스</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/25" target="_self"  title="전자정보원">
+                                                <span>전자정보원</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/webcontent/info/21" class="menuTit2" title="디지털도서" target="_self"><span>디지털도서</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/21" target="_self"  title="전자책">
+                                                <span>전자책</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/22" target="_self"  title="오디오북">
+                                                <span>오디오북</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/160" target="_self"  title="전자잡지">
+                                                <span>전자잡지</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/webcontent/info/100" class="menuTit2" title="학습지원" target="_self"><span>학습지원</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/100" target="_self"  title="동영상강좌">
+                                                <span>동영상강좌</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/24" target="_self"  title="TOEIC/OPIc">
+                                                <span>TOEIC/OPIc</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="http://dmu.dcollection.net" target="_blank"  title="학위논문제출">
+                                                <span>학위논문제출</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  >
+                            <a href="#" class="menuTit1" title="도서관서비스" target="_self">
+                                <span>도서관서비스</span>
+                            </a>
+                            <ul class="depth1">
+                                <li>
+                                    <a href="/webcontent/info/26" class="menuTit2" title="자료이용" target="_self"><span>자료이용</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/26" target="_self"  title="대출조회/연장/예약">
+                                                <span>대출조회/연장/예약</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/27" target="_self"  title="희망도서신청">
+                                                <span>희망도서신청</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/28" target="_self"  title="서가에 없는 책 신청">
+                                                <span>서가에 없는 책 신청</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/29" target="_self"  title="타기관 자료 이용">
+                                                <span>타기관 자료 이용</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/studyroom/groupReserveStat/101" class="menuTit2" title="시설이용" target="_self"><span>시설이용</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/studyroom/groupReserveStat/101" target="_self"  title="시설예약">
+                                                <span>시설예약</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/webcontent/info/30" class="menuTit2" title="출입증발급" target="_self"><span>출입증발급</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/30" target="_self"  title="출입증 발급 안내">
+                                                <span>출입증 발급 안내</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/webcontent/info/340" class="menuTit2" title="문화행사" target="_self"><span>문화행사</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/340" target="_self"  title="인문학프로그램">
+                                                <span>인문학프로그램</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/bbs/list/5" target="_self"  title="갤러리">
+                                                <span>갤러리</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  >
+                            <a href="#" class="menuTit1" title="도서관안내" target="_self">
+                                <span>도서관안내</span>
+                            </a>
+                            <ul class="depth1">
+                                <li>
+                                    <a href="/webcontent/info/31" class="menuTit2" title="도서관소개" target="_self"><span>도서관소개</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/webcontent/info/31" target="_self"  title="연혁">
+                                                <span>연혁</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/32" target="_self"  title="조직/구성">
+                                                <span>조직/구성</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/33" target="_self"  title="규정">
+                                                <span>규정</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/34" target="_self"  title="찾아오시는 길">
+                                                <span>찾아오시는 길</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view?usp=sharing" class="menuTit2" title="이용안내" target="_self"><span>이용안내</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view?usp=sharing" target="_blank"  title="도서관 안내 동영상">
+                                                <span>도서관 안내 동영상</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/35" target="_self"  title="이용시간">
+                                                <span>이용시간</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/video/list" target="_self"  title="이용안내 동영상">
+                                                <span>이용안내 동영상</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/36" target="_self"  title="층별안내 및 배치도">
+                                                <span>층별안내 및 배치도</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/37" target="_self"  title="서비스별 연락처">
+                                                <span>서비스별 연락처</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/bbs/list/1" class="menuTit2" title="공지/문의" target="_self"><span>공지/문의</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/bbs/list/1" target="_self"  title="공지사항">
+                                                <span>공지사항</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/bbs/list/4" target="_self"  title="Q&A">
+                                                <span>Q&A</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/faqlib/faq?code=all" target="_self"  title="FAQ">
+                                                <span>FAQ</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  >
+                            <a href="#" class="menuTit1" title="My Library" target="_self">
+                                <span>My Library</span>
+                            </a>
+                            <ul class="depth1">
+                                <li>
+                                    <a href="/myloan/list" class="menuTit2" title="서비스신청결과" target="_self"><span>서비스신청결과</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/myloan/list" target="_self"  title="대출/예약 조회">
+                                                <span>대출/예약 조회</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/purchaserequest/list" target="_self"  title="희망도서 신청내역">
+                                                <span>희망도서 신청내역</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/studyroom/myReserveList" target="_self"  title="시설예약 신청내역">
+                                                <span>시설예약 신청내역</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/missrepo/list" target="_self"  title="서가에없는책신청내역">
+                                                <span>서가에없는책신청내역</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/mynotice/list" class="menuTit2" title="개인화서비스" target="_self"><span>개인화서비스</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/mynotice/list" target="_self"  title="개인공지">
+                                                <span>개인공지</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/mylist/list" target="_self"  title="내서재">
+                                                <span>내서재</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/webcontent/info/38" target="_self"  title="신착자료알리미">
+                                                <span>신착자료알리미</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/myreview/list" target="_self"  title="My 서평">
+                                                <span>My 서평</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/mytag/list" target="_self"  title="My Tag">
+                                                <span>My Tag</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/myrecom/main" class="menuTit2" title="북큐레이션" target="_self"><span>북큐레이션</span></a>
+                                    <ul class="depth2">
+                                        <li>
+                                            <a href="/myrecom/main" target="_self"  title="내독서취향">
+                                                <span>내독서취향</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/mypage/infographics" target="_self"  title="독서통계">
+                                                <span>독서통계</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <a href="javascript:void(0);" class="wholeMenuClose" title="전체메뉴 닫기">
+                    <img src="/image/ko/local/wholeMenuClose.png" alt="전체메뉴 닫기 아이콘">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="fullpage">
+        <section data-anchor="main1" class="main1 section">
+            <div class="searchW">
+                <div class="mainVisual">
+
+                    <div class="visualImg slick-slide">
+
+
+
+
+                        <p class="catchPhrase">
+                            <span class="line1"><em class="SCD6">미래</em>의 시작,</span>
+                            <span class="line2">
+							<em class="SCD5">동양미래대학교</em>
+							<em class="SCD6">도서관</em>
+						</span>
+                        </p>
+
+                        <img src="/upload/image/webimage/ko/mainVisual2.jpg" alt="메인배경2">
+
+
+                    </div>
+
+                    <div class="visualImg slick-slide">
+
+
+
+
+                        <img src="/upload/image/webimage/ko/mainVisual3.jpg" alt="메인배경3">
+
+
+                    </div>
+
+                    <div class="visualImg slick-slide">
+
+
+
+
+                        <p class="catchPhrase txtLeft">
+                            <span class="line1"><em class="SCD6">積財千萬不如薄技在身</em></span>
+                            <span class="line2">
+							<!--em class="SCD5">동양미래대학교</em-->
+							<em class="SCD6">몸에 지닌 작은 기술이 천만금의 재산보다 낫다</em>
+						</span>
+                        </p>
+
+                        <img src="/upload/image/webimage/ko/mainVisual4.jpg" alt="메인배경4">
+
+
+                    </div>
+
+                </div>
+
+                <div class="searchBox">
+                    <h2 class="skip">검색</h2>
+
+
+
+                    <form name="searchForm" action="/searchTotal/result" method="get">
+                        <input type="hidden" name="st" value="KWRD">
+                        <input type="hidden" name="si" value="TOTAL">
+                        <div class="searchInputW">
+                            <div class="selectBox">
+                                <div class="selectW">
+                                    <label for="searchOpt">통합검색</label>
+                                    <select id="searchOpt" title="통합검색">
+                                        <option value="all" selected="selected">통합검색</option>
+                                        <option value="holding">소장자료</option>
+                                        <option value="ele">전자자료</option>
+                                    </select>
+                                </div>
+                                <div class="srchSelectBox">
+                                    <div class="optList">
+                                        <ul>
+                                            <li><a href="#" title="통합검색" onclick="changeSearchFrm('all');">통합검색</a></li>
+                                            <li><a href="#" title="소장자료" onclick="changeSearchFrm('holding');">소장자료</a></li>
+                                            <li><a href="#" title="전자자료" onclick="changeSearchFrm('ele');">전자자료</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" class="searchInput" name="q" placeholder='검색어를 입력하세요' title="검색어를 입력하세요">
+                            <input type="submit" class="searchBtn" value='검색'>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="scrollDown">
+                    <img src="/image/ko/local/main/scrollDownIco.png" alt="SCROLL DOWN">
+                    <p>SCROLL DOWN</p>
+                </div>
+
+                <div class="quickW">
+                    <div class="quickMenuBox">
+                        <div class="inner">
+                            <ul class="quickMenu">
+
+                                <li class="slick-slide">
+                                    <a href="/schosite/list/1" target="_self" title="데이터베이스">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu1.png" alt="데이터베이스">
+
+                                        <span>데이터베이스</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/webcontent/info/21" target="_self" title="전자책">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu2.png" alt="전자책">
+
+                                        <span>전자책</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/webcontent/info/22" target="_self" title="오디오북">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu3.png" alt="오디오북">
+
+                                        <span>오디오북</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/webcontent/info/100" target="_self" title="동영상강좌">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu4.png" alt="동영상강좌">
+
+                                        <span>동영상강좌</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/webcontent/info/160" target="_self" title="전자잡지">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu5.png" alt="전자잡지">
+
+                                        <span>전자잡지</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/studyroom/groupReserveStat/61" target="_self" title="시설예약">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu6.png" alt="시설예약">
+
+                                        <span>시설예약</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/myloan/list" target="_self" title="대출예약 조회">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu7.png" alt="대출예약 조회">
+
+                                        <span>대출예약 조회</span>
+                                    </a>
+                                </li>
+
+                                <li class="slick-slide">
+                                    <a href="/purchaserequest/write" target="_self" title="희망도서 신청">
+
+                                        <img src="/upload/image/webimage/ko/quickMenu8.png" alt="희망도서 신청">
+
+                                        <span>희망도서 신청</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section data-anchor="main2" class="main2 section">
+            <div class="inner">
+                <div class="sectionTit">
+                    <h2>알림/안내</h2>
+                    <span>NOTICE / GUIDE</span>
+                </div>
+                <div class="content">
+                    <div class="bannerW">
+
+                        <ul class="banner">
+
+                            <li class="slick-slide">
+                                <a href="https://lib.dongyang.ac.kr/schosite/list/2" target="_blank" title="국외 학술DB 이용안내">
+                                    <img src="/upload/image/webimage/ko/국외학술DB.png" alt="국외 학술DB 이용안내">
+                                </a>
+                            </li>
+
+                            <li class="slick-slide">
+                                <a href="https://dl.moazine.com/lib/intro.asp?dl=9MtJb2T3nzH3aS9FP2RCbyb3DPFsY2ECOso0&p_a=&v_id=0&m_id=0&dlzinio=9MtJb2T3nzH3ePA1j3VO9N310MhjU00d3gU1" target="_blank" title="전자잡지 이용안내">
+                                    <img src="/upload/image/webimage/ko/전자잡지.png" alt="전자잡지 이용안내">
+                                </a>
+                            </li>
+
+                            <li class="slick-slide">
+                                <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view" target="_blank" title="이용안내 동영상">
+                                    <img src="/upload/image/webimage/ko/이용안내동영상_배너_ (1).png" alt="이용안내 동영상">
+                                </a>
+                            </li>
+
+                            <li class="slick-slide">
+                                <a href="/relation/toeicSSO" target="_blank" title="TOEIC, TOEIC Speaking, OPIC 서비스">
+                                    <img src="/upload/image/webimage/ko/bannerImg3.png" alt="TOEIC, TOEIC Speaking, OPIC 서비스">
+                                </a>
+                            </li>
+
+                            <li class="slick-slide">
+                                <a href="https://lib.dongyang.ac.kr/bbs/list/5" target="_blank" title="인문학 프로그램 포토 갤러리">
+                                    <img src="/upload/image/webimage/ko/인문학갤러리_배너_.png" alt="인문학 프로그램 포토 갤러리">
+                                </a>
+                            </li>
+
+                            <li class="slick-slide">
+                                <a href="https://lib.dongyang.ac.kr/webcontent/info/21" target="_blank" title="전자책 이용안내">
+                                    <img src="/upload/image/webimage/ko/전자책서비스_배너.png" alt="전자책 이용안내">
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="titBox">
+                            <ul class="bannerTit">
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="https://lib.dongyang.ac.kr/schosite/list/2" target="_blank" title="국외 학술DB 이용안내">
+                                            <span>국외 학술DB 이용안내</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="https://lib.dongyang.ac.kr/schosite/list/2" target="_blank" title="국외 학술DB 이용안내" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="https://dl.moazine.com/lib/intro.asp?dl=9MtJb2T3nzH3aS9FP2RCbyb3DPFsY2ECOso0&p_a=&v_id=0&m_id=0&dlzinio=9MtJb2T3nzH3ePA1j3VO9N310MhjU00d3gU1" target="_blank" title="전자잡지 이용안내">
+                                            <span>전자잡지 이용안내</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="https://dl.moazine.com/lib/intro.asp?dl=9MtJb2T3nzH3aS9FP2RCbyb3DPFsY2ECOso0&p_a=&v_id=0&m_id=0&dlzinio=9MtJb2T3nzH3ePA1j3VO9N310MhjU00d3gU1" target="_blank" title="전자잡지 이용안내" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view" target="_blank" title="이용안내 동영상">
+                                            <span>이용안내 동영상</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="https://drive.google.com/file/d/1-_ajpW3xVu5FGj-BhZAm09wgO777TmZR/view" target="_blank" title="이용안내 동영상" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="/relation/toeicSSO" target="_blank" title="TOEIC, TOEIC Speaking, OPIC 서비스">
+                                            <span>TOEIC, TOEIC Speaking, OPIC 서비스</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="/relation/toeicSSO" target="_blank" title="TOEIC, TOEIC Speaking, OPIC 서비스" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="https://lib.dongyang.ac.kr/bbs/list/5" target="_blank" title="인문학 프로그램 포토 갤러리">
+                                            <span>인문학 프로그램 포토 갤러리</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="https://lib.dongyang.ac.kr/bbs/list/5" target="_blank" title="인문학 프로그램 포토 갤러리" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                                <li class="slick-slide">
+                                    <p>
+                                        <a href="https://lib.dongyang.ac.kr/webcontent/info/21" target="_blank" title="전자책 이용안내">
+                                            <span>전자책 이용안내</span>
+
+                                        </a>
+                                    </p>
+
+                                    <a href="https://lib.dongyang.ac.kr/webcontent/info/21" target="_blank" title="전자책 이용안내" class="bannerMore">
+                                        <span>바로가기</span>
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                            <div class="bannerNum">
+                                <span class="current">1</span>
+                                <span class="total"> / 6</span>
+                            </div>
+                            <div class="bannerCont">
+                                <a href="" class="prev">
+                                    <span></span>
+                                </a>
+                                <a href="" class="next">
+                                    <span></span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="noticeW">
+                        <div class="contentTit1">
+                            <p>공지사항</p>
+                            <a href="/bbs/list/1" class="contentMore">
+                                <img src="/image/ko/local/main/contentMore.png" alt='더보기'>
+                            </a>
+                        </div>
+                        <div class="noticeList">
+                            <ul>
+
+
+                                <li>
+                                    <a href="/bbs/content/1_12823" title="도서관 정기 휴관일 안내">
+                                        <span class="listTit">도서관 정기 휴관일 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2024.12.26
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13505" title="도서관 24시간 개방 이용자 유의사항 안내">
+                                        <span class="listTit">도서관 24시간 개방 이용자 유의사항 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.04.10
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13504" title="2026-1학기 중간고사 기간 도서관 1층 D-Study 24시간 개방 안내">
+                                        <span class="listTit">2026-1학기 중간고사 기간 도서관 1층 D-Study 24시간 개방 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.04.10
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13423" title="넷플릭스 이용 안내">
+                                        <span class="listTit">넷플릭스 이용 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.03.25
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13383" title="토익 특강 안내,  3/27(금) 14시">
+                                        <span class="listTit">토익 특강 안내,  3/27&#40;금&#41; 14시</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.03.16
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13363" title="전자책 서비스 일시 중지 안내">
+                                        <span class="listTit">전자책 서비스 일시 중지 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.02.20
+								</span>
+                                </li>
+
+                                <li>
+                                    <a href="/bbs/content/1_13343" title="도서관 설날 연휴 임시 휴관 안내">
+                                        <span class="listTit">도서관 설날 연휴 임시 휴관 안내</span>
+                                    </a>
+                                    <span class="listDate">
+									
+									2026.02.09
+								</span>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="libGuideW">
+                        <ul class="libGuide">
+                            <li class="guide1 slick-slide">
+                                <div class="contentTit2">
+                                    <p>이용시간</p>
+                                    <a class="contentMore2" href="/webcontent/info/35"><img alt="" src="/image/ko/local/main/contentMore2.png"></a></div>
+
+                                <div class="guideBox">
+                                    <div>
+                                        <ul class="roomName">
+                                            <li>D_Study</li>
+                                        </ul>
+
+                                        <ul class="hour">
+                                            <li><span>[평일] 09:00 ~ 21:00</span></li>
+                                            <li><span>[토, 공휴일] 09:00 ~ 18:00</span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <ul class="roomName">
+                                            <li><span>4층&nbsp;대출실</span></li>
+                                            <li><span>미래나래(4F, 5F)</span></li>
+                                            <li><span>과학기술자료실</span></li>
+                                            <li><span>어문학자료실</span></li>
+                                            <li><span>인문사회자료실</span></li>
+                                        </ul>
+
+                                        <ul class="hour">
+                                            <li><span>[평일] 09:00 ~ 21:00</span></li>
+                                            <li><span>[토, 공휴일] 휴관</span></li>
+                                        </ul>
+                                    </div>
+                                    <a class="guideLink" href="/webcontent/info/35" tabindex="-1"><span>이용시간 바로가기</span></a></div>
+                            </li>
+                            <li class="guide2 slick-slide">
+                                <div class="contentTit2">
+                                    <p>시설예약</p>
+                                    <a class="contentMore2" href="/studyroom/groupReserveStat/61"><img alt="" src="/image/ko/local/main/contentMore2.png"></a></div>
+
+                                <div class="guideBox">
+                                    <div><a class="facilityName" href="/studyroom/groupReserveStat/61"><span>그룹스터디룸</span></a>
+
+                                        <ul>
+                                            <li>- 위치 : 도서관 1, 2, 3, 4, 5층에 위치</li>
+                                            <li>- 1일 최대 신청 가능 시간 : 4시간</li>
+                                        </ul>
+                                    </div>
+
+                                    <div><a class="facilityName" href="/studyroom/roomReserveStat/63?gId=63&amp;rId=145"><span>VR룸</span></a>
+
+                                        <ul>
+                                            <li>- 위치 : 도서관 5층</li>
+                                            <li>- 가상현실 체험 및 eSports이용, 공연 등 다목적 용도로 활용</li>
+                                        </ul>
+                                    </div>
+
+                                    <div><a class="facilityName" href="/studyroom/roomReserveStat/62?gId=62&amp;rId=115"><span>오디토리움</span></a>
+
+                                        <ul>
+                                            <li>- 위치 : 도서관 5층</li>
+                                            <li>- 소규모 강의, 세미나, 영화감상</li>
+                                            <li>- 영화감상은 10인 이상 신청 가능</li>
+                                        </ul>
+                                    </div>
+                                    <a class="guideLink" href="https://www.dongyang.ac.kr/dongyang/242/subview.do" target="_blank"><span>동양미래대학교 WiFi 이용방법</span></a></div>
+                            </li>
+                            <li class="guide3 slick-slide">
+                                <div class="contentTit2">
+                                    <p>대출규정</p>
+                                    <a class="contentMore2" href="/webcontent/info/26"><img alt="" src="/image/ko/local/main/contentMore2.png"></a></div>
+
+                                <div class="guideBox">
+                                    <table class="rule">
+                                        <caption>대출규정</caption>
+                                        <colgroup>
+                                            <col>
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>구분</th>
+                                            <th>책수</th>
+                                            <th>기간</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>학생</td>
+                                            <td>5책</td>
+                                            <td>10일</td>
+                                        </tr>
+                                        <tr>
+                                            <td>교직원</td>
+                                            <td>20책</td>
+                                            <td>60일</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <ul>
+                                        <li>※ 대출기한연장 : 신분공통 1회</li>
+                                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 예약가능권수 : 학생 5책(교직원 3책)</li>
+                                    </ul>
+
+                                    <div><a class="guideLink" href="/webcontent/info/27"><span style="color: #00ff92">희망도서신청</span></a>
+
+                                        <ul>
+                                            <li><span>신청방법 : 희망도서 신청목록을 매주 월요일에 구입의뢰</span></li>
+                                            <li><span>입수 및 정리기간 : 7~10일 소요 (국외서는 4주 이상 소요)</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="guideCont"><a class="prev" href=""><span>&nbsp;</span> </a> <a class="next" href=""><span>&nbsp;</span></a></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="decoBg1">
+                <img src="/image/ko/local/main/decoBg1-1.png" class="decoBg1-1" alt="">
+                <img src="/image/ko/local/main/decoBg1-2.png" class="decoBg1-2" alt="">
+            </div>
+            <div class="decoBg2">
+                <img src="/image/ko/local/main/decoBg2-1.png" class="decoBg2-1" alt="">
+                <img src="/image/ko/local/main/decoBg2-2.png" class="decoBg2-2" alt="">
+            </div>
+        </section>
+
+        <section data-anchor="main3" class="main3 section">
+            <div class="inner">
+                <div class="sectionTit">
+                    <h2>데이터베이스</h2>
+                    <span>DATABASE</span>
+                </div>
+                <div class="content">
+
+
+                    <ul class="database">
+
+                        <li class="slick-slide">
+                            <a href="/relation/kissSSO" target="_blank" title="KISS">
+                                <span class="dbImg"><img src="/upload/image/webimage/ko/dbImg1.png" alt="KISS"></span>
+                                <span class="dbTit">KISS</span>
+                                <span class="hoverBox">
+		                    		<span>
+	                                   <em>KISS</em>
+	                                   
+	                                   <br>학문전분야
+	                                   
+	                                   <br>
+	                                   <img src="/image/ko/local/main/dbHoverIco.png" alt="">
+	                               </span>
+		                    	</span>
+                            </a>
+                        </li>
+
+                        <li class="slick-slide">
+                            <a href="/relation/dbpiaSSO" target="_blank" title="DBpia">
+                                <span class="dbImg"><img src="/upload/image/webimage/ko/dbImg2.png" alt="DBpia"></span>
+                                <span class="dbTit">DBpia</span>
+                                <span class="hoverBox">
+		                    		<span>
+	                                   <em>DBpia</em>
+	                                   
+	                                   <br>학문전분야
+	                                   
+	                                   <br>
+	                                   <img src="/image/ko/local/main/dbHoverIco.png" alt="">
+	                               </span>
+		                    	</span>
+                            </a>
+                        </li>
+
+                        <li class="slick-slide">
+                            <a href="https://scholar.kyobobook.co.kr/?orgCd=933&svInfo=934&logon=Y" target="_blank" title="교보문고스콜라">
+                                <span class="dbImg"><img src="/upload/image/webimage/ko/dbImg3.png" alt="교보문고스콜라"></span>
+                                <span class="dbTit">교보문고스콜라</span>
+                                <span class="hoverBox">
+		                    		<span>
+	                                   <em>교보문고스콜라</em>
+	                                   
+	                                   <br>국내 학회지 및 연구 간행물 60만여편 제공
+	                                   
+	                                   <br>
+	                                   <img src="/image/ko/local/main/dbHoverIco.png" alt="">
+	                               </span>
+		                    	</span>
+                            </a>
+                        </li>
+
+                        <li class="slick-slide">
+                            <a href="http://dytc.koreaa2z.com/" target="_blank" title="Korea A2Z">
+                                <span class="dbImg"><img src="/upload/image/webimage/ko/dbImg4.png" alt="Korea A2Z"></span>
+                                <span class="dbTit">Korea A2Z</span>
+                                <span class="hoverBox">
+		                    		<span>
+	                                   <em>Korea A2Z</em>
+	                                   
+	                                   <br>한국학 관련 전문 학술 DB 콘텐츠와 문화, 예술 동영상 강좌
+	                                   
+	                                   <br>
+	                                   <img src="/image/ko/local/main/dbHoverIco.png" alt="">
+	                               </span>
+		                    	</span>
+                            </a>
+                        </li>
+
+                        <li class="slick-slide">
+                            <a href="/relation/krpiaSSO" target="_blank" title="KRpia">
+                                <span class="dbImg"><img src="/upload/image/webimage/ko/dbImg5.png" alt="KRpia"></span>
+                                <span class="dbTit">KRpia</span>
+                                <span class="hoverBox">
+		                    		<span>
+	                                   <em>KRpia</em>
+	                                   
+	                                   <br>디자인전문 데이터베이스와 한국학데이터베이스
+	                                   
+	                                   <br>
+	                                   <img src="/image/ko/local/main/dbHoverIco.png" alt="">
+	                               </span>
+		                    	</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="dbCont">
+                        <a href="" class="prev"></a>
+                        <a href="" class="next"></a>
+                    </div>
+                    <a href="/schosite/list/1" class="sectionMore">
+                        <span>더보기</span>
+                    </a>
+
+
+
+                </div>
+            </div>
+        </section>
+
+        <section data-anchor="main4" class="main4 section">
+            <div class="inner">
+                <div class="sectionTit">
+                    <h2>도서목록</h2>
+                    <span>BOOK LIST</span>
+                </div>
+                <div class="content">
+                    <div class="bookListW">
+                        <ul class="bookList">
+                            <li class="on">
+                                <a href="" class="bookListTap">
+                                    <span>신착도서</span>
+                                </a>
+                                <div class="bookW">
+
+
+                                    <ul class="book">
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325701" title="(신광은 형사법) 네친구 형법" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList1" alt="(신광은 형사법) 네친구 형법" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">(신광은 형사법) 네친구 형법</span>
+                                                <span class="author">신광은</span>
+                                                <script >callThumbnail('.newArrivalList1','9791194635215','CAT','000000325701');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325698" title="눈과 돌멩이" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList2" alt="눈과 돌멩이" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">눈과 돌멩이</span>
+                                                <span class="author">위수정</span>
+                                                <script >callThumbnail('.newArrivalList2','9791130674643','CAT','000000325698');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325693" title="달걀의 온기" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList3" alt="달걀의 온기" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">달걀의 온기</span>
+                                                <span class="author">김혜진</span>
+                                                <script >callThumbnail('.newArrivalList3','9788936439934','CAT','000000325693');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325694" title="(2025) 창작희곡공모 선정작" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList4" alt="(2025) 창작희곡공모 선정작" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">(2025) 창작희곡공모 선정작</span>
+                                                <span class="author">이용훈</span>
+                                                <script >callThumbnail('.newArrivalList4','9791175010574','CAT','000000325694');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325696" title="F1 더 포뮬러" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList5" alt="F1 더 포뮬러" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">F1 더 포뮬러</span>
+	                                       <span class="author">로빈슨, 조슈아</span>
+	                                       <script >callThumbnail('.newArrivalList5','9788925572765','CAT','000000325696');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325686" title="500가지 건축으로 읽는 세계사" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList6" alt="500가지 건축으로 읽는 세계사" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">500가지 건축으로 읽는 세계사</span>
+	                                       <span class="author">콜린스, 소피</span>
+	                                       <script >callThumbnail('.newArrivalList6','9791139729719','CAT','000000325686');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325684" title="(김사원세끼의) 노포 투어" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList7" alt="(김사원세끼의) 노포 투어" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(김사원세끼의) 노포 투어</span>
+	                                       <span class="author">김사원세끼</span>
+	                                       <script >callThumbnail('.newArrivalList7','9791158464233','CAT','000000325684');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325688" title="내 집에서 나이 들 수 있을까" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList8" alt="내 집에서 나이 들 수 있을까" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">내 집에서 나이 들 수 있을까</span>
+	                                       <span class="author">박한슬</span>
+	                                       <script >callThumbnail('.newArrivalList8','9791140718030','CAT','000000325688');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325691" title="딥러닝의 정석 with 파이토치" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList9" alt="딥러닝의 정석 with 파이토치" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">딥러닝의 정석 with 파이토치</span>
+	                                       <span class="author">김현정</span>
+	                                       <script >callThumbnail('.newArrivalList9','9791140715206','CAT','000000325691');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325685" title="기술이 바꾼 일상의 역사" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList10" alt="기술이 바꾼 일상의 역사" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">기술이 바꾼 일상의 역사</span>
+	                                       <span class="author">연유진</span>
+	                                       <script >callThumbnail('.newArrivalList10','9791168104341','CAT','000000325685');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325699" title="(장정훈) 네친구 경찰학" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList11" alt="(장정훈) 네친구 경찰학" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(장정훈) 네친구 경찰학</span>
+	                                       <span class="author">장정훈</span>
+	                                       <script >callThumbnail('.newArrivalList11','9791194635420','CAT','000000325699');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325700" title="(2026 해커스경찰) 김민철 경찰학 기출 1000제" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="newArrivalList12" alt="(2026 해커스경찰) 김민철 경찰학 기출 1000제" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(2026 해커스경찰) 김민철 경찰학 기출 1000제</span>
+	                                       <span class="author">김민철</span>
+	                                       <script >callThumbnail('.newArrivalList12','9791174048929','CAT','000000325700');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+
+
+                                </div>
+                                <a href="/newarrival" class="sectionMore">
+                                    <span>더보기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="bookListTap">
+                                    <span>추천도서</span>
+                                </a>
+                                <div class="bookW">
+
+
+                                    <ul class="book first">
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317581" title="(은밀히 품었던 모든 생각으로부터 지금 이 순간을, 지금 이 환경을,)스스로 창조한 '나'" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList1" alt="(은밀히 품었던 모든 생각으로부터 지금 이 순간을, 지금 이 환경을,)스스로 창조한 '나'" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">(은밀히 품었던 모든 생각으로부터 지금 이 순간을, 지금 이 환경을,)스스로 창조한 &#039;나&#039;</span>
+                                                <span class="author">앨런, 제임스</span>
+                                                <script >callThumbnail('.recommendBookList1','9791191769692','CAT','000000317581');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317535" title="교양으로 읽는 최소한의 심리 법칙" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList2" alt="교양으로 읽는 최소한의 심리 법칙" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">교양으로 읽는 최소한의 심리 법칙</span>
+                                                <span class="author">강준우</span>
+                                                <script >callThumbnail('.recommendBookList2','9791160051407','CAT','000000317535');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317617" title="집중력의 배신" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList3" alt="집중력의 배신" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">집중력의 배신</span>
+                                                <span class="author">한덕현</span>
+                                                <script >callThumbnail('.recommendBookList3','9791171175697','CAT','000000317617');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317563" title="무엇이 인간관계를 힘들게 하는가" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList4" alt="무엇이 인간관계를 힘들게 하는가" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">무엇이 인간관계를 힘들게 하는가</span>
+                                                <span class="author">장샤오헝</span>
+                                                <script >callThumbnail('.recommendBookList4','9791198632647','CAT','000000317563');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317552" title="당신의 뇌는 나이 들지 않는다" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList5" alt="당신의 뇌는 나이 들지 않는다" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">당신의 뇌는 나이 들지 않는다</span>
+	                                       <span class="author">부잔, 토니</span>
+	                                       <script >callThumbnail('.recommendBookList5','9791162543764','CAT','000000317552');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317551" title="당신은 행복할 수밖에 없는 사람" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList6" alt="당신은 행복할 수밖에 없는 사람" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">당신은 행복할 수밖에 없는 사람</span>
+	                                       <span class="author">달밑</span>
+	                                       <script >callThumbnail('.recommendBookList6','9791162145005','CAT','000000317551');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317533" title="결정의 순간, 후회 없는 선택이 필요할 때" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList7" alt="결정의 순간, 후회 없는 선택이 필요할 때" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">결정의 순간, 후회 없는 선택이 필요할 때</span>
+	                                       <span class="author">감자</span>
+	                                       <script >callThumbnail('.recommendBookList7','9791190416078','CAT','000000317533');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317603" title="엄마 아닌 여자들" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList8" alt="엄마 아닌 여자들" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">엄마 아닌 여자들</span>
+	                                       <span class="author">오도널 헤핑턴, 페기</span>
+	                                       <script >callThumbnail('.recommendBookList8','9791170611424','CAT','000000317603');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317580" title="수학이 일상에서 이렇게 쓸모 있을 줄이야" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList9" alt="수학이 일상에서 이렇게 쓸모 있을 줄이야" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">수학이 일상에서 이렇게 쓸모 있을 줄이야</span>
+	                                       <span class="author">그리마, 클라라</span>
+	                                       <script >callThumbnail('.recommendBookList9','9791193035481','CAT','000000317580');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000315491" title="일류의 조건" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList10" alt="일류의 조건" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">일류의 조건</span>
+	                                       <span class="author">사이토 다카시</span>
+	                                       <script >callThumbnail('.recommendBookList10','9791193262122','CAT','000000315491');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000315487" title="왜 당신은 다른 사람을 위해 살고 있는가" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList11" alt="왜 당신은 다른 사람을 위해 살고 있는가" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">왜 당신은 다른 사람을 위해 살고 있는가</span>
+	                                       <span class="author">고윤</span>
+	                                       <script >callThumbnail('.recommendBookList11','9791191369540','CAT','000000315487');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317428" title="내 언어의 한계는 내 세계의 한계이다" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="recommendBookList12" alt="내 언어의 한계는 내 세계의 한계이다" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">내 언어의 한계는 내 세계의 한계이다</span>
+	                                       <span class="author">김종원</span>
+	                                       <script >callThumbnail('.recommendBookList12','9791194072003','CAT','000000317428');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+
+
+                                </div>
+                                <a href="/newbook/list/3" class="sectionMore">
+                                    <span>더보기</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="bookListTap">
+                                    <span>인기도서</span>
+                                </a>
+                                <div class="bookW">
+
+
+                                    <ul class="book first">
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000320070" title="최신 파이썬 완전정복" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList1" alt="최신 파이썬 완전정복" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">최신 파이썬 완전정복</span>
+                                                <span class="author">강환수</span>
+                                                <script >callThumbnail('.popularLoanList1','9791156002352','CAT','000000320070');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000317592" title="아이가 없는 집" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList2" alt="아이가 없는 집" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">아이가 없는 집</span>
+                                                <span class="author">안도릴, 알렉스</span>
+                                                <script >callThumbnail('.popularLoanList2','9791193262184','CAT','000000317592');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000226367" title="소년이 온다" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList3" alt="소년이 온다" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">소년이 온다</span>
+                                                <span class="author">한강</span>
+                                                <script >callThumbnail('.popularLoanList3','9788936434120','CAT','000000226367');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000324274" title="이방인" class="first">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList4" alt="이방인" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookTit">이방인</span>
+                                                <span class="author">까뮈, 알베르</span>
+                                                <script >callThumbnail('.popularLoanList4','9791173741715','CAT','000000324274');</script>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000310938" title="(100만 원으로 시작해 100억대 수익을 올린 슈퍼개미 데이짱의)실전 매수매도 기법" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList5" alt="(100만 원으로 시작해 100억대 수익을 올린 슈퍼개미 데이짱의)실전 매수매도 기법" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(100만 원으로 시작해 100억대 수익을 올린 슈퍼개미 데이짱의)실전 매수매도 기법</span>
+	                                       <span class="author">김영옥</span>
+	                                       <script >callThumbnail('.popularLoanList5','9791191328806','CAT','000000310938');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000238692" title="(그림으로 배우는)Http & Network Basic" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList6" alt="(그림으로 배우는)Http & Network Basic" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(그림으로 배우는)Http &amp; Network Basic</span>
+	                                       <span class="author">우에노 센</span>
+	                                       <script >callThumbnail('.popularLoanList6','9788931447897','CAT','000000238692');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000205695" title="돈으로 살 수 없는 것들" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList7" alt="돈으로 살 수 없는 것들" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">돈으로 살 수 없는 것들</span>
+	                                       <span class="author">샌델, 마이클</span>
+	                                       <script >callThumbnail('.popularLoanList7','9788937833663','CAT','000000205695');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000302559" title="AI시대의 컴퓨터 개론" class="second">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList8" alt="AI시대의 컴퓨터 개론" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">AI시대의 컴퓨터 개론</span>
+	                                       <span class="author">강환수</span>
+	                                       <script >callThumbnail('.popularLoanList8','9791185578958','CAT','000000302559');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000325624" title="(요즘 바이브 코딩) 안티그래비티 완벽 가이드" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList9" alt="(요즘 바이브 코딩) 안티그래비티 완벽 가이드" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">(요즘 바이브 코딩) 안티그래비티 완벽 가이드</span>
+	                                       <span class="author">최지호</span>
+	                                       <script >callThumbnail('.popularLoanList9','9791194383734','CAT','000000325624');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000248890" title="인공지능" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList10" alt="인공지능" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">인공지능</span>
+	                                       <span class="author">사이언티픽. 아메리칸 편집부</span>
+	                                       <script >callThumbnail('.popularLoanList10','9788970948812','CAT','000000248890');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000324064" title="하버드 협상 강의" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList11" alt="하버드 협상 강의" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">하버드 협상 강의</span>
+	                                       <span class="author">하버드 공개 강의 연구회</span>
+	                                       <script >callThumbnail('.popularLoanList11','9791199452602','CAT','000000324064');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                        <li class="slick-slide">
+
+                                            <a href="/search/detail/CATTOT000000273928" title="우리가 빛의 속도로 갈 수 없다면" class="">
+	                                       <span class="bookImg">
+	                                           <img src="/image/ko/local/main/bookNoImg.jpg" class="popularLoanList12" alt="우리가 빛의 속도로 갈 수 없다면" onError="this.src='/image/ko/local/main/bookNoImg.jpg'">
+	                                       </span>
+
+                                                <span class="bookInfo">
+	                                       
+	                                       <span class="bookTit">우리가 빛의 속도로 갈 수 없다면</span>
+	                                       <span class="author">김초엽</span>
+	                                       <script >callThumbnail('.popularLoanList12','9791190090018','CAT','000000273928');</script>
+	                                       
+	                                       </span>
+
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+
+
+                                </div>
+                                <a href="/statistics/popularloanList" class="sectionMore">
+                                    <span>더보기</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-anchor="footer" id="divFooter" class="section fp-auto-height">
+            <h2 class="skip">section footer</h2>
+            <div class="footerBanner">
+                <div class="inner">
+                    <ul class="fBanner">
+
+                        <li>
+                            <a href="http://www.kocw.net/home/college/index.do" target="_blank" title="KOCW">
+                                <img src="/upload/image/webimage/ko/banner1.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner1.png" data-oversrc="/upload/image/webimage/ko/banner1On.png">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://www.riss.kr/" target="_blank" title="학술연구정보서비스">
+                                <img src="/upload/image/webimage/ko/banner2.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner2.png" data-oversrc="/upload/image/webimage/ko/banner2On.png">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://scienceon.kisti.re.kr/" target="_blank" title="SCIENCEON">
+                                <img src="/upload/image/webimage/ko/banner3.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner3.png" data-oversrc="/upload/image/webimage/ko/banner3On.png">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://www.nanet.go.kr/" target="_blank" title="국회도서관">
+                                <img src="/upload/image/webimage/ko/banner4.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner4.png" data-oversrc="/upload/image/webimage/ko/banner4On.png">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://www.nl.go.kr/" target="_blank" title="국립중앙도서관">
+                                <img src="/upload/image/webimage/ko/banner5.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner5.png" data-oversrc="/upload/image/webimage/ko/banner5On.png">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://www.kisti.re.kr/" target="_blank" title="KISTI">
+                                <img src="/upload/image/webimage/ko/banner6.png" alt="" data-orgsrc="/upload/image/webimage/ko/banner6.png" data-oversrc="/upload/image/webimage/ko/banner6On.png">
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="footerTop">
+                <div class="inner">
+                    <ul class="fnb">
+                        <li>
+                            <a href="https://www.dongyang.ac.kr/dongyang/87/subview.do" title="개인정보처리방침" target="_blank">개인정보처리방침</a>
+                        </li>
+                        <li>
+                            <a href="https://www.dongyang.ac.kr/dongyang/88/subview.do" title="개인정보공시" target="_blank">개인정보공시</a>
+                        </li>
+                        <li>
+                            <a href="https://www.dongyang.ac.kr/dongyang/89/subview.do" title="영상정보처리기기 운영관리방침" target="_blank">영상정보처리기기 운영관리방침</a>
+                        </li>
+                        <li>
+                            <a href="https://www.dongyang.ac.kr/dongyang/91/subview.do" title="e메일무단수집거부" target="_blank">e메일무단수집거부</a>
+                        </li>
+                    </ul>
+                    <div class="otherSite">
+                        <div class="siteDrop1">
+                            <a href="#" class="dropTit">교내 주요사이트</a>
+                            <ul>
+
+                                <li>
+                                    <a href="https://www.dongyang.ac.kr" target="_blank" title="동양미래대학교 홈페이지">
+                                        동양미래대학교 홈페이지
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://portal.dongyang.ac.kr" target="_blank" title="동양미래대학교 포털">
+                                        동양미래대학교 포털
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://ipsi.dongyang.ac.kr/sites/dongyang_ipsi/index.do" target="_blank" title="동양미래대학교 입학">
+                                        동양미래대학교 입학
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.dongyang.ac.kr/dongyang/71/subview.do" target="_blank" title="동양미래대학교 학사일정">
+                                        동양미래대학교 학사일정
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://doit.dongyang.ac.kr" target="_blank" title="동양미래대학교 취업센터">
+                                        동양미래대학교 취업센터
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://dytc.certpia.com" target="_blank" title="동양미래대학교 증명서발급">
+                                        동양미래대학교 증명서발급
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="siteDrop2">
+                            <a href="#" class="dropTit">관련기관 사이트</a>
+                            <ul>
+
+                                <li>
+                                    <a href="https://www.nanet.go.kr" target="_blank" title="국회도서관">
+                                        국회도서관
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.nl.go.kr" target="_blank" title="국립중앙도서관">
+                                        국립중앙도서관
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://www.dlibrary.go.kr" target="_blank" title="국가전자도서관">
+                                        국가전자도서관
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://library.moe.go.kr" target="_blank" title="교육정보디지털도서관">
+                                        교육정보디지털도서관
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="http://www.riss.kr" target="_blank" title="RISS">
+                                        RISS
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="http://www.fric.kr" target="_blank" title="RISS FRIC">
+                                        RISS FRIC
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="http://www.kocw.net" target="_blank" title="KOCW">
+                                        KOCW
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://scholar.google.co.kr" target="_blank" title="구글 학술검색">
+                                        구글 학술검색
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://academic.naver.com" target="_blank" title="네이버 학술정보">
+                                        네이버 학술정보
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://scienceon.kisti.re.kr" target="_blank" title="ScienceON">
+                                        ScienceON
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footerBottom">
+                <div class="inner">
+        <span class="footerLogo">
+            <img src="/image/ko/local/footerLogo.png" alt="푸터 로고">
+        </span>
+                    <address>
+                        <p>
+                            <span>08221 서울특별시 구로구 경인로 445 (고척 62-160) 동양미래대학교</span>
+                            <span>TEL. 02)2610-1726 / FAX . 02)2610-1733</span>
+                        </p>
+                        <span class="copyright">COPYRIGHT (C) DONGYANG MIRAE UNIVERSITY. ALL RIGHT RESERVED.</span>
+                    </address>
+                </div>
+            </div>
+        </section></div>
+
+    <!-- //fullpage -->
+    <a href="#main1" id="topBtn" title="상단 바로가기">
+        <img src="/image/ko/local/topBtn.png" alt="상단이동 화살표">
+    </a>
+    <!-- //topBtn -->
+
+</div>
+</body>
+</html>
