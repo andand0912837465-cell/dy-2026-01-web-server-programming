@@ -10,6 +10,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 20252377 양효재
+ * 부분 구현된 상품 관리 기능이 남아 있어서 개선 진행하였다.
+ * 기존 조회와 리뷰 삭제만 있던 구조에 상품 등록과 수정과 삭제를 추가해서,
+ * 백오피스 상품 관리 화면에서 실제 CRUD가 되도록 정리했다.
+ * 부분 구현된 재고 관리 항목이 남아 있어서 개선 진행하였다.
+ * 상품 등록과 수정과 목록 조회에 재고 컬럼을 같이 연결해서,
+ * 백오피스에서 재고 수량까지 직접 관리할 수 있게 보완했다.
+ */
 public class ProductRepository {
 
     private final H2DbConnector connector = new H2DbConnector();
@@ -23,7 +32,7 @@ public class ProductRepository {
         String sql = """
                 SELECT P.PRODUCT_ID, P.NAME, P.BRAND, P.CATEGORY,
                        P.ORIGINAL_PRICE, P.SALE_PRICE, P.DISCOUNT_RATE,
-                       P.BASIC_RATE, P.OLD_REVIEW_COUNT, P.IMAGE_URL,
+                       P.BASIC_RATE, P.OLD_REVIEW_COUNT, P.IMAGE_URL, P.STOCK,
                        P.BADGE, P.DETAIL_TEXT, P.DELIVERY_TEXT,
                        COALESCE(R.REVIEW_COUNT, 0) AS NEW_REVIEW_COUNT,
                        R.AVG_SCORE
@@ -63,7 +72,7 @@ public class ProductRepository {
         String sql = """
                 SELECT P.PRODUCT_ID, P.NAME, P.BRAND, P.CATEGORY,
                        P.ORIGINAL_PRICE, P.SALE_PRICE, P.DISCOUNT_RATE,
-                       P.BASIC_RATE, P.OLD_REVIEW_COUNT, P.IMAGE_URL,
+                       P.BASIC_RATE, P.OLD_REVIEW_COUNT, P.IMAGE_URL, P.STOCK,
                        P.BADGE, P.DETAIL_TEXT, P.DELIVERY_TEXT,
                        COALESCE(R.REVIEW_COUNT, 0) AS NEW_REVIEW_COUNT,
                        R.AVG_SCORE
@@ -162,6 +171,105 @@ public class ProductRepository {
         return result;
     }
 
+    public int insertProduct(ProductDto product) {
+        String sql = """
+                INSERT INTO PRODUCT_DETAIL
+                (PRODUCT_ID, NAME, BRAND, CATEGORY, ORIGINAL_PRICE, SALE_PRICE,
+                 DISCOUNT_RATE, BASIC_RATE, OLD_REVIEW_COUNT, IMAGE_URL, STOCK,
+                 BADGE, DETAIL_TEXT, DELIVERY_TEXT)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = connector.getConnection();
+            createTables(conn);
+            pstmt = conn.prepareStatement(sql);
+            bindProduct(pstmt, product);
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, null);
+        }
+        return 0;
+    }
+
+    public int updateProduct(ProductDto product) {
+        String sql = """
+                UPDATE PRODUCT_DETAIL
+                SET NAME = ?, BRAND = ?, CATEGORY = ?, ORIGINAL_PRICE = ?, SALE_PRICE = ?,
+                    DISCOUNT_RATE = ?, BASIC_RATE = ?, OLD_REVIEW_COUNT = ?, IMAGE_URL = ?,
+                    STOCK = ?, BADGE = ?, DETAIL_TEXT = ?, DELIVERY_TEXT = ?
+                WHERE PRODUCT_ID = ?
+                """;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try {
+            conn = connector.getConnection();
+            createTables(conn);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, product.getName());
+            pstmt.setString(2, product.getBrand());
+            pstmt.setString(3, product.getCategory());
+            pstmt.setInt(4, product.getOriginalPrice());
+            pstmt.setInt(5, product.getSalePrice());
+            pstmt.setInt(6, product.getDiscountRate());
+            pstmt.setDouble(7, product.getBasicRate());
+            pstmt.setInt(8, product.getOldReviewCount());
+            pstmt.setString(9, product.getImageUrl());
+            pstmt.setInt(10, product.getStock());
+            pstmt.setString(11, product.getBadge());
+            pstmt.setString(12, product.getDetailText());
+            pstmt.setString(13, product.getDeliveryText());
+            pstmt.setString(14, product.getProductId());
+            return pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, null);
+        }
+        return 0;
+    }
+
+    public int deleteProduct(String productId) {
+        Connection conn = null;
+        PreparedStatement reviewStmt = null;
+        PreparedStatement productStmt = null;
+
+        try {
+            conn = connector.getConnection();
+            createTables(conn);
+            conn.setAutoCommit(false);
+
+            reviewStmt = conn.prepareStatement("DELETE FROM PRODUCT_REVIEW WHERE PRODUCT_ID = ?");
+            reviewStmt.setString(1, productId);
+            reviewStmt.executeUpdate();
+
+            productStmt = conn.prepareStatement("DELETE FROM PRODUCT_DETAIL WHERE PRODUCT_ID = ?");
+            productStmt.setString(1, productId);
+            int affected = productStmt.executeUpdate();
+
+            conn.commit();
+            return affected;
+        } catch (Exception e) {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ignore) {
+            }
+            e.printStackTrace();
+        } finally {
+            try { if (reviewStmt != null) reviewStmt.close(); } catch (Exception e) {}
+            try { if (productStmt != null) productStmt.close(); } catch (Exception e) {}
+            connector.closeConnection(conn);
+        }
+        return 0;
+    }
+
     private ProductDto mapProduct(ResultSet rs) throws Exception {
         ProductDto product = new ProductDto();
         int newReviewCount = rs.getInt("NEW_REVIEW_COUNT");
@@ -181,6 +289,7 @@ public class ProductRepository {
         product.setBasicRate(rs.getDouble("BASIC_RATE"));
         product.setOldReviewCount(rs.getInt("OLD_REVIEW_COUNT"));
         product.setImageUrl(rs.getString("IMAGE_URL"));
+        product.setStock(rs.getInt("STOCK"));
         product.setBadge(rs.getString("BADGE"));
         product.setDetailText(rs.getString("DETAIL_TEXT"));
         product.setDeliveryText(rs.getString("DELIVERY_TEXT"));
@@ -208,11 +317,13 @@ public class ProductRepository {
                         BASIC_RATE DOUBLE,
                         OLD_REVIEW_COUNT INT,
                         IMAGE_URL VARCHAR(300),
+                        STOCK INT DEFAULT 0,
                         BADGE VARCHAR(30),
                         DETAIL_TEXT VARCHAR(2000),
                         DELIVERY_TEXT VARCHAR(1000)
                     )
                     """);
+            stmt.executeUpdate("ALTER TABLE PRODUCT_DETAIL ADD COLUMN IF NOT EXISTS STOCK INT DEFAULT 0");
             stmt.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS PRODUCT_REVIEW (
                         REVIEW_NO BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -226,6 +337,23 @@ public class ProductRepository {
         } finally {
             try { if (stmt != null) stmt.close(); } catch (Exception e) {}
         }
+    }
+
+    private void bindProduct(PreparedStatement pstmt, ProductDto product) throws Exception {
+        pstmt.setString(1, product.getProductId());
+        pstmt.setString(2, product.getName());
+        pstmt.setString(3, product.getBrand());
+        pstmt.setString(4, product.getCategory());
+        pstmt.setInt(5, product.getOriginalPrice());
+        pstmt.setInt(6, product.getSalePrice());
+        pstmt.setInt(7, product.getDiscountRate());
+        pstmt.setDouble(8, product.getBasicRate());
+        pstmt.setInt(9, product.getOldReviewCount());
+        pstmt.setString(10, product.getImageUrl());
+        pstmt.setInt(11, product.getStock());
+        pstmt.setString(12, product.getBadge());
+        pstmt.setString(13, product.getDetailText());
+        pstmt.setString(14, product.getDeliveryText());
     }
 
     private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {

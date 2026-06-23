@@ -3,8 +3,9 @@
 <%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String contextPath = request.getContextPath();
     if (!SessionUtils.isLoginYn(session)) {
-        response.sendRedirect("/auth/adminLogin.jsp");
+        response.sendRedirect(contextPath + "/auth/adminLogin.jsp");
         return;
     }
 
@@ -20,21 +21,21 @@
 <head>
     <meta charset="UTF-8">
     <title>대시보드 - SHOPMALL ADMIN</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
 </head>
 <body class="dashboard-page">
 
 <!-- ===== 좌측 사이드바 ===== -->
 <aside class="dash-sidebar">
     <div class="dash-logo">
-        <a href="/dashboard/index.jsp">SHOP<span>MALL</span></a>
+        <a href="<%= contextPath %>/dashboard/index.jsp">SHOP<span>MALL</span></a>
         <div class="dash-logo-sub">ADMIN CONSOLE</div>
     </div>
 
     <nav class="dash-nav">
         <div class="nav-group">
             <div class="nav-group-title">MAIN</div>
-            <a href="/dashboard/index.jsp" class="nav-item active">
+            <a href="<%= contextPath %>/dashboard/index.jsp" class="nav-item active">
                 <span class="nav-icon">▦</span> 대시보드
             </a>
         </div>
@@ -42,11 +43,11 @@
         <!-- 문의글 관리용 -->
         <div class="nav-group">
             <div class="nav-group-title">운영</div>
-            <a href="/product/list.jsp" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
-            <a href="#" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
-            <a href="/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
-            <a href="/board/adminList.jsp" class="nav-item"><span class="nav-icon">💬</span> 문의글 관리</a>
-            <a href="/notice/list.jsp" class="nav-item"><span class="nav-icon">📢</span> 공지사항 관리</a>
+            <a href="<%= contextPath %>/product/list.jsp" class="nav-item"><span class="nav-icon">📦</span> 상품 관리</a>
+            <a href="<%= contextPath %>/order/list.jsp" class="nav-item"><span class="nav-icon">🛒</span> 주문 관리</a>
+            <a href="<%= contextPath %>/member/list.jsp" class="nav-item"><span class="nav-icon">👥</span> 회원 관리</a>
+            <a href="<%= contextPath %>/board/adminList.jsp" class="nav-item"><span class="nav-icon">💬</span> 문의글 관리</a>
+            <a href="<%= contextPath %>/notice/list.jsp" class="nav-item"><span class="nav-icon">📢</span> 공지사항 관리</a>
             <a href="#" class="nav-item"><span class="nav-icon">🎁</span> 프로모션</a>
         </div>
 
@@ -58,7 +59,7 @@
 
         <div class="nav-group">
             <div class="nav-group-title">시스템</div>
-            <a href="/adminUser/register.jsp" class="nav-item"><span class="nav-icon">⚙</span> 관리자 등록</a>
+            <a href="<%= contextPath %>/adminUser/register.jsp" class="nav-item"><span class="nav-icon">⚙</span> 관리자 등록</a>
             <a href="#" class="nav-item"><span class="nav-icon">🔧</span> 시스템 설정</a>
         </div>
     </nav>
@@ -84,7 +85,7 @@
                 <span class="dash-user-meta">최근 로그인: <%= loginAtStr %></span>
             </div>
             <div class="dash-user-avatar"><%= loginId.substring(0, 1).toUpperCase() %></div>
-            <a href="/auth/adminLogout.jsp" class="dash-logout">로그아웃</a>
+            <a href="<%= contextPath %>/auth/adminLogout.jsp" class="dash-logout">로그아웃</a>
         </div>
     </header>
 
@@ -96,8 +97,8 @@
             <p>오늘 SHOPMALL에서 일어나는 일들을 한눈에 확인하실 수 있습니다.</p>
         </div>
         <div class="dash-welcome-actions">
-            <a href="/product/list.jsp" class="btn-primary">상품 관리로 이동</a>
-            <a href="#" class="btn-secondary">주문 처리하기</a>
+            <a href="<%= contextPath %>/product/list.jsp" class="btn-primary">상품 관리로 이동</a>
+            <a href="<%= contextPath %>/order/list.jsp" class="btn-secondary">주문 처리하기</a>
         </div>
     </section>
 
@@ -203,7 +204,7 @@
     <section class="dash-panel">
         <div class="panel-head">
             <h3>최근 주문</h3>
-            <a href="#" class="panel-link">전체 보기 →</a>
+            <a href="<%= contextPath %>/order/list.jsp" class="panel-link">전체 보기 →</a>
         </div>
         <div class="table-wrap">
             <table class="dash-table">

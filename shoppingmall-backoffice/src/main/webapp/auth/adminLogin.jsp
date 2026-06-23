@@ -1,8 +1,9 @@
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String contextPath = request.getContextPath();
     if (SessionUtils.isLoginYn(session)) {
-        response.sendRedirect("/dashboard/index.jsp");
+        response.sendRedirect(contextPath + "/dashboard/index.jsp");
         return;
     }
 
@@ -31,13 +32,13 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자 로그인 - SHOPMALL ADMIN</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
 </head>
 <body class="login-page admin-login-page">
 
 <!-- 좌측 브랜드 패널 -->
 <aside class="brand-panel admin-brand-panel">
-    <a href="/index.jsp" class="top-logo">SHOP<span>MALL</span> ADMIN</a>
+    <a href="<%= contextPath %>/index.jsp" class="top-logo">SHOP<span>MALL</span> ADMIN</a>
 
     <div class="lead">
         <div class="admin-badge">
@@ -80,7 +81,7 @@
     </div>
     <% } %>
 
-    <form method="post" action="adminLoginSubmit.jsp">
+    <form method="post" action="<%= contextPath %>/auth/adminLoginSubmit.jsp">
 
         <div class="form-group">
             <label for="loginId">관리자 아이디</label>
@@ -136,7 +137,7 @@
     </div>
 
     <div class="signup-area admin-bottom-links">
-        <a href="/index.jsp">← 메인으로 돌아가기</a>
+        <a href="<%= contextPath %>/index.jsp">← 메인으로 돌아가기</a>
         <span class="sep">|</span>
         <a href="mailto:admin@shopmall.example.com">시스템 담당자 문의</a>
     </div>

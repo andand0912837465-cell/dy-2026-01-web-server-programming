@@ -15,6 +15,7 @@ public class ProductDto {
     private String badge;
     private String detailText;
     private String deliveryText;
+    private int stock;
     private int reviewCount;
     private int newReviewCount;
     private double averageScore;
@@ -121,6 +122,14 @@ public class ProductDto {
 
     public void setDeliveryText(String deliveryText) {
         this.deliveryText = deliveryText;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public int getReviewCount() {

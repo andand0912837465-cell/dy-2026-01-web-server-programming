@@ -1,0 +1,25 @@
+package com.shoppingmall.domain;
+
+/*
+ * 학번이름: [20251288-김재우]
+ * 기능 설명: 사용자가 찜한 상품을 모아보는 위시리스트 기능 (Member와 Product의 다대다 관계를 해소하는 매핑 테이블 역할)
+ */
+
+import javax.persistence.*;
+
+@Entity
+public class Wishlist {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member; // 찜한 사용자
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product; // 찜한 상품
+
+    // Getter, Setter 생략
+}

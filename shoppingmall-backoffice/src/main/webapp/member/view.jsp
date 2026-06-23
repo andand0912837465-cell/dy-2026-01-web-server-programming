@@ -83,8 +83,8 @@
         <td><%= order.getStatus() %></td>
 
         <td>
-            <a href="orderEdit.jsp?orderId=<%= order.getOrderId() %>">
-                상태변경
+            <a href="<%= request.getContextPath() %>/order/view.jsp?orderId=<%= order.getOrderId() %>">
+                주문상세
             </a>
         </td>
     </tr>
