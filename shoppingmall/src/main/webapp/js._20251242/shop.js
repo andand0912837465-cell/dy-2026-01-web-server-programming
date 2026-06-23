@@ -1,6 +1,4 @@
-/*
- * 20252361 김지연 - 메인/찜 목록의 검색, 찜 상태, 장바구니 담기/중복 정리 처리
- */
+
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
