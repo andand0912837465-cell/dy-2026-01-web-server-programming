@@ -70,6 +70,7 @@
   <p>회원 정보를 불러오는 데 실패했습니다.</p>
   <% } %>
 
+ <!--20251246 김나우 경로인식 개선-->
   <div class="btn-group">
     <a href="update.jsp" class="btn">회원 정보 수정</a>
     <a href="delete.jsp" class="btn" style="color: red; border-color: red;">회원 탈퇴</a>
