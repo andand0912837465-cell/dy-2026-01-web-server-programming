@@ -10,72 +10,266 @@
  * 3. MemberService 계층의 getMyPageInfo를 호출하여 데이터베이스로부터 최신 회원 정보를 단건 조회함.
  * 4. 조회된 데이터를 테이블 형태로 화면에 출력하며, 내부 기능인 정보 수정(update.jsp) 및 회원 탈퇴(delete.jsp)로 이동할 수 있는 직관적인 UI 구상을 포함함.
 --%>
+<%--
+ * 20251246 김나우 UI수정
+ * 유연한 사이드 내비게이션 바와 메인 카드 보드를 분할 배치함.
+ * 쿠폰과 주문 조회는 UI만 생성해 놓았습니다.
+--%>
 <%
-  // 1. OTP 인증 성공 로직에 맞추어 세션 키 값을 "loginId"로 변경하여 가져옴
+  String contextPath = request.getContextPath();
   String loginId = (String) session.getAttribute("loginId");
 
-  // [예외 처리] 비로그인 사용자가 주소창으로 강제 진입 시 로그인 페이지로 리다이렉트
   if (loginId == null || loginId.trim().isEmpty()) {
 %>
 <script>
   alert("로그인이 필요한 서비스입니다.");
-  // 현재 폴더 위치(auth/)를 고려하여 로그인 페이지 경로를 명확히 지정
   location.href = "login.jsp";
 </script>
 <%
     return;
   }
 
-  // 2. 확보한 아이디를 기반으로 Service -> Repository 계층을 거쳐 최신 회원 정보를 조회함
   MemberService memberService = new MemberService();
   MemberDto member = memberService.getMyPageInfo(loginId);
 %>
-
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>마이페이지</title>
+  <title>MY ACCOUNT - SHOPMALL</title>
+  <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
+
   <style>
-    .mypage-container { width: 500px; margin: 50px auto; border: 1px solid #ccc; padding: 20px; font-family: sans-serif; }
-    .profile-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .profile-table th, .profile-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    .profile-table th { background-color: #f4f4f4; width: 30%; }
-    .btn-group { margin-top: 20px; display: flex; gap: 10px; }
-    .btn { padding: 10px 20px; cursor: pointer; text-decoration: none; border: 1px solid #555; background: #fff; color: #000; }
+    .dashboard {
+      display: flex;
+      gap: 60px;
+      margin: 60px auto;
+      max-width: 1200px;
+      min-height: 550px; /* 푸터가 처지는 현상을 방지하는 최소 높이 확보 */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #111;
+    }
+    /* 좌측 독자적 서브 메뉴 */
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+    }
+    .sidebar h3 {
+      font-size: 13px;
+      letter-spacing: 0.8px;
+      color: #999;
+      margin-bottom: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 35px 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 14px;
+    }
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      transition: color 0.15s ease;
+    }
+    .sidebar ul li a:hover, .sidebar ul li a.active {
+      color: #000;
+      font-weight: 600;
+    }
+    /* 우측 메인 대시보드 보드 */
+    .content-panel {
+      flex-grow: 1;
+    }
+    /* 웰컴 배너 최상단 배치 */
+    .welcome-headline {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .welcome-headline h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.5px;
+    }
+    .welcome-headline p {
+      margin: 0;
+      color: #777;
+      font-size: 14px;
+    }
+    /* 모던 카드형 정보 레이아웃 (라운딩 및 내부 여백 조절) */
+    .profile-card {
+      background: #fafafa;
+      border: 1px solid #eeeeee;
+      border-radius: 8px; /* 부드러운 곡선 미세 조정 */
+      padding: 30px 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .info-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .info-field .field-label {
+      font-size: 11px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .info-field .field-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: #111;
+    }
+    /* 쇼핑몰 전용 미니멀 퀵 대시보드 추가 구획 */
+    .quick-status {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .status-box {
+      border: 1px solid #eeeeee;
+      border-radius: 8px;
+      padding: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-box span {
+      font-size: 14px;
+      color: #555;
+    }
+    .status-box strong {
+      font-size: 20px;
+      font-weight: 600;
+      color: #000;
+    }
+    .error-box {
+      padding: 25px;
+      background: #fdf2f2;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      font-size: 14px;
+      border-radius: 6px;
+    }
   </style>
 </head>
-<body>
+<body data-context-path="<%= contextPath %>">
 
-<div class="mypage-container">
-  <h2>마이페이지</h2>
-  <% if (member != null) { %>
-  <p>안녕하세요, <strong><%= member.getUserName() %></strong>님! 가입하신 정보는 아래와 같습니다.</p>
-
-  <table class="profile-table">
-    <tr>
-      <th>아이디</th>
-      <td><%= member.getUserId() %></td>
-    </tr>
-    <tr>
-      <th>이름</th>
-      <td><%= member.getUserName() %></td>
-    </tr>
-    <tr>
-      <th>이메일</th>
-      <td><%= member.getEmail() %></td>
-    </tr>
-  </table>
-  <% } else { %>
-  <p>회원 정보를 불러오는 데 실패했습니다.</p>
-  <% } %>
-
- <!--20251246 김나우 경로인식 개선-->
-  <div class="btn-group">
-    <a href="update.jsp" class="btn">회원 정보 수정</a>
-    <a href="delete.jsp" class="btn" style="color: red; border-color: red;">회원 탈퇴</a>
+<div class="top-bar">
+  <div class="container">
+    <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
+    <div>
+      <a href="<%= contextPath %>/auth/logout.jsp">로그아웃</a>
+      <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
+      <a href="${pageContext.request.contextPath}/auth/mypage.jsp" class="active">마이페이지</a>
+    </div>
   </div>
 </div>
+
+<header>
+  <div class="container header-inner">
+    <a href="<%= contextPath %>/index.jsp" class="logo">SHOP<span>MALL</span></a>
+    <div class="search-box">
+      <label for="search" class="sr-only">상품 검색</label>
+      <input id="search" type="text" placeholder="마이페이지 내에서는 상품 검색이 제한됩니다" disabled>
+      <button type="button" aria-label="검색" disabled>Q</button>
+    </div>
+    <div class="header-icons">
+      <a href="<%= contextPath %>/wishlist.jsp" class="icon-btn"><div class="icon">♥</div>찜</a>
+      <a href="<%= contextPath %>/cart/cart.jsp" class="icon-btn"><div class="icon">🛒</div>장바구니</a>
+      <div class="icon-btn"><div class="icon">i</div>My</div>
+    </div>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <aside class="sidebar">
+    <h3>쇼핑 정보</h3>
+    <ul>
+      <li><a href="#">주문/배송 조회</a></li>
+      <li><a href="<%= contextPath %>/cart/cart.jsp">장바구니 관리</a></li>
+      <li><a href="<%= contextPath %>/wishlist.jsp">나의 찜 목록</a></li>
+    </ul>
+
+    <h3>내 정보 관리</h3>
+    <ul>
+      <li><a href="${pageContext.request.contextPath}/auth/mypage.jsp" class="active">마이페이지</a></li>
+      <li><a href="update.jsp">회원 정보 수정</a></li>
+      <li><a href="delete.jsp">회원 탈퇴 신청</a></li>
+    </ul>
+  </aside>
+
+  <section class="content-panel">
+    <% if (member != null) { %>
+    <div class="welcome-headline">
+      <h1>안녕하세요, <%= member.getUserName() %>님!</h1>
+      <p>SHOPMALL 가입 정보 및 계정 보안 설정을 이곳에서 통합 관리할 수 있습니다.</p>
+    </div>
+
+    <div class="profile-card">
+      <div class="info-field">
+        <span class="field-label">계정 아이디</span>
+        <span class="field-value"><%= member.getUserId() %></span>
+      </div>
+      <div class="info-field">
+        <span class="field-label">사용자 이름</span>
+        <span class="field-value"><%= member.getUserName() %></span>
+      </div>
+      <div class="info-field">
+        <span class="field-label">이메일 주소</span>
+        <span class="field-value"><%= member.getEmail() %></span>
+      </div>
+    </div>
+
+    <div class="quick-status">
+      <div class="status-box">
+        <span>진행 중인 주문 / 배송 건수</span>
+        <strong>0</strong>
+      </div>
+      <div class="status-box">
+        <span>사용 가능한 쿠폰</span>
+        <strong>0 장</strong>
+      </div>
+    </div>
+
+    <% } else { %>
+    <div class="error-box">
+      회원 정보를 안전하게 로드하지 못했습니다. 지속적인 문제 발생 시 고객센터에 문의 바랍니다.
+    </div>
+    <% } %>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>SHOPMALL</h4>
+        <p>당신의 라이프 스타일을 완성하는 쇼핑몰<br>고객님의 만족이 저희의 행복입니다.</p>
+        <p class="footer-contact">고객센터: 1588-0000<br>평일 09:00 ~ 18:00 (주말/공휴일 휴무)</p>
+      </div>
+      <div>
+        <h4>MY ACCOUNT</h4>
+        <ul>
+          <li><a href="${pageContext.request.contextPath}/auth/mypage.jsp" style="color:#aaa; text-decoration:none;">마이페이지</a></li>
+          <li>장바구니</li>
+          <li>위시리스트</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 SHOPMALL. All rights reserved.</div>
+  </div>
+</footer>
 
 </body>
 </html>
