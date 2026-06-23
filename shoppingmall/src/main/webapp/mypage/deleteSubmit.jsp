@@ -23,7 +23,7 @@
 %>
 <script>
     alert("로그인 세션이 만료되었습니다. 다시 로그인해 주세요.");
-    location.href = "login.jsp";
+    location.href = "../auth/login.jsp";
 </script>
 <%
         return;
@@ -53,7 +53,7 @@
 %>
 <script>
     alert("그동안 서비스를 이용해 주셔서 감사합니다. 회원 탈퇴가 완료되었습니다.");
-    location.href = "login.jsp"; // 탈퇴되었으므로 로그인 화면으로 팅겨냄
+    location.href = "../auth/login.jsp"; // 탈퇴되었으므로 로그인 화면으로 팅겨냄
 </script>
 <%
 } else {

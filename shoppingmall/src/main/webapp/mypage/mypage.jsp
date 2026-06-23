@@ -23,7 +23,7 @@
 %>
 <script>
   alert("로그인이 필요한 서비스입니다.");
-  location.href = "login.jsp";
+  location.href = "../auth/login.jsp";
 </script>
 <%
     return;
@@ -170,7 +170,7 @@
     <div>
       <a href="<%= contextPath %>/auth/logout.jsp">로그아웃</a>
       <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
-      <a href="${pageContext.request.contextPath}/auth/mypage.jsp" class="active">마이페이지</a>
+      <a href="${pageContext.request.contextPath}/mypage/mypage.jsp" class="active">마이페이지</a>
     </div>
   </div>
 </div>
@@ -203,7 +203,7 @@
 
     <h3>내 정보 관리</h3>
     <ul>
-      <li><a href="${pageContext.request.contextPath}/auth/mypage.jsp" class="active">마이페이지</a></li>
+      <li><a href="${pageContext.request.contextPath}/mypage/mypage.jsp" class="active">마이페이지</a></li>
       <li><a href="update.jsp">회원 정보 수정</a></li>
       <li><a href="delete.jsp">회원 탈퇴 신청</a></li>
     </ul>
@@ -261,7 +261,7 @@
       <div>
         <h4>MY ACCOUNT</h4>
         <ul>
-          <li><a href="${pageContext.request.contextPath}/auth/mypage.jsp" style="color:#aaa; text-decoration:none;">마이페이지</a></li>
+          <li><a href="${pageContext.request.contextPath}/mypage/mypage.jsp" style="color:#aaa; text-decoration:none;">마이페이지</a></li>
           <li>장바구니</li>
           <li>위시리스트</li>
         </ul>

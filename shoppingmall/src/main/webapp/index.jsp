@@ -78,7 +78,7 @@
             <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
             <!--20251246 김나우-->
             <!--마이페이지 이동 활성화(a herf= 경로 지정)-->
-            <a href="${pageContext.request.contextPath}/auth/mypage.jsp">마이페이지</a>
+            <a href="${pageContext.request.contextPath}/mypage/mypage.jsp">마이페이지</a>
 
         </div>
     </div>
