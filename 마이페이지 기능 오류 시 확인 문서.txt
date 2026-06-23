@@ -16,5 +16,7 @@
 3. DB확인 후, status 컬럼이 사라졌을 경우 진행해주세요.
 ALTER TABLE safe_member ADD COLUMN status VARCHAR(2) DEFAULT 'Y';
 
+** 수정 / 탈퇴 / 조회 테스트 시 각각 서버를 다시 시작해서 하시는 걸 추천드립니다.
+
 
 
