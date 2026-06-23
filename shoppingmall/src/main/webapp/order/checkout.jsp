@@ -104,7 +104,6 @@
         <p>장바구니에 상품을 담은 뒤 주문을 진행해 주세요.</p>
         <a href="<%= contextPath %>/cart/cart.jsp" class="btn-primary">장바구니로 이동</a>
     </section>
-
     <section id="checkoutContent" class="order-layout" hidden>
         <form id="checkoutForm" class="checkout-panel" method="post" action="<%= contextPath %>/order/submit" novalidate>
             <h2>주문자 정보</h2>
