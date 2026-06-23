@@ -26,7 +26,7 @@ public class MemberRepository {
         Connection connection = connector.getConnection();
 
         String sql = """
-            select id, name, email, password, reg_date
+            select id, name, email, password, reg_date, status
             from safe_member
             order by reg_date desc
         """;
@@ -172,6 +172,7 @@ public class MemberRepository {
         if (regDate != null) {
             member.setRegDate(regDate.toLocalDateTime());
         }
+        member.setStatus(rs.getString("status"));
         return member;
     }
 }

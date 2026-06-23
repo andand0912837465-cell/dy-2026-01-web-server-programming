@@ -107,35 +107,52 @@
         <div class="table-wrap">
             <table class="dash-table">
                 <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>이름</th>
-                        <th>이메일</th>
-                        <th>비밀번호</th>
-                        <th>가입일시</th>
-                        <th>관리</th>
-                    </tr>
+                <tr>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>비밀번호</th>
+                    <th>가입일시</th>
+                    <th>탈퇴여부</th>
+                    <th>관리</th>
+                </tr>
                 </thead>
+                <%--
+                 * 20251246 김나우 - 백엔드 관리자 회원 상태 가시화 고도화
+                 * * [비즈니스 로직 명세]
+                 * 1. 데이터 파이프라인 연동: MemberDto의 확장 필드인 status 플래그 값을 인메모리 버퍼에서 추출함.
+                 * 2. 조건부 렌더링 예외 처리: 데이터베이스 내 소프트 딜리트('N') 처리된 회원을 식별하여 프론트엔드에 시각적 경고(빨간색 탈퇴 배지)를 표출함.
+                 * 3. 무결성 대응: 테이블 구조의 열(Column) 확장에 맞추어 데이터 공백 발생 시 가로 병합(colspan) 수치를 7로 안전하게 보정함.
+                --%>
                 <tbody>
                 <% if (totalCount == 0) { %>
-                    <tr>
-                        <td colspan="5" style="text-align:center; padding: 32px; color:#9ca3af;">
-                            등록된 회원이 없습니다.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="7" style="text-align:center; padding: 32px; color:#9ca3af;">
+                        등록된 회원이 없습니다.
+                    </td>
+                </tr>
                 <% } else { %>
-                    <% for (MemberDto m : members) { %>
-                    <tr>
-                        <td><code><%= m.getUserId() %></code></td>
-                        <td><%= m.getUserName() %></td>
-                        <td><%= m.getEmail() %></td>
-                        <td><%= m.getPassword() %></td>
-                        <td><%= m.getRegDate() != null ? m.getRegDate().format(regDateFormatter) : "-" %></td>
-                        <td>
-                            <a href="view.jsp?id=<%= m.getUserId() %>">상세보기</a>
-                        </td>
-                    </tr>
-                    <% } %>
+                <% for (MemberDto m : members) { %>
+                <tr>
+                    <td><code><%= m.getUserId() %></code></td>
+                    <td><%= m.getUserName() %></td>
+                    <td><%= m.getEmail() %></td>
+                    <td><%= m.getPassword() %></td>
+                    <td><%= m.getRegDate() != null ? m.getRegDate().format(regDateFormatter) : "-" %></td>
+
+                    <td>
+                        <% if ("N".equals(m.getStatus())) { %>
+                        <span style="color: #dc3545; font-weight: 600;">탈퇴</span>
+                        <% } else { %>
+                        <span style="color: #28a745;">정상</span>
+                        <% } %>
+                    </td>
+
+                    <td>
+                        <a href="view.jsp?id=<%= m.getUserId() %>">상세보기</a>
+                    </td>
+                </tr>
+                <% } %>
                 <% } %>
                 </tbody>
             </table>
