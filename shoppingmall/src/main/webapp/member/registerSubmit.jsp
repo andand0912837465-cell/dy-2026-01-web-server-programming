@@ -1,7 +1,7 @@
 <%@ page import="kr.ac.dy.cs.member.MemberDto" %>
-<%@ page import="kr.ac.dy.cs.member.MemberDto" %>
 <%@ page import="kr.ac.dy.cs.member.MemberRegisterForm" %>
 <%@ page import="kr.ac.dy.cs.member.MemberService" %>
+<%@ page import="kr.ac.dy.cs.member.MemberRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,6 +19,24 @@
 
 <%if (result) {%>
     <h1>회원가입에 성공하였습니다.</h1>
+    <%
+        String loginId = request.getParameter("userId");
+        String password = request.getParameter("password");
+
+        MemberRepository memberRepository = new MemberRepository();
+        MemberDto memberDto = memberRepository.select(loginId, password);
+
+        /**
+         * 20251246김나우
+         * loginId 줄 추가
+         */
+
+        session.setAttribute("loginId", memberDto.getUserId());
+        session.setAttribute("userOtpSecretKey", memberDto.getOtp_key());
+        session.setAttribute("userEmail", memberDto.getEmail());
+
+        response.sendRedirect("/otp/register");
+    %>
 <%}else {%>
     <script>
         alert('회원가입에 실패했습니다.');

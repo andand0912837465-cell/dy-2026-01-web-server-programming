@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 — MUSISHOP</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">MUSI<span>SHOP</span></a>
+  <div class="nav-right">
+    <span style="color:var(--accent);font-size:12px;font-weight:700;">ADMIN</span>
+    <span style="color:#888;font-size:12px;" th:text="${session.loginEmail}"></span>
+    <a href="/auth/logout" style="color:#888;">로그아웃</a>
+  </div>
+</nav>
+
+<div class="admin-wrap">
+  <div class="admin-title">상품 관리</div>
+  <div class="admin-sub">상품을 추가하거나 삭제할 수 있습니다. admin@shop.com 계정으로 관리자 기능을 이용하세요.</div>
+
+  <div class="admin-actions">
+    <a href="/admin/products/new"><button class="btn-add">+ 새 상품 추가</button></a>
+    <a href="/"><button class="btn-outline" style="padding:11px 22px;font-size:13px;">쇼핑몰로 이동</button></a>
+  </div>
+
+  <div th:if="${products.isEmpty()}" class="empty-state">
+    <div class="icon">📦</div>
+    <p>등록된 상품이 없습니다</p>
+  </div>
+
+  <table class="admin-table" th:if="${!products.isEmpty()}">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>브랜드</th>
+        <th>상품명</th>
+        <th>카테고리</th>
+        <th>가격</th>
+        <th>재고</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.brand}"></td>
+        <td>
+          <a th:href="@{/products/{id}(id=${p.id})}" style="font-weight:600;" th:text="${p.name}"></a>
+        </td>
+        <td>
+          <span style="background:var(--gray-100);padding:3px 8px;border-radius:2px;font-size:11px;font-weight:700;"
+                th:text="${p.category}"></span>
+        </td>
+        <td th:text="${#numbers.formatInteger(p.price,3,'COMMA') + '원'}"></td>
+        <td>
+          <span th:style="${p.stock < 10} ? 'color:var(--accent);font-weight:700;' : ''"
+                th:text="${p.stock}"></span>
+        </td>
+        <td>
+          <form th:action="@{/admin/products/{id}/delete(id=${p.id})}" method="post"
+                onsubmit="return confirm('정말 삭제하시겠습니까?')">
+            <button type="submit" class="btn-delete">삭제</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">MUSI<span>SHOP</span></div>
+    <p>© 2025 MUSISHOP Admin Panel</p>
+  </div>
+</footer>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

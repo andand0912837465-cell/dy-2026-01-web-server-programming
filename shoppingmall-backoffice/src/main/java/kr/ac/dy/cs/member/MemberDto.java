@@ -19,5 +19,17 @@ public class MemberDto {
     private String email;
     private String password;
     private LocalDateTime regDate;
+    private String status;
+
+    // 직접 추가해서 톰캣이 확실히 인식하게 함
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 }
+
+

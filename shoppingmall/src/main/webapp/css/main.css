@@ -1,3 +1,6 @@
+/*
+ * 20252361 김지연 - 찜 목록, 장바구니, 주문 화면 스타일 보완
+ */
 /* =========================================================
  * SHOPMALL - 공용 스타일
  * - 메인 페이지(index.jsp)와 로그인 페이지(auth/login.jsp) 공용
@@ -787,6 +790,42 @@ footer {
     font-size: 13px;
     margin-bottom: 24px;
 }
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2d3436;
+    font-size: 14px;
+    font-weight: 800;
+}
+.choice-list {
+    display: grid;
+    gap: 10px;
+}
+.choice-list label,
+.agreement-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 12px 14px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    background: #fff;
+    color: #2d3436;
+    font-size: 14px;
+    font-weight: 700;
+}
+.choice-list input,
+.agreement-box input {
+    width: 16px;
+    height: 16px;
+    accent-color: #ff6b6b;
+}
+.agreement-box {
+    margin: 18px 0 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+}
 .field-row {
     display: grid;
     grid-template-columns: 160px minmax(0, 1fr);
@@ -1173,4 +1212,20 @@ body.login-page {
     .brand-panel .lead h1 { font-size: 24px; }
     .brand-panel .foot { display: none; }
     .form-panel { min-height: auto; padding: 40px 20px 60px; }
+}
+
+/* 20252358 최윤서 css 추가
+ 찜 하트버튼이 활성된것이 확실하게 보이도록 함 */
+    .like-btn.active{
+        color:red;
+    }
+
+.product-list{
+    display:grid;
+    grid-template-columns:repeat(4, 280px);
+    gap:20px;
+}
+
+.product-list .product-card{
+    width:280px;
 }

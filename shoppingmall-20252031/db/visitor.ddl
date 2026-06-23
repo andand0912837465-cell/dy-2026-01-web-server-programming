@@ -1,0 +1,13 @@
+-- 방문 이력
+-- 상품 상세 페이지 진입 시 (로그인 회원 기준) 1행 적재
+CREATE TABLE VISITOR (
+    ID         UUID         NOT NULL DEFAULT RANDOM_UUID() PRIMARY KEY,
+    PRODUCT_ID UUID         NOT NULL,                 -- PRODUCT.ID 참조
+    MEMBER_ID  VARCHAR(50)  NOT NULL,                 -- MEMBER.ID 참조 (로그인 아이디)
+    VISITED_AT TIMESTAMP    NOT NULL DEFAULT LOCALTIMESTAMP,
+    CONSTRAINT FK_VISITOR_PRODUCT FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCT(ID),
+    CONSTRAINT FK_VISITOR_MEMBER  FOREIGN KEY (MEMBER_ID)  REFERENCES MEMBER(ID)
+);
+
+-- NOTE: MEMBER_ID 는 최초 UUID 로 정의되었으나 MEMBER.ID 가 VARCHAR(50) 이라
+--       FK 가 성립하지 않아 VARCHAR(50) 으로 정정함 (db/migrate_seed.sql 참고).

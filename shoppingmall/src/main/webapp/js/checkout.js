@@ -1,9 +1,11 @@
+/*
+ * 20252361 김지연 - 주문서 필수값 검증과 장바구니 상품 제출값 정리
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
-    const LAST_ORDER_STORAGE_KEY = 'shopmallLastOrder';
-    const FREE_SHIPPING_MINIMUM = 50000;
-    const SHIPPING_FEE = 3000;
+    const FREE_SHIPPING_THRESHOLD = 50000;
+    const DEFAULT_SHIPPING_FEE = 3000;
 
     const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
@@ -18,10 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const customerNameInput = document.querySelector('#customerName');
     const customerPhoneInput = document.querySelector('#customerPhone');
+    const emailInput = document.querySelector('#email');
     const zipcodeInput = document.querySelector('#zipcode');
     const addressInput = document.querySelector('#address');
     const detailAddressInput = document.querySelector('#detailAddress');
     const requestMemoInput = document.querySelector('#requestMemo');
+    const privacyAgreementInput = document.querySelector('#privacyAgreement');
 
     if (
         !checkoutEmpty ||
@@ -34,7 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
         !checkoutTotal ||
         !customerNameInput ||
         !customerPhoneInput ||
-        !addressInput
+        !emailInput ||
+        !zipcodeInput ||
+        !addressInput ||
+        !detailAddressInput ||
+        !privacyAgreementInput
     ) {
         return;
     }
@@ -44,34 +52,44 @@ document.addEventListener('DOMContentLoaded', function () {
     function readCartItems() {
         try {
             const storedValue = localStorage.getItem(CART_STORAGE_KEY);
-
             if (!storedValue) {
                 return [];
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return [];
             }
 
-            return parsedValue
-                .filter(function (item) {
-                    return item && typeof item.id === 'string' && item.id.length > 0;
-                })
-                .map(function (item) {
-                    const price = Number(item.price);
-                    const quantity = Number(item.quantity);
+            const normalizedItems = [];
+            parsedValue.forEach(function (item) {
+                if (!item || typeof item.id !== 'string' || item.id.trim().length === 0) {
+                    return;
+                }
 
-                    return {
-                        id: item.id,
-                        name: String(item.name || ''),
-                        brand: String(item.brand || ''),
-                        price: Number.isFinite(price) ? Math.max(0, price) : 0,
-                        image: String(item.image || ''),
-                        quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
-                    };
+                const productId = item.id.trim();
+                const price = Number(item.price);
+                const quantity = Number(item.quantity);
+                const cartItem = {
+                    id: productId,
+                    name: String(item.name || ''),
+                    brand: String(item.brand || ''),
+                    price: Number.isFinite(price) ? Math.max(0, price) : 0,
+                    image: String(item.image || ''),
+                    quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
+                };
+                const existingItem = normalizedItems.find(function (savedItem) {
+                    return savedItem.id === productId;
                 });
+
+                if (existingItem) {
+                    existingItem.quantity += cartItem.quantity;
+                } else {
+                    normalizedItems.push(cartItem);
+                }
+            });
+
+            return normalizedItems;
         } catch (error) {
             return [];
         }
@@ -91,25 +109,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getShipping(subtotal) {
-        return subtotal >= FREE_SHIPPING_MINIMUM ? 0 : SHIPPING_FEE;
+        if (subtotal <= 0) {
+            return 0;
+        }
+
+        return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : DEFAULT_SHIPPING_FEE;
     }
 
     function readWishlistCount() {
         try {
             const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
-
             if (!storedValue) {
                 return 0;
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return 0;
             }
 
             const validProductIds = parsedValue.filter(function (productId) {
-                return typeof productId === 'string' && productId.length > 0;
+                return typeof productId === 'string' && productId.trim().length > 0;
             });
 
             return new Set(validProductIds).size;
@@ -183,9 +203,13 @@ document.addEventListener('DOMContentLoaded', function () {
         checkoutTotal.textContent = formatPrice(subtotal + shipping);
     }
 
-    function showFormError(message) {
+    function showFormError(message, target) {
         checkoutError.textContent = message;
         checkoutError.hidden = false;
+
+        if (target && typeof target.focus === 'function') {
+            target.focus();
+        }
     }
 
     function clearFormError() {
@@ -197,78 +221,99 @@ document.addEventListener('DOMContentLoaded', function () {
         return input ? input.value.trim() : '';
     }
 
+    function normalizePhone(value) {
+        const digits = value.replace(/[^0-9]/g, '');
+        if (digits.length !== 11) {
+            return '';
+        }
+
+        return digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7, 11);
+    }
+
+    function getSelectedPaymentInput() {
+        return checkoutForm.querySelector('input[name="paymentMethod"]:checked');
+    }
+
     function validateOrderForm() {
         const customerName = getTrimmedValue(customerNameInput);
         const customerPhone = getTrimmedValue(customerPhoneInput);
+        const normalizedPhone = normalizePhone(customerPhone);
+        const email = getTrimmedValue(emailInput);
+        const zipcode = getTrimmedValue(zipcodeInput);
         const address = getTrimmedValue(addressInput);
+        const detailAddress = getTrimmedValue(detailAddressInput);
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const selectedPayment = getSelectedPaymentInput();
 
+        if (cartItems.length === 0) {
+            showFormError('주문할 상품이 없습니다.', checkoutForm);
+            return false;
+        }
         if (customerName === '') {
-            showFormError('주문자명을 입력해 주세요.');
-            customerNameInput.focus();
+            showFormError('주문자명을 입력해 주세요.', customerNameInput);
             return false;
         }
-
-        if (customerPhone === '') {
-            showFormError('연락처를 입력해 주세요.');
-            customerPhoneInput.focus();
+        if (normalizedPhone === '') {
+            showFormError('연락처는 010-1234-5678 또는 01012345678 형식으로 입력해 주세요.', customerPhoneInput);
             return false;
         }
-
+        if (!emailPattern.test(email)) {
+            showFormError('올바른 이메일 주소를 입력해 주세요.', emailInput);
+            return false;
+        }
+        if (zipcode === '') {
+            showFormError('우편번호를 입력해 주세요.', zipcodeInput);
+            return false;
+        }
         if (address === '') {
-            showFormError('주소를 입력해 주세요.');
-            addressInput.focus();
+            showFormError('기본 주소를 입력해 주세요.', addressInput);
+            return false;
+        }
+        if (detailAddress === '') {
+            showFormError('상세 주소를 입력해 주세요.', detailAddressInput);
+            return false;
+        }
+        if (!selectedPayment) {
+            showFormError('결제 방법을 선택해 주세요.', checkoutForm.querySelector('input[name="paymentMethod"]'));
+            return false;
+        }
+        if (!privacyAgreementInput.checked) {
+            showFormError('개인정보 수집 및 이용에 동의해 주세요.', privacyAgreementInput);
             return false;
         }
 
+        customerPhoneInput.value = normalizedPhone;
         clearFormError();
         return true;
     }
 
-    function saveLastOrder() {
-        const subtotal = getSubtotal();
-        const shipping = getShipping(subtotal);
-        const address = getTrimmedValue(addressInput);
-        const detailAddress = getTrimmedValue(detailAddressInput);
-        const fullAddress = detailAddress ? address + ' ' + detailAddress : address;
-        const orderData = {
-            customerName: getTrimmedValue(customerNameInput),
-            phone: getTrimmedValue(customerPhoneInput),
-            zipcode: getTrimmedValue(zipcodeInput),
-            address: fullAddress,
-            requestMemo: getTrimmedValue(requestMemoInput),
-            items: cartItems,
-            subtotal: subtotal,
-            shipping: shipping,
-            total: subtotal + shipping,
-            orderedAt: new Date().toISOString()
-        };
+    function appendHiddenInput(name, value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        input.className = 'cart-hidden-input';
+        checkoutForm.appendChild(input);
+    }
 
-        try {
-            localStorage.setItem(LAST_ORDER_STORAGE_KEY, JSON.stringify(orderData));
-            return true;
-        } catch (error) {
-            showFormError('주문 정보를 저장하지 못했습니다. 브라우저 저장 공간을 확인해 주세요.');
-            return false;
-        }
+    function appendCartInputs() {
+        checkoutForm.querySelectorAll('.cart-hidden-input').forEach(function (input) {
+            input.remove();
+        });
+
+        cartItems.forEach(function (item) {
+            appendHiddenInput('productId', item.id);
+            appendHiddenInput('quantity', String(item.quantity));
+        });
     }
 
     checkoutForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        if (cartItems.length === 0) {
-            showFormError('주문할 상품이 없습니다.');
-            return;
-        }
-
         if (!validateOrderForm()) {
+            event.preventDefault();
             return;
         }
 
-        if (!saveLastOrder()) {
-            return;
-        }
-
-        window.location.href = '/order/complete.jsp';
+        appendCartInputs();
     });
 
     updateWishlistBadge();

@@ -7,10 +7,12 @@
 <%
   String loginId = "";
   Cookie[] cookies = request.getCookies();
-  for (Cookie cookie : cookies) {
-    if ("saveId".equals(cookie.getName())) {
-      loginId = cookie.getValue();
-      break;
+  if (cookies != null) {
+    for (Cookie cookie : cookies) {
+      if ("saveId".equals(cookie.getName())) {
+        loginId = cookie.getValue();
+        break;
+      }
     }
   }
 

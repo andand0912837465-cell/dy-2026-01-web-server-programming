@@ -1,0 +1,31 @@
+package com.shoppingmall.domain;
+
+/*
+ * 학번이름: [20251288-김재우] (예: 20260001-홍길동)
+ * 기능 설명: 상품 상세 페이지 별점(1~5점) 및 한 줄 평 리뷰 기능 구현 (Member, Product 연관 관계 매핑)
+ */
+
+import javax.persistence.*;
+
+@Entity
+public class Review {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member; // 작성자 (사용자)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product; // 대상 상품
+
+    @Column(nullable = false)
+    private int rating; // 별점 (1~5)
+
+    @Column(length = 255, nullable = false)
+    private String content; // 한 줄 평 내용
+
+    // Getter, Setter 및 비즈니스 로직 생략
+}

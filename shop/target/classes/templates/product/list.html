@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품 목록 — MUSISHOP</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body th:data-logged-in="${session.loginEmail != null}">
+
+<nav class="nav">
+  <a href="/" class="nav-logo">MUSI<span>SHOP</span></a>
+  <div class="nav-menu">
+    <a href="/products?category=TOP" th:classappend="${selectedCategory == 'TOP'} ? 'active' : ''">상의</a>
+    <a href="/products?category=BOTTOM" th:classappend="${selectedCategory == 'BOTTOM'} ? 'active' : ''">하의</a>
+    <a href="/products?category=OUTER" th:classappend="${selectedCategory == 'OUTER'} ? 'active' : ''">아우터</a>
+    <a href="/products?category=SHOES" th:classappend="${selectedCategory == 'SHOES'} ? 'active' : ''">신발</a>
+    <a href="/products?category=ACC" th:classappend="${selectedCategory == 'ACC'} ? 'active' : ''">악세서리</a>
+  </div>
+  <div class="nav-right">
+    <th:block th:if="${session.loginEmail == null}">
+      <a href="/auth/login">로그인</a>
+      <a href="/auth/register"><button class="btn-login-nav">회원가입</button></a>
+    </th:block>
+    <th:block th:if="${session.loginEmail != null}">
+      <span style="color:#888;font-size:12px;" th:text="${session.loginEmail}"></span>
+      <a href="/auth/logout" style="color:#888;">로그아웃</a>
+      <a th:if="${session.loginRole == 'ADMIN'}" href="/admin" style="color:var(--accent);font-weight:700;">관리자</a>
+    </th:block>
+  </div>
+</nav>
+
+<div class="search-bar">
+  <form class="search-form" action="/products" method="get">
+    <input class="search-input" type="text" name="keyword" placeholder="브랜드, 상품 검색"
+           th:value="${keyword}">
+    <button class="search-btn" type="submit">🔍</button>
+  </form>
+</div>
+
+<div class="cat-nav">
+  <a href="/products" th:classappend="${selectedCategory == null and keyword == null} ? 'active' : ''">전체</a>
+  <a href="/products?category=TOP" th:classappend="${selectedCategory == 'TOP'} ? 'active' : ''">상의</a>
+  <a href="/products?category=BOTTOM" th:classappend="${selectedCategory == 'BOTTOM'} ? 'active' : ''">하의</a>
+  <a href="/products?category=OUTER" th:classappend="${selectedCategory == 'OUTER'} ? 'active' : ''">아우터</a>
+  <a href="/products?category=SHOES" th:classappend="${selectedCategory == 'SHOES'} ? 'active' : ''">신발</a>
+  <a href="/products?category=ACC" th:classappend="${selectedCategory == 'ACC'} ? 'active' : ''">악세서리</a>
+</div>
+
+<!-- RECENT VIEWED -->
+<div th:if="${recentProducts != null and !recentProducts.isEmpty()}" class="recent-section">
+  <div class="section-header" style="margin-bottom:16px;">
+    <h2 class="section-title" style="font-size:15px;">최근 본 상품</h2>
+  </div>
+  <div class="recent-scroll">
+    <div th:each="p : ${recentProducts}" class="recent-item">
+      <a th:href="@{/products/{id}(id=${p.id})}">
+        <img class="recent-img" th:src="${p.imageUrl}" th:alt="${p.name}" onerror="this.src='https://picsum.photos/seed/default/130/163'">
+        <div class="recent-brand" th:text="${p.brand}"></div>
+        <div class="recent-name" th:text="${p.name}"></div>
+        <div class="recent-price" th:text="${#numbers.formatInteger(p.price,3,'COMMA') + '원'}"></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span th:if="${keyword != null}">'<span th:text="${keyword}"></span>' 검색 결과</span>
+      <span th:if="${selectedCategory == 'TOP'}">상의</span>
+      <span th:if="${selectedCategory == 'BOTTOM'}">하의</span>
+      <span th:if="${selectedCategory == 'OUTER'}">아우터</span>
+      <span th:if="${selectedCategory == 'SHOES'}">신발</span>
+      <span th:if="${selectedCategory == 'ACC'}">악세서리</span>
+      <span th:if="${keyword == null and selectedCategory == null}">전체 상품</span>
+      <span style="font-size:14px;color:var(--gray-600);font-weight:500;margin-left:8px;" th:text="${products.size() + '개'}"></span>
+    </h2>
+  </div>
+
+  <div class="product-grid" th:if="${!products.isEmpty()}">
+    <div th:each="product : ${products}" class="product-card">
+      <a th:href="@{/products/{id}(id=${product.id})}">
+        <div class="product-img-wrap">
+          <img th:src="${product.imageUrl}" th:alt="${product.name}" onerror="this.src='https://picsum.photos/seed/err/400/500'">
+          <span th:if="${product.stock < 10}" class="product-badge">SOLD OUT</span>
+        </div>
+        <div class="product-brand" th:text="${product.brand}"></div>
+        <div class="product-name" th:text="${product.name}"></div>
+        <div class="product-price" th:text="${#numbers.formatInteger(product.price,3,'COMMA') + '원'}"></div>
+      </a>
+    </div>
+  </div>
+
+  <div th:if="${products.isEmpty()}" class="empty-state">
+    <div class="icon">🔍</div>
+    <p>검색 결과가 없습니다</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">MUSI<span>SHOP</span></div>
+    <p>© 2025 MUSISHOP. All rights reserved.</p>
+  </div>
+</footer>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

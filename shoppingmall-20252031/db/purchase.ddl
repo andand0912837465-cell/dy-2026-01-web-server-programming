@@ -1,0 +1,15 @@
+-- 구매 이력
+CREATE TABLE PURCHASE (
+    ID           UUID          NOT NULL DEFAULT RANDOM_UUID() PRIMARY KEY,
+    PRODUCT_ID   UUID          NOT NULL,               -- PRODUCT.ID 참조
+    MEMBER_ID    VARCHAR(50)   NOT NULL,               -- MEMBER.ID 참조 (구매 사용자)
+    QUANTITY     INTEGER       NOT NULL,               -- 구매 수량
+    PRICE        DECIMAL(12,2) NOT NULL,               -- 구매 시점 단가
+    TOTAL_AMOUNT DECIMAL(12,2) NOT NULL,               -- 총 결제 금액 (PRICE * QUANTITY)
+    PURCHASED_AT TIMESTAMP     NOT NULL DEFAULT LOCALTIMESTAMP,
+    CONSTRAINT FK_PURCHASE_PRODUCT FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCT(ID),
+    CONSTRAINT FK_PURCHASE_MEMBER  FOREIGN KEY (MEMBER_ID)  REFERENCES MEMBER(ID)
+);
+
+-- NOTE: 과제 명세상 컬럼명은 USER_ID 였으나 실제 테이블은 MEMBER_ID 로 생성되어 있어
+--       MEMBER_ID 를 사용한다. MEMBER.ID(VARCHAR(50)) 와 맞추기 위해 VARCHAR(50) 으로 정정.

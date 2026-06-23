@@ -1,7 +1,14 @@
+<%--
+  20252361 김지연 - 메인 상품 검색, 카테고리/정렬, 찜/장바구니 연동
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
+
 <%
+    String contextPath = request.getContextPath();
+    String fallbackImageUrl = contextPath + "/images/product-fallback.svg";
+
     // ===== 샘플 데이터 =====
     String[] categories = {"전체", "여성의류", "남성의류", "신발", "가방", "액세서리", "뷰티", "디지털"};
 
@@ -52,33 +59,57 @@
 <head>
     <meta charset="UTF-8">
     <title>SHOP MALL - 당신의 라이프 스타일</title>
+main
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/main.css">
+
+    <link rel="stylesheet" href="<%= contextPath %>/css/main.css">
+main
 </head>
-<body>
+<body data-context-path="<%= contextPath %>">
 
 <!-- 상단 유틸 -->
 <div class="top-bar">
     <div class="container">
         <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
         <div>
+ main
             <% if (SessionUtils.isLoginYn(session)) { %>
             <a href="<%= request.getContextPath() %>/auth/logout.jsp">로그아웃</a>
             <a href="<%= request.getContextPath() %>/member/info.jsp">회원정보</a>
             <% } else { %>
             <a href="<%= request.getContextPath() %>/auth/login.jsp">로그인</a>
             <a href="<%= request.getContextPath() %>/member/register.jsp">회원가입</a>
+
+            <% if (SessionUtils.isLoginYn(session)) {%>
+                <a href="<%= contextPath %>/auth/logout.jsp">로그아웃</a>
+                <a href="#">회원정보</a>
+            <% } else {%>
+                <a href="<%= contextPath %>/auth/login.jsp">로그인</a>
+                <a href="<%= contextPath %>/member/register.jsp">회원가입</a>
+main
             <% } %>
-            <a href="#">고객센터</a>
-            <a href="#">마이페이지</a>
+            <a href="<%= contextPath %>/board/list.jsp">고객센터</a>
+            <!--20251246 김나우-->
+            <!--마이페이지 이동 활성화(a herf= 경로 지정)-->
+            <a href="${pageContext.request.contextPath}/mypage/mypage.jsp">마이페이지</a>
+
         </div>
     </div>
 </div>
 
 <!-- 헤더 -->
+<!-- 20252358최윤서
+상담 헤더의 찜 버튼 영역과 상품 리스트의 데이터ID 속성
+찜 페이지로 이동할 수 있도록 <a href="wishlist.jsp"> 링크를 연결하고 개수를 표시할 배지(<span id="wishlistBadge">) 추가
+상품 카드의 고유 식별자인 data-id를 "best-" + i 형태로 만들어 자바스크립트가 정확한 상품을 구별할 수 있는 기준을 세움-->
 <header>
     <div class="container header-inner">
+ main
         <a href="<%= request.getContextPath() %>/index.jsp" class="logo">SHOP<span>MALL</span></a>
 
+
+        <a href="<%= contextPath %>/index.jsp" class="logo">SHOP<span>MALL</span></a>
+ main
         <div class="search-box">
             <label for="search" class="sr-only">상품 검색</label>
             <input id="search" type="text" placeholder="어떤 상품을 찾고 계신가요?">
@@ -86,12 +117,20 @@
         </div>
 
         <div class="header-icons">
-            <div class="icon-btn">
+            <a href="<%= contextPath %>/wishlist.jsp" class="icon-btn">
                 <div class="icon">♥</div>찜
+main
                 <span id="wishlistBadge" class="badge wishlist-badge" hidden>0</span>
             </div>
 
             <a href="<%= request.getContextPath() %>/cart/cart.jsp" class="icon-btn cart-link">
+
+                <span id="wishlistBadge"
+                      class="badge wishlist-badge"
+                      hidden>0</span>
+            </a>
+            <a href="<%= contextPath %>/cart/cart.jsp" class="icon-btn cart-link">
+main
                 <div class="icon">🛒</div>장바구니
                 <span id="cartBadge" class="badge cart-badge" hidden>0</span>
             </a>
@@ -223,7 +262,10 @@
                 } else if (productName.contains("목걸이")) {
                     productCategory = "액세서리";
                 }
+
+                String detailUrl = contextPath + "/product/detail.jsp?id=" + productId;
             %>
+main
             <div class="product-card"
                  data-id="<%= productId %>"
                  data-name="<%= productName %>"
@@ -258,6 +300,40 @@
                     <div class="product-rate">
                         <span class="star">★</span>
                         <%= p[5] %> · 리뷰 <%= String.format("%,d", (Integer)p[6]) %>
+
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                    data-image="<%= productImage %>">
+                    <div class="product-img">
+                        <a href="<%= detailUrl %>" aria-label="<%= productName %> 상세보기">
+                            <img src="<%= productImage %>" alt="<%= productName %>"
+                                 onerror="this.onerror=null; this.src='<%= fallbackImageUrl %>'; this.closest('.product-card').dataset.image='<%= fallbackImageUrl %>';">
+                        </a>
+                        <% if (i < 3) { %>
+                            <span class="product-tag hot">BEST <%= i+1 %></span>
+                        <% } else { %>
+                            <span class="product-tag">SALE</span>
+                        <% } %>
+                        <button class="like-btn" aria-label="찜">♡</button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand"><%= p[1] %></div>
+                        <div class="product-name"><a href="<%= detailUrl %>"><%= p[0] %></a></div>
+                        <div class="product-price">
+                            <span class="discount"><%= p[4] %>%</span>
+                            <span class="price"><%= String.format("%,d", (Integer)p[3]) %>원</span>
+                            <span class="original"><%= String.format("%,d", (Integer)p[2]) %>원</span>
+                        </div>
+                        <div class="product-rate">
+                            <span class="star">★</span> <%= p[5] %> · 리뷰 <%= String.format("%,d", (Integer)p[6]) %>
+                        </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
+ main
                     </div>
 
                     <form action="<%= request.getContextPath() %>/cart/add.jsp" method="post" style="margin:0;">
@@ -338,7 +414,10 @@
                 } else if (productName.contains("버킷햇")) {
                     productCategory = "액세서리";
                 }
+
+                String detailUrl = contextPath + "/product/detail.jsp?id=" + productId;
             %>
+ain
             <div class="product-card"
                  data-id="<%= productId %>"
                  data-name="<%= productName %>"
@@ -360,6 +439,31 @@
 
                     <div class="product-price">
                         <span class="price"><%= String.format("%,d", (Integer)p[2]) %>원</span>
+
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                    data-image="<%= productImage %>">
+                    <div class="product-img">
+                        <a href="<%= detailUrl %>" aria-label="<%= productName %> 상세보기">
+                            <img src="<%= productImage %>" alt="<%= productName %>"
+                                 onerror="this.onerror=null; this.src='<%= fallbackImageUrl %>'; this.closest('.product-card').dataset.image='<%= fallbackImageUrl %>';">
+                        </a>
+                        <span class="product-tag <%= "HOT".equals(p[4]) ? "hot" : "" %>"><%= p[4] %></span>
+                        <button type="button" class="like-btn">♡</button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand"><%= p[1] %></div>
+                        <div class="product-name"><a href="<%= detailUrl %>"><%= p[0] %></a></div>
+                        <div class="product-price">
+                            <span class="price"><%= String.format("%,d", (Integer)p[2]) %>원</span>
+                        </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
+main
                     </div>
 
                     이걸 아래 코드로 교체해.
@@ -441,6 +545,10 @@
     </div>
 </footer>
 
+main
 <script src="<%= request.getContextPath() %>/js/shop.js"></script>
+
+<script src="<%= contextPath %>/js/shop.js"></script>
+ main
 </body>
 </html>

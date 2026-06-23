@@ -1,9 +1,13 @@
+/*
+ * 20252361 김지연 - 장바구니 수량/중복 정리, 삭제, 배송비, 주문서 이동 처리
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const WISHLIST_STORAGE_KEY = 'shopmallWishlist';
     const CART_STORAGE_KEY = 'shopmallCart';
-    const FREE_SHIPPING_MINIMUM = 50000;
-    const SHIPPING_FEE = 3000;
+    const FREE_SHIPPING_THRESHOLD = 50000;
+    const DEFAULT_SHIPPING_FEE = 3000;
 
+    const contextPath = document.body ? (document.body.dataset.contextPath || '') : '';
     const wishlistBadge = document.querySelector('#wishlistBadge');
     const cartBadge = document.querySelector('#cartBadge');
     const cartEmpty = document.querySelector('#cartEmpty');
@@ -13,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartShipping = document.querySelector('#cartShipping');
     const cartTotal = document.querySelector('#cartTotal');
     const checkoutButton = document.querySelector('#checkoutButton');
+    const clearCartButton = document.querySelector('#clearCartButton');
 
     if (!cartEmpty || !cartContent || !cartTableBody || !cartSubtotal || !cartShipping || !cartTotal || !checkoutButton) {
         return;
@@ -23,34 +28,44 @@ document.addEventListener('DOMContentLoaded', function () {
     function readCartItems() {
         try {
             const storedValue = localStorage.getItem(CART_STORAGE_KEY);
-
             if (!storedValue) {
                 return [];
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return [];
             }
 
-            return parsedValue
-                .filter(function (item) {
-                    return item && typeof item.id === 'string' && item.id.length > 0;
-                })
-                .map(function (item) {
-                    const price = Number(item.price);
-                    const quantity = Number(item.quantity);
+            const normalizedItems = [];
+            parsedValue.forEach(function (item) {
+                if (!item || typeof item.id !== 'string' || item.id.trim().length === 0) {
+                    return;
+                }
 
-                    return {
-                        id: item.id,
-                        name: String(item.name || ''),
-                        brand: String(item.brand || ''),
-                        price: Number.isFinite(price) ? Math.max(0, price) : 0,
-                        image: String(item.image || ''),
-                        quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
-                    };
+                const productId = item.id.trim();
+                const price = Number(item.price);
+                const quantity = Number(item.quantity);
+                const cartItem = {
+                    id: productId,
+                    name: String(item.name || ''),
+                    brand: String(item.brand || ''),
+                    price: Number.isFinite(price) ? Math.max(0, price) : 0,
+                    image: String(item.image || ''),
+                    quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
+                };
+                const existingItem = normalizedItems.find(function (savedItem) {
+                    return savedItem.id === productId;
                 });
+
+                if (existingItem) {
+                    existingItem.quantity += cartItem.quantity;
+                } else {
+                    normalizedItems.push(cartItem);
+                }
+            });
+
+            return normalizedItems;
         } catch (error) {
             return [];
         }
@@ -67,19 +82,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function readWishlistCount() {
         try {
             const storedValue = localStorage.getItem(WISHLIST_STORAGE_KEY);
-
             if (!storedValue) {
                 return 0;
             }
 
             const parsedValue = JSON.parse(storedValue);
-
             if (!Array.isArray(parsedValue)) {
                 return 0;
             }
 
             const validProductIds = parsedValue.filter(function (productId) {
-                return typeof productId === 'string' && productId.length > 0;
+                return typeof productId === 'string' && productId.trim().length > 0;
             });
 
             return new Set(validProductIds).size;
@@ -127,9 +140,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 0);
     }
 
+    function getShippingFee(subtotal) {
+        if (subtotal <= 0) {
+            return 0;
+        }
+
+        return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : DEFAULT_SHIPPING_FEE;
+    }
+
     function updateSummary() {
         const subtotal = getSubtotal();
-        const shipping = subtotal >= FREE_SHIPPING_MINIMUM ? 0 : SHIPPING_FEE;
+        const shipping = getShippingFee(subtotal);
         const total = subtotal + shipping;
 
         cartSubtotal.textContent = formatPrice(subtotal);
@@ -155,6 +176,12 @@ document.addEventListener('DOMContentLoaded', function () {
         cartItems = cartItems.filter(function (item) {
             return item.id !== productId;
         });
+        saveCartItems();
+        renderCart();
+    }
+
+    function clearCart() {
+        cartItems = [];
         saveCartItems();
         renderCart();
     }
@@ -266,9 +293,13 @@ document.addEventListener('DOMContentLoaded', function () {
         cartEmpty.hidden = !isEmpty;
         cartContent.hidden = isEmpty;
         checkoutButton.disabled = isEmpty;
+        if (clearCartButton) {
+            clearCartButton.disabled = isEmpty;
+        }
         cartTableBody.replaceChildren();
 
         if (isEmpty) {
+            updateSummary();
             updateCartBadge();
             return;
         }
@@ -286,8 +317,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        window.location.href = '/order/checkout.jsp';
+        window.location.href = contextPath + '/order/checkout.jsp';
     });
+
+    if (clearCartButton) {
+        clearCartButton.addEventListener('click', clearCart);
+    }
 
     saveCartItems();
     updateWishlistBadge();

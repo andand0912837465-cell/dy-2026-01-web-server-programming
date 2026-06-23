@@ -21,7 +21,7 @@
 
     <div>
         <form method="get" action="login-submit.jsp" style="border: solid 1px red;">
-            <input type="text" _name="userId" value="admin"/>
+            <input type="text" name="userId" value="admin"/>
             <input type="password" name="password"  value="1234"/>
             <button type="submit">전송</button>
         </form>
