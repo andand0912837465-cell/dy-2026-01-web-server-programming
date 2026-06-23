@@ -2,260 +2,461 @@
 <%@ page import="java.util.*" %>
 <%@ page import="kr.ac.dy.cs.util.SessionUtils" %>
 <%
-    boolean isLoggedIn = SessionUtils.isLoginYn(session);
-%>
+    // ===== 샘플 데이터 =====
+    String[] categories = {"전체", "여성의류", "남성의류", "신발", "가방", "액세서리", "뷰티", "디지털"};
 
+    // 샘플 이미지 베이스 (picsum.photos 시드 이미지)
+    String IMG = "https://picsum.photos/seed/";
+
+    // 배너 슬라이드 데이터 (제목, 부제, 그라데이션 색1, 그라데이션 색2, 이미지 시드)
+    String[][] banners = {
+            {"SUMMER SALE", "여름 시즌 최대 70% 할인", "#ff6b6b", "#feca57", "summer-sale"},
+            {"NEW ARRIVAL", "2026 봄/여름 신상품 입고", "#4834d4", "#686de0", "new-arrival"},
+            {"BEST ITEM", "이번 주 베스트 아이템", "#0abde3", "#48dbfb", "best-item"}
+    };
+
+    // 인기 상품 데이터 (이름, 브랜드, 원가, 할인가, 할인율, 평점, 리뷰수, 이미지 시드)
+    Object[][] bestProducts = {
+            {"오버사이즈 코튼 셔츠", "BASIC HOUSE", 59000, 39000, 33, 4.8, 1245, "shirt01"},
+            {"슬림핏 데님 팬츠", "DENIM CO.", 89000, 62300, 30, 4.6, 892, "denim02"},
+            {"미니멀 크로스백", "MUJI STYLE", 120000, 84000, 30, 4.9, 2134, "bag03"},
+            {"러닝 스니커즈", "ATHLEISURE", 159000, 119000, 25, 4.7, 567, "shoes04"},
+            {"실크 블라우스", "ELEGANT", 98000, 68600, 30, 4.5, 423, "blouse05"},
+            {"가죽 토트백", "LEATHER LAB", 280000, 196000, 30, 4.9, 1876, "tote06"},
+            {"캐주얼 자켓", "URBAN STREET", 145000, 101500, 30, 4.4, 312, "jacket07"},
+            {"실버 목걸이", "AURUM", 75000, 56250, 25, 4.8, 945, "necklace08"}
+    };
+
+    // 신상품 데이터 (이름, 브랜드, 가격, 이미지 시드, 라벨)
+    Object[][] newProducts = {
+            {"린넨 원피스", "SUMMER LINE", 78000, "dress11", "NEW"},
+            {"체크 셔츠", "CASUAL DAY", 56000, "check12", "NEW"},
+            {"캔버스 스니커즈", "DAILY WALK", 89000, "canvas13", "HOT"},
+            {"버킷햇", "STREET MODE", 35000, "hat14", "NEW"}
+    };
+
+    // 카테고리 아이콘 (라벨, 한글명, 이미지 시드)
+    String[][] categoryIcons = {
+            {"WOMEN", "여성패션", "cat-women"},
+            {"MEN", "남성패션", "cat-men"},
+            {"SHOES", "신발", "cat-shoes"},
+            {"BAG", "가방", "cat-bag"},
+            {"ACC", "액세서리", "cat-acc"},
+            {"BEAUTY", "뷰티", "cat-beauty"},
+            {"DIGITAL", "디지털", "cat-digital"},
+            {"SPORTS", "스포츠", "cat-sports"}
+    };
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>SHOPMALL ADMIN - 쇼핑몰 관리자 시스템</title>
+    <title>SHOP MALL - 당신의 라이프 스타일</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body class="admin-landing">
+<body>
 
-<!-- ===== 상단 헤더 ===== -->
-<header class="admin-header">
-    <div class="container header-inner">
-        <a href="/index.jsp" class="logo">SHOP<span>MALL</span> ADMIN</a>
-        <nav class="admin-nav">
-            <a href="#about">소개</a>
-            <a href="#features">주요 기능</a>
-            <a href="#login-guide">로그인 안내</a>
-            <% if (isLoggedIn) { %>
-                <a href="/dashboard/index.jsp" class="btn-header-login">대시보드</a>
-            <% } else { %>
-                <a href="/auth/adminLogin.jsp" class="btn-header-login">로그인</a>
+<!-- 상단 유틸 -->
+<div class="top-bar">
+    <div class="container">
+        <span>오늘도 즐거운 쇼핑 되세요! 무료배송 5만원 이상 ✓</span>
+        <div>
+            <% if (SessionUtils.isLoginYn(session)) {%>
+                <a href="/auth/logout.jsp">로그아웃</a>
+                <a href="#">회원정보</a>
+            <% } else {%>
+                <a href="/auth/login.jsp">로그인</a>
+                <a href="/member/register.jsp">회원가입</a>
             <% } %>
-        </nav>
+            <a href="#">고객센터</a>
+            <a href="#">마이페이지</a>
+        </div>
+    </div>
+</div>
+
+<!-- 헤더 -->
+<header>
+    <div class="container header-inner">
+        <a href="index.jsp" class="logo">SHOP<span>MALL</span></a>
+        <div class="search-box">
+            <label for="search" class="sr-only">상품 검색</label>
+            <input id="search" type="text" placeholder="어떤 상품을 찾고 계신가요?">
+            <button aria-label="검색">Q</button>
+        </div>
+        <div class="header-icons">
+            <div class="icon-btn">
+                <div class="icon">♥</div>찜
+                <span id="wishlistBadge" class="badge wishlist-badge" hidden>0</span>
+            </div>
+            <a href="/cart/cart.jsp" class="icon-btn cart-link">
+                <div class="icon">🛒</div>장바구니
+                <span id="cartBadge" class="badge cart-badge" hidden>0</span>
+            </a>
+            <div class="icon-btn"><div class="icon">i</div>My</div>
+        </div>
     </div>
 </header>
+<div style="text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+    <p style="margin-bottom: 10px; color: #7f8c8d; font-weight: bold;">[과제 확인용 버튼]</p>
+    <a href="chart.jsp" style="display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; margin: 0 5px;">📊 관리자 통계 보기</a>
+    <a href="bestseller.jsp" style="display: inline-block; padding: 10px 20px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px; margin: 0 5px;">🔥 베스트셀러 보기</a>
+    <a href="productDetail.jsp?productId=1001" style="display: inline-block; padding: 10px 20px; background: #2ecc71; color: white; text-decoration: none; border-radius: 5px; margin: 0 5px;">👕 상품 상세(최근본상품) 보기</a>
+</div>
+<!-- 카테고리 네비게이션 -->
+<nav>
+    <div class="container">
+        <ul>
+            <% for (int i = 0; i < categories.length; i++) { %>
+                <li class="<%= i == 0 ? "active" : "" %>"><a href="#"><%= categories[i] %></a></li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
 
-<!-- ===== 히어로 ===== -->
-<section class="admin-hero">
-    <div class="container admin-hero-inner">
-        <div class="admin-hero-text">
-            <span class="hero-eyebrow">BACKOFFICE SYSTEM</span>
-            <h1>쇼핑몰을 더 똑똑하게,<br>관리자 시스템 한곳에서.</h1>
-            <p class="hero-desc">
-                상품, 주문, 회원, 통계까지 — 쇼핑몰 운영에 필요한 모든 기능을<br>
-                직관적인 화면에서 한눈에 관리하실 수 있습니다.
-            </p>
-            <div class="hero-actions">
-                <% if (isLoggedIn) { %>
-                    <a href="/dashboard/index.jsp" class="btn-primary">대시보드로 이동 →</a>
-                <% } else { %>
-                    <a href="/auth/adminLogin.jsp" class="btn-primary">관리자 로그인</a>
-                <% } %>
-                <a href="#login-guide" class="btn-secondary">로그인 절차 안내</a>
-            </div>
-            <div class="hero-meta">
-                <div><strong>99.9%</strong><span>시스템 안정성</span></div>
-                <div><strong>24/7</strong><span>운영 모니터링</span></div>
-                <div><strong>SSL</strong><span>보안 접속</span></div>
-            </div>
+<!-- 메인 콘텐츠 -->
+<div class="container">
+
+    <!-- 메인 배너 -->
+    <div class="hero">
+        <div class="hero-main" style="--bg: url('<%= IMG %><%= banners[0][4] %>/1200/600');">
+            <span class="tag">★ HOT DEAL</span>
+            <h1><%= banners[0][0] %></h1>
+            <p><%= banners[0][1] %></p>
+            <a href="#" class="btn">지금 쇼핑하기 →</a>
         </div>
-        <div class="admin-hero-card">
-            <div class="card-bar">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="card-title">SHOPMALL Admin Dashboard</span>
+        <div class="hero-side">
+            <div class="hero-card purple" style="--bg: url('<%= IMG %><%= banners[1][4] %>/600/300');">
+                <span class="tag"><%= banners[1][0] %></span>
+                <h3><%= banners[1][1] %></h3>
             </div>
-            <div class="card-body">
-                <div class="stat-row">
-                    <div class="stat">
-                        <span class="stat-label">오늘의 주문</span>
-                        <span class="stat-value">128 건</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">금일 매출</span>
-                        <span class="stat-value">₩ 4,820,000</span>
-                    </div>
-                </div>
-                <div class="stat-row">
-                    <div class="stat">
-                        <span class="stat-label">신규 회원</span>
-                        <span class="stat-value">37 명</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-label">재고 부족</span>
-                        <span class="stat-value alert">12 종</span>
-                    </div>
-                </div>
-                <div class="chart-mock">
-                    <span style="height: 40%"></span>
-                    <span style="height: 70%"></span>
-                    <span style="height: 55%"></span>
-                    <span style="height: 85%"></span>
-                    <span style="height: 60%"></span>
-                    <span style="height: 95%"></span>
-                    <span style="height: 75%"></span>
-                </div>
+            <div class="hero-card cyan" style="--bg: url('<%= IMG %><%= banners[2][4] %>/600/300');">
+                <span class="tag"><%= banners[2][0] %></span>
+                <h3><%= banners[2][1] %></h3>
             </div>
         </div>
     </div>
-</section>
 
-<!-- ===== 소개 ===== -->
-<section id="about" class="admin-about">
-    <div class="container">
-        <div class="section-title">
-            <span class="eyebrow">ABOUT</span>
-            <h2>SHOPMALL 관리자 시스템이란?</h2>
-            <p>쇼핑몰 운영자가 사용하는 전용 백오피스(Back-office)로,<br>
-                일반 고객용 쇼핑몰과 분리된 안전한 환경에서 운영됩니다.</p>
-        </div>
-        <div class="about-grid">
-            <div class="about-item">
-                <div class="about-icon">🔒</div>
-                <h3>안전한 접근 통제</h3>
-                <p>관리자 계정으로만 로그인할 수 있으며, 세션·쿠키 기반의 안전한 인증을 통해 정보를 보호합니다.</p>
-            </div>
-            <div class="about-item">
-                <div class="about-icon">⚡</div>
-                <h3>빠른 운영 처리</h3>
-                <p>상품 등록, 주문 처리, 회원 관리 등 반복 업무를 빠르고 간편하게 처리할 수 있도록 설계되었습니다.</p>
-            </div>
-            <div class="about-item">
-                <div class="about-icon">📊</div>
-                <h3>한눈에 보는 데이터</h3>
-                <p>매출, 방문자, 재고 등 핵심 지표를 대시보드에서 한번에 확인하고 의사결정에 활용할 수 있습니다.</p>
+    <!-- 카테고리 -->
+    <section>
+        <div class="section-head">
+            <div>
+                <h2>카테고리</h2>
+                <div class="sub">관심있는 카테고리를 선택해 보세요</div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- ===== 주요 기능 ===== -->
-<section id="features" class="admin-features">
-    <div class="container">
-        <div class="section-title">
-            <span class="eyebrow">FEATURES</span>
-            <h2>주요 기능</h2>
-            <p>관리자 페이지에서 사용하실 수 있는 주요 기능들입니다.</p>
-        </div>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <span class="feature-num">01</span>
-                <h3>상품 관리</h3>
-                <p>상품 등록 · 수정 · 삭제, 카테고리 관리, 재고 현황을 관리합니다.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-num">02</span>
-                <h3>주문 관리</h3>
-                <p>접수된 주문 확인, 배송 상태 변경, 취소 · 반품 처리를 수행합니다.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-num">03</span>
-                <h3>회원 관리</h3>
-                <p>가입 회원 조회, 등급 변경, 적립금 지급 등 회원 관련 업무를 처리합니다.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-num">04</span>
-                <h3>매출 통계</h3>
-                <p>일별 · 월별 매출, 인기 상품, 회원 활동 등의 통계를 확인합니다.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-num">05</span>
-                <h3>프로모션</h3>
-                <p>쿠폰 발행, 할인 이벤트, 기획전 등 마케팅 활동을 운영합니다.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-num">06</span>
-                <h3>관리자 계정</h3>
-                <p>관리자 추가, 권한 설정, 접속 로그 등 시스템 운영을 관리합니다.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== 로그인 안내 ===== -->
-<section id="login-guide" class="login-guide">
-    <div class="container">
-        <div class="section-title">
-            <span class="eyebrow">HOW TO LOGIN</span>
-            <h2>로그인 진행 방법</h2>
-            <p>다음 절차에 따라 관리자 페이지에 로그인하실 수 있습니다.</p>
-        </div>
-        <div class="step-list">
-            <div class="step">
-                <div class="step-no">STEP 1</div>
-                <h3>로그인 페이지 이동</h3>
-                <p>상단 우측의 <em>로그인</em> 버튼 또는 아래 <em>관리자 로그인</em> 버튼을 클릭하여 로그인 페이지로 이동합니다.</p>
-            </div>
-            <div class="step">
-                <div class="step-no">STEP 2</div>
-                <h3>아이디 / 비밀번호 입력</h3>
-                <p>발급받은 관리자 아이디와 비밀번호를 정확히 입력합니다. <em>아이디 저장</em>을 체크하면 다음 접속 시 아이디가 자동 입력됩니다.</p>
-            </div>
-            <div class="step">
-                <div class="step-no">STEP 3</div>
-                <h3>인증 및 세션 생성</h3>
-                <p>입력한 정보가 일치하면 서버가 관리자 세션을 생성하고, 이후의 요청을 인증된 사용자로 처리합니다.</p>
-            </div>
-            <div class="step">
-                <div class="step-no">STEP 4</div>
-                <h3>관리자 메인 진입</h3>
-                <p>로그인에 성공하면 자동으로 관리자 대시보드로 이동하며, 좌측 메뉴를 통해 각 기능을 이용하실 수 있습니다.</p>
-            </div>
-        </div>
-
-        <div class="login-notice">
-            <h4>⚠ 로그인 안내 사항</h4>
-            <ul>
-                <li>관리자 아이디는 일반 회원과 별도로 발급되며, 시스템 관리자에게 문의하셔야 합니다.</li>
-                <li>비밀번호는 영문 · 숫자 · 특수문자를 조합하여 8자 이상으로 설정하는 것을 권장합니다.</li>
-                <li>비밀번호 5회 이상 오류 입력 시, 일정 시간 동안 접속이 제한될 수 있습니다.</li>
-                <li>공용 PC에서는 보안을 위해 <em>아이디 저장</em>을 사용하지 마시고, 사용 후 반드시 로그아웃하시기 바랍니다.</li>
-            </ul>
-        </div>
-
-        <div class="login-cta">
-            <h3>지금 바로 시작하세요</h3>
-            <p>관리자 계정으로 로그인하시면 모든 기능을 이용하실 수 있습니다.</p>
-            <% if (isLoggedIn) { %>
-                <a href="/dashboard/index.jsp" class="btn-primary large">대시보드로 이동 →</a>
-            <% } else { %>
-                <a href="/auth/adminLogin.jsp" class="btn-primary large">관리자 로그인 →</a>
+        <div class="category-grid">
+            <% for (String[] cat : categoryIcons) { %>
+                <div class="cat-item" role="button" tabindex="0" data-category-name="<%= cat[1] %>">
+                    <div class="cat-circle">
+                        <img src="<%= IMG %><%= cat[2] %>/200/200" alt="<%= cat[1] %>">
+                        <div class="cat-label"><%= cat[0] %></div>
+                    </div>
+                    <span><%= cat[1] %></span>
+                </div>
             <% } %>
         </div>
+    </section>
+
+    <div style="margin-top: 30px; background: #f8f9fa; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">📊 실시간 카테고리별 매출 분석 엔진</h3>
+        <p style="color: #7f8c8d; font-size: 0.9em;">* 실시간 OLTP 데이터베이스의 주문(Orders) 테이블을 집계한 시각화 대시보드입니다.</p>
+
+        <div style="width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 15px; border-radius: 8px;">
+            <canvas id="categorySalesChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('categorySalesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['프리미엄 의류', '스마트 전자기기', '신선 식품', '자기계발 도서'],
+                    datasets: [{
+                        label: '주간 누적 판매량 (단위: 건)',
+                        data: [1240, 853, 2105, 430],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } },
+                    animation: { duration: 2000, easing: 'easeOutBounce' }
+                }
+            });
+        });
+    </script>
+
+    <!-- 베스트 상품 -->
+    <section>
+        <div class="section-head">
+            <div>
+                <h2>BEST 상품</h2>
+                <div class="sub">지금 가장 인기있는 상품을 만나보세요</div>
+            </div>
+            <div class="product-toolbar">
+                <label for="productSort" class="sr-only">상품 정렬</label>
+                <select id="productSort" class="product-sort">
+                    <option value="default">기본순</option>
+                    <option value="price-low">가격 낮은순</option>
+                    <option value="price-high">가격 높은순</option>
+                    <option value="rate-high">평점 높은순</option>
+                </select>
+                <a href="#">전체보기 →</a>
+            </div>
+        </div>
+        <div id="productEmptyMessage" class="product-empty" hidden>검색 결과가 없습니다</div>
+        <div class="product-grid">
+            <% for (int i = 0; i < bestProducts.length; i++) {
+                Object[] p = bestProducts[i];
+                String productId = "best-" + i;
+                String productName = (String) p[0];
+                String productBrand = (String) p[1];
+                int productPrice = (Integer) p[3];
+                double productRate = (Double) p[5];
+                String productImage = IMG + p[7] + "/400/400";
+                String productCategory = "의류";
+
+                if (productName.contains("스니커즈")) {
+                    productCategory = "신발";
+                } else if (productName.contains("백")) {
+                    productCategory = "가방";
+                } else if (productName.contains("목걸이")) {
+                    productCategory = "액세서리";
+                }
+            %>
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                     data-image="<%= productImage %>">
+                    <div class="product-img">
+                        <img src="<%= productImage %>" alt="<%= productName %>">
+                        <% if (i < 3) { %>
+                            <span class="product-tag hot">BEST <%= i+1 %></span>
+                        <% } else { %>
+                            <span class="product-tag">SALE</span>
+                        <% } %>
+                        <button class="like-btn" aria-label="찜">♡</button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand"><%= p[1] %></div>
+                        <div class="product-name"><%= p[0] %></div>
+                        <div class="product-price">
+                            <span class="discount"><%= p[4] %>%</span>
+                            <span class="price"><%= String.format("%,d", (Integer)p[3]) %>원</span>
+                            <span class="original"><%= String.format("%,d", (Integer)p[2]) %>원</span>
+                        </div>
+                        <div class="product-rate">
+                            <span class="star">★</span> <%= p[5] %> · 리뷰 <%= String.format("%,d", (Integer)p[6]) %>
+                        </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- 타임 세일 프로모션 -->
+    <section>
+        <div class="promo">
+            <div>
+                <h2>⏰ TIME SALE</h2>
+                <p>오늘 자정까지! 추가 20% 쿠폰 다운로드</p>
+                <a href="#" class="btn">쿠폰 받기</a>
+            </div>
+            <div class="timer">
+                <div class="timer-box">
+                    <div class="num">08</div>
+                    <div class="label">HOURS</div>
+                </div>
+                <div class="timer-box">
+                    <div class="num">42</div>
+                    <div class="label">MINUTES</div>
+                </div>
+                <div class="timer-box">
+                    <div class="num">15</div>
+                    <div class="label">SECONDS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 신상품 -->
+    <section>
+        <div class="section-head">
+            <div>
+                <h2>NEW 신상품</h2>
+                <div class="sub">새롭게 입고된 따끈따끈한 신상품</div>
+            </div>
+            <a href="#">전체보기 →</a>
+        </div>
+        <div class="product-grid">
+            <% for (int i = 0; i < newProducts.length; i++) {
+                Object[] p = newProducts[i];
+                String productId = "new-" + i;
+                String productName = (String) p[0];
+                String productBrand = (String) p[1];
+                int productPrice = (Integer) p[2];
+                double productRate = 0;
+                String productImage = IMG + p[3] + "/400/400";
+                String productCategory = "의류";
+
+                if (productName.contains("스니커즈")) {
+                    productCategory = "신발";
+                } else if (productName.contains("버킷햇")) {
+                    productCategory = "액세서리";
+                }
+            %>
+                <div class="product-card"
+                     data-id="<%= productId %>"
+                     data-name="<%= productName %>"
+                     data-brand="<%= productBrand %>"
+                     data-category="<%= productCategory %>"
+                     data-price="<%= productPrice %>"
+                     data-rate="<%= productRate %>"
+                     data-image="<%= productImage %>">
+                    <div class="product-img">
+                        <img src="<%= productImage %>" alt="<%= productName %>">
+                        <span class="product-tag <%= "HOT".equals(p[4]) ? "hot" : "" %>"><%= p[4] %></span>
+                        <button class="like-btn" aria-label="찜">♡</button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand"><%= p[1] %></div>
+                        <div class="product-name"><%= p[0] %></div>
+                        <div class="product-price">
+                            <span class="price"><%= String.format("%,d", (Integer)p[2]) %>원</span>
+                        </div>
+                        <button type="button" class="add-cart-btn">장바구니 담기</button>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </section>
+
+</div>
+<section style="margin: 40px 0; padding: 20px;">
+    <h2 style="margin-bottom: 20px;">📊 실시간 카테고리별 매출 분석 엔진</h2>
+    <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <canvas id="categorySalesChart" style="max-height: 350px;"></canvas>
     </div>
 </section>
 
-<!-- ===== 푸터 ===== -->
-<footer class="admin-footer">
-    <div class="container footer-grid">
-        <div>
-            <h4>SHOPMALL ADMIN</h4>
-            <p>쇼핑몰 운영자를 위한 통합 백오피스 시스템</p>
-            <p class="footer-contact">관리자 문의: admin@shopmall.example.com</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('categorySalesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['의류', '전자기기', '식품', '도서'],
+                datasets: [{
+                    label: '주간 누적 판매량 (건)',
+                    data: [1240, 853, 2105, 430],
+                    backgroundColor: '#3498db'
+                }]
+            }
+        });
+    });
+</script>
+
+<!-- 푸터 -->
+<footer>
+    <section style="margin: 40px 0;">
+        <div class="container">
+            <h2 style="margin-bottom: 20px;">📊 실시간 카테고리별 매출 분석 엔진</h2>
+            <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <canvas id="categorySalesChart" style="max-height: 350px;"></canvas>
+            </div>
         </div>
-        <div>
-            <h4>바로가기</h4>
-            <ul>
-                <li><a href="#about">시스템 소개</a></li>
-                <li><a href="#features">주요 기능</a></li>
-                <li><a href="#login-guide">로그인 안내</a></li>
-            </ul>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('categorySalesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['프리미엄 의류', '스마트 전자기기', '신선 식품', '자기계발 도서'],
+                    datasets: [{
+                        label: '주간 누적 판매량 (단위: 건)',
+                        data: [1240, 853, 2105, 430],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } },
+                    animation: { duration: 2000, easing: 'easeOutBounce' }
+                }
+            });
+        });
+    </script>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>SHOPMALL</h4>
+                <p>당신의 라이프 스타일을 완성하는 쇼핑몰<br>
+                고객님의 만족이 저희의 행복입니다.</p>
+                <p class="footer-contact">
+                    고객센터: 1588-0000<br>
+                    평일 09:00 ~ 18:00 (주말/공휴일 휴무)
+                </p>
+            </div>
+            <div>
+                <h4>SHOP</h4>
+                <ul>
+                    <li>전체 상품</li>
+                    <li>신상품</li>
+                    <li>베스트</li>
+                    <li>세일</li>
+                </ul>
+            </div>
+            <div>
+                <h4>MY ACCOUNT</h4>
+                <ul>
+                    <li>마이페이지</li>
+                    <li>주문조회</li>
+                    <li>장바구니</li>
+                    <li>위시리스트</li>
+                </ul>
+            </div>
+            <div>
+                <h4>HELP</h4>
+                <ul>
+                    <li>공지사항</li>
+                    <li>자주묻는 질문</li>
+                    <li>1:1 문의</li>
+                    <li>이용약관</li>ZSS
+                </ul>
+            </div>
         </div>
-        <div>
-            <h4>계정</h4>
-            <ul>
-                <li><a href="/auth/adminLogin.jsp">관리자 로그인</a></li>
-                <li><a href="/adminUser/register.jsp">관리자 등록</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4>보안</h4>
-            <ul>
-                <li>SSL 암호화 통신</li>
-                <li>세션 기반 인증</li>
-                <li>접속 로그 기록</li>
-            </ul>
+        <div class="footer-bottom">
+            © 2026 SHOPMALL. All rights reserved.
         </div>
     </div>
-    <div class="footer-bottom">© 2026 SHOPMALL ADMIN. All rights reserved.</div>
 </footer>
 
+
+
+<script src="/js/shop.js"></script>
 </body>
 </html>
