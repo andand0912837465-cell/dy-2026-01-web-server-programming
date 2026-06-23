@@ -27,10 +27,14 @@ public class MemberRepository {
         Connector connector = new H2DbConnector();
         Connection connection = connector.getConnection();
 
+        /**
+         * 20251246 김나우
+         * 데이터 베이스 확장에 따라 sql문을 수정하였음.
+         */
         String sql = """
             select id, name, email, password, otp_key
             from safe_member
-            where id = ? and password = ?
+            where id = ? and password = ? and status = 'Y'
         """;
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
@@ -92,7 +96,7 @@ public class MemberRepository {
         String sql = """
             select id, name, email, password
             from safe_member
-            where id = ?
+            where id = ? and status = 'Y'
         """;
 
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
@@ -187,6 +191,41 @@ public class MemberRepository {
             connector.closeConnection(connection);
         }
 
+        return affected > 0;
+    }
+
+    /**
+     * 학번: 20251246 / 성명: 김나우
+     * 회원 탈퇴 처리를 위한 저장소(Repository) 계층 확장 명세임.
+     * * [결함 방어 및 기능 구조]
+     * 1. 소프트 딜리트(Soft Delete): 물리적인 DELETE 대신 status 값을 'N'으로 변경하여 데이터 유실 및 참조 무결성 오류를 원천 차단함.
+     * 2. 트랜잭션 커밋: 탈퇴 UPDATE 성공 시 즉시 commit을 수행하여 H2 데이터베이스의 롤백 및 세션 잠김 결함을 예방함.
+     * @param userId 탈퇴를 진행할 사용자의 세션 로그인 아이디
+     * @return 상태 변경 최종 성공 시 true, 실패 시 false 반환
+     */
+    public boolean withdrawMember(String userId) {
+        Connector connector = new H2DbConnector();
+        Connection connection = connector.getConnection();
+        String sql = "update safe_member set status = 'N' where id = ?";
+        int affected = 0;
+
+        try {
+            connection.setAutoCommit(false);
+            try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+                psmt.setString(1, userId.trim());
+                affected = psmt.executeUpdate();
+            }
+            if (affected > 0) {
+                connection.commit();
+            } else {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            try { if (connection != null) connection.rollback(); } catch (SQLException ex) {}
+            throw new RuntimeException(e);
+        } finally {
+            connector.closeConnection(connection);
+        }
         return affected > 0;
     }
 
